@@ -1,4 +1,5 @@
 import { Container, Eyebrow } from "@/components/Container";
+import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
 import VideoBlock from "@/components/VideoBlock";
 import SectionHeading from "@/components/SectionHeading";
@@ -18,30 +19,43 @@ export default function HomePage() {
       {/* 2. HERO (1. Nav lives in the root layout) */}
       <Hero />
 
-      {/* 3. WELCOME VIDEO */}
-      <section id="welcome" className="py-24 md:py-32">
+      {/* 3. WELCOME VIDEO — full-bleed break, asymmetric heading offset */}
+      <Section tone="void" edges className="py-24 md:py-32">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow>Meet Valor</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
-              A quiet obsession with getting you booked directly.
-            </h2>
+          <div className="grid items-end gap-8 md:grid-cols-12">
+            <div className="md:col-span-5">
+              <Eyebrow>Meet Valor</Eyebrow>
+              <h2 className="mt-4 font-display text-[clamp(2.4rem,4.5vw,4rem)] font-medium leading-[0.98] tracking-tight text-cream">
+                A quiet obsession with getting you{" "}
+                <span className="text-gradient-gold">booked directly.</span>
+              </h2>
+            </div>
+            <div className="md:col-span-6 md:col-start-7">
+              <p className="text-lg leading-relaxed text-grey">
+                Ninety seconds on why direct beats the platforms — and how we
+                build the website and AI that make it happen.
+              </p>
+            </div>
           </div>
-          <div className="mx-auto mt-12 max-w-4xl">
+        </Container>
+        {/* break the container: video runs wider than the text column */}
+        <div className="mt-14 px-4 md:mt-20 md:px-10">
+          <div className="mx-auto max-w-[110rem]">
             <VideoBlock
               id="welcome-video"
               src="/video/call.mp4"
               poster="/video/call-poster.jpg"
               label="Welcome video"
+              aspect="wide"
             />
           </div>
-        </Container>
-      </section>
+        </div>
+      </Section>
 
-      {/* 4. TRUST STRIP */}
-      <section className="border-y border-gold/10 bg-charcoal/40">
-        <Container className="py-8">
-          <ul className="grid grid-cols-2 gap-6 md:grid-cols-4">
+      {/* 4. TRUST STRIP — raised panel band, quiet */}
+      <Section tone="panel" className="border-y border-gold/10">
+        <Container className="py-10">
+          <ul className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {trustStats.map((stat) => (
               <li
                 key={stat.label}
@@ -55,45 +69,52 @@ export default function HomePage() {
             ))}
           </ul>
         </Container>
-      </section>
+      </Section>
 
-      {/* 5. THE PROBLEM */}
-      <section className="py-24 md:py-32">
+      {/* 5. THE PROBLEM — asymmetric: sticky statement left, numbered rows right */}
+      <Section tone="base" className="py-24 md:py-36">
         <Container>
-          <SectionHeading
-            eyebrow="The problem"
-            title={
-              <>
-                Your guests book whoever answers first.{" "}
-                <span className="text-gradient-gold">
-                  Right now, that isn&rsquo;t you.
-                </span>
-              </>
-            }
-          />
-          <RevealGroup className="mt-16 grid gap-6 md:grid-cols-3">
-            {problems.map((problem, i) => (
-              <RevealItem
-                key={i}
-                className="rounded-[1.75rem] border border-gold/12 bg-charcoal/40 p-8"
-              >
-                <span className="font-display text-4xl text-gold/40">
-                  0{i + 1}
-                </span>
-                <h3 className="mt-5 font-display text-xl font-medium text-cream">
-                  {problem.title}
-                </h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-grey">
-                  {problem.body}
+          <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5">
+              <div className="lg:sticky lg:top-32">
+                <Eyebrow>The problem</Eyebrow>
+                <h2 className="mt-4 font-display text-[clamp(2.4rem,5vw,4.2rem)] font-medium leading-[0.98] tracking-tight text-cream">
+                  Your guests book whoever answers first.
+                </h2>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-grey">
+                  Right now,{" "}
+                  <span className="text-cream">that isn&rsquo;t you.</span>
                 </p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+              </div>
+            </div>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <RevealGroup className="flex flex-col">
+                {problems.map((problem, i) => (
+                  <RevealItem
+                    key={i}
+                    className="grid grid-cols-[auto_1fr] gap-6 border-t border-gold/12 py-9 first:border-t-0 first:pt-0"
+                  >
+                    <span className="margin-index text-5xl md:text-6xl">
+                      0{i + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-display text-2xl font-medium text-cream">
+                        {problem.title}
+                      </h3>
+                      <p className="mt-3 text-[0.98rem] leading-relaxed text-grey">
+                        {problem.body}
+                      </p>
+                    </div>
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            </div>
+          </div>
         </Container>
-      </section>
+      </Section>
 
-      {/* 6. SERVICES */}
-      <section id="services" className="py-24 md:py-32">
+      {/* 6. SERVICES — warm surface */}
+      <Section tone="warm" edges id="services" className="py-24 md:py-32">
         <Container>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <SectionHeading
@@ -108,27 +129,27 @@ export default function HomePage() {
             <ServiceCards />
           </div>
         </Container>
-      </section>
+      </Section>
 
-      {/* 7. DEMO VIDEO */}
-      <section className="py-16 md:py-24">
+      {/* 7. DEMO VIDEO — second full-bleed break, darkest surface */}
+      <Section tone="void" edges className="py-20 md:py-28">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow>See it in action</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
+            <h2 className="mt-4 font-display text-[clamp(2.4rem,4.5vw,4rem)] font-medium leading-[1.02] tracking-tight text-cream">
               Watch the AI answer, and book, a real guest.
             </h2>
           </div>
         </Container>
-        <div className="mt-12">
-          <Container className="max-w-6xl">
+        <div className="mt-14 px-4 md:mt-20 md:px-10">
+          <div className="mx-auto max-w-[120rem]">
             <VideoBlock id="demo-video" label="Product demo" aspect="wide" />
-          </Container>
+          </div>
         </div>
-      </section>
+      </Section>
 
       {/* 8. HOW IT WORKS */}
-      <section className="py-24 md:py-32">
+      <Section tone="base" className="py-24 md:py-32">
         <Container>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <SectionHeading
@@ -141,23 +162,30 @@ export default function HomePage() {
           </div>
           <ProcessSteps />
         </Container>
-      </section>
+      </Section>
 
-      {/* 9. THE NUMBERS */}
-      <section className="border-y border-gold/10 bg-charcoal/40 py-24 md:py-32">
+      {/* 9. THE NUMBERS — LOUD moment, raised panel, glow, full width */}
+      <Section
+        tone="panel"
+        glow
+        edges
+        className="border-y border-gold/10 py-28 md:py-40"
+      >
         <Container>
-          <SectionHeading
-            eyebrow="What it saves you"
-            title="The maths of doing it properly."
-          />
-          <div className="mt-16">
+          <div className="max-w-2xl">
+            <Eyebrow>What it saves you</Eyebrow>
+            <h2 className="mt-4 font-display text-[clamp(2.6rem,6vw,5rem)] font-medium leading-[0.95] tracking-tight text-cream">
+              The maths of doing it properly.
+            </h2>
+          </div>
+          <div className="mt-20">
             <StatsGrid />
           </div>
         </Container>
-      </section>
+      </Section>
 
-      {/* 10. TESTIMONIALS */}
-      <section className="py-24 md:py-32">
+      {/* 10. TESTIMONIALS — warm */}
+      <Section tone="warm" className="py-24 md:py-32">
         <Container>
           <SectionHeading
             eyebrow="In their words"
@@ -168,27 +196,27 @@ export default function HomePage() {
             <Testimonials />
           </div>
         </Container>
-      </section>
+      </Section>
 
-      {/* 11. GUARANTEE */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <Reveal className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-gold/30 bg-charcoal/70 p-12 text-center gold-glow md:p-16">
-            <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-gold opacity-60" />
-            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/30 text-gold">
-              <IconShield className="h-7 w-7" />
-            </span>
-            <h2 className="mt-7 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
-              Live in 14 days, or you do not pay.
+      {/* 11. GUARANTEE — full-bleed statement, darkest surface */}
+      <Section tone="void" glow edges className="py-28 md:py-40">
+        <Container className="text-center">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/30 text-gold">
+            <IconShield className="h-7 w-7" />
+          </span>
+          <Reveal>
+            <h2 className="mx-auto mt-8 max-w-5xl font-display text-[clamp(2.8rem,7vw,6rem)] font-medium leading-[0.95] tracking-tight text-cream">
+              Live in 14 days, or you{" "}
+              <span className="text-gradient-gold">do not pay.</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-grey">
-              We launch your site and system within 14 days. If we do not, you
-              pay nothing more until it is live. Then we keep optimizing until
-              it is converting.
-            </p>
           </Reveal>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-grey">
+            We launch your site and system within 14 days. If we do not, you pay
+            nothing more until it is live. Then we keep optimizing until it is
+            converting.
+          </p>
         </Container>
-      </section>
+      </Section>
 
       {/* 12. FINAL CTA */}
       <CtaBand

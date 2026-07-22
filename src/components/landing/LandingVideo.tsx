@@ -60,7 +60,7 @@ export default function LandingVideo({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: "-80px" }}
+      viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       className="group relative aspect-video w-full overflow-hidden rounded-[2rem] border border-gold/25 bg-charcoal shadow-[0_50px_140px_-40px_rgba(0,0,0,0.95)]"
     >
@@ -73,7 +73,7 @@ export default function LandingVideo({
         className="relative z-10 h-full w-full object-cover"
         poster={posterOk ? poster : undefined}
         playsInline
-        preload="metadata"
+        preload="none"
         controls={started}
         onEnded={() => setStarted(false)}
       >

@@ -10,7 +10,7 @@ export default function Testimonials() {
     <motion.div
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, margin: "-60px" }}
+      viewport={{ once: true, margin: "-60px" }}
       variants={{ show: { transition: { staggerChildren: 0.14 } } }}
       className="grid gap-6 md:grid-cols-3"
     >

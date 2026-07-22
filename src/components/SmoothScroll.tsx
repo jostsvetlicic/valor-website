@@ -14,10 +14,14 @@ export default function SmoothScroll() {
     if (prefersReduced) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1,
       touchMultiplier: 1.6,
+      // Native scroll on touch — smoothing wheel only avoids the mushy,
+      // laggy feel on phones where the OS already handles momentum.
+      syncTouch: false,
     });
 
     let frame = 0;

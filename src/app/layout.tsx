@@ -68,6 +68,7 @@ export default function RootLayout({
         <PaletteVars />
         <SmoothScroll />
         <MotionProvider>{children}</MotionProvider>
+        <div className="grain-overlay" aria-hidden="true" />
       </body>
     </html>
   );

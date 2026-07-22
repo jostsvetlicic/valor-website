@@ -11,7 +11,7 @@ export default function ServiceCards() {
     <motion.div
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, margin: "-60px" }}
+      viewport={{ once: true, margin: "-60px" }}
       variants={{ show: { transition: { staggerChildren: 0.12 } } }}
       className="grid gap-6 sm:grid-cols-2"
     >

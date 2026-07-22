@@ -46,7 +46,7 @@ export default function VideoBlock({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: "-80px" }}
+      viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       className={clsx(
         "group relative w-full overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]",
@@ -65,7 +65,7 @@ export default function VideoBlock({
             className="h-full w-full object-cover"
             poster={poster}
             playsInline
-            preload="metadata"
+            preload="none"
             controls={playing}
             onClick={toggle}
             onEnded={() => setPlaying(false)}

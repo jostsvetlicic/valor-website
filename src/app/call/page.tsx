@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import Sparkle from "@/components/Sparkle";
 import Logo from "@/components/Logo";
 import { BookingButton } from "@/components/Button";
@@ -43,60 +44,53 @@ export default function CallPage() {
         {/* 2. HERO */}
         <LandingHero />
 
-        {/* 3. VIDEO — the centrepiece */}
-        <section className="py-16 md:py-24">
-          <Container className="max-w-5xl">
+        {/* 3. VIDEO — the centrepiece, tight single column */}
+        <Section tone="void" edges className="py-16 md:py-24">
+          <Container className="max-w-4xl">
             <LandingVideo src={video.src} poster={video.poster} />
             <Reveal>
-              <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-grey">
+              <p className="mx-auto mt-7 max-w-xl text-center text-base leading-relaxed text-grey">
                 {video.caption}
               </p>
             </Reveal>
+            {/* 4. BOOK — first push, immediately after the video */}
+            <Reveal className="mt-10 flex justify-center">
+              <BookingButton className="px-11 py-5 text-base" />
+            </Reveal>
           </Container>
-        </section>
+        </Section>
 
-        {/* 4. BOOK A CALL */}
-        <section className="py-10 md:py-14">
-          <Reveal className="flex justify-center">
-            <BookingButton className="px-10 py-5 text-base" />
-          </Reveal>
-        </section>
-
-        {/* 5. THE PROBLEM */}
-        <section className="py-24 md:py-32">
-          <Container>
-            <div className="mx-auto max-w-3xl text-center">
-              <Reveal>
-                <span className="eyebrow block">{problem.eyebrow}</span>
-              </Reveal>
-              <Reveal delay={0.05}>
-                <h2 className="mt-4 font-display text-3xl font-medium leading-[1.08] tracking-tight text-cream sm:text-4xl md:text-5xl">
-                  {problem.headline}
-                </h2>
-              </Reveal>
-            </div>
-            <RevealGroup className="mt-16 grid gap-6 md:grid-cols-3">
+        {/* 5. THE PROBLEM — tight, centred, larger type, quiet list */}
+        <Section tone="base" className="py-24 md:py-32">
+          <Container className="max-w-3xl text-center">
+            <Reveal>
+              <span className="eyebrow block">{problem.eyebrow}</span>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="mt-4 font-display text-[clamp(2.4rem,6vw,4.4rem)] font-medium leading-[1.0] tracking-tight text-cream">
+                {problem.headline}
+              </h2>
+            </Reveal>
+          </Container>
+          <Container className="mt-14 max-w-2xl">
+            <RevealGroup className="flex flex-col">
               {problem.points.map((point, i) => (
                 <RevealItem
                   key={i}
-                  className="rounded-[1.75rem] border border-gold/12 bg-charcoal/40 p-8"
+                  className="grid grid-cols-[auto_1fr] items-baseline gap-5 border-t border-gold/12 py-6 first:border-t-0"
                 >
-                  <span className="font-display text-4xl text-gold/40">
-                    0{i + 1}
-                  </span>
-                  <p className="mt-5 text-[0.98rem] leading-relaxed text-grey">
-                    {point}
-                  </p>
+                  <span className="margin-index text-3xl">0{i + 1}</span>
+                  <p className="text-lg leading-relaxed text-grey">{point}</p>
                 </RevealItem>
               ))}
             </RevealGroup>
           </Container>
-        </section>
+        </Section>
 
-        {/* 6. WHAT WE BUILD */}
-        <section className="border-y border-gold/10 bg-charcoal/40 py-24 md:py-32">
-          <Container>
-            <div className="mx-auto max-w-3xl text-center">
+        {/* 6. WHAT WE BUILD — raised panel */}
+        <Section tone="panel" edges className="border-y border-gold/10 py-24 md:py-32">
+          <Container className="max-w-5xl">
+            <div className="mx-auto max-w-2xl text-center">
               <Reveal>
                 <span className="eyebrow block">{build.eyebrow}</span>
               </Reveal>
@@ -123,13 +117,17 @@ export default function CallPage() {
                 );
               })}
             </RevealGroup>
+            {/* second push */}
+            <Reveal className="mt-14 flex justify-center">
+              <BookingButton className="px-11 py-5 text-base" />
+            </Reveal>
           </Container>
-        </section>
+        </Section>
 
         {/* 7. LIVE AI AGENT — behind feature flag, default OFF */}
         {flags.liveAgent && (
-          <section className="py-24 md:py-32">
-            <Container>
+          <Section tone="base" className="py-24 md:py-32">
+            <Container className="max-w-4xl">
               <div className="mx-auto max-w-3xl text-center">
                 <span className="eyebrow block">{liveAgent.eyebrow}</span>
                 <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
@@ -142,30 +140,30 @@ export default function CallPage() {
               {/* The real embedded chat widget mounts here once you have it. */}
               <div className="mx-auto mt-12 max-w-3xl" id="live-agent-widget" />
             </Container>
-          </section>
+          </Section>
         )}
 
         {/* 8. HOW IT WORKS */}
-        <section className="py-24 md:py-32">
-          <Container>
+        <Section tone="base" className="py-24 md:py-32">
+          <Container className="max-w-5xl">
             <div className="mx-auto max-w-3xl text-center">
               <Reveal>
                 <span className="eyebrow block">{how.eyebrow}</span>
               </Reveal>
               <Reveal delay={0.05}>
-                <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
+                <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,3.6rem)] font-medium leading-tight tracking-tight text-cream">
                   From first call to fully optimised.
                 </h2>
               </Reveal>
             </div>
             <ProcessSteps steps={how.steps} />
           </Container>
-        </section>
+        </Section>
 
         {/* 9. RESULTS — behind feature flag, default OFF */}
         {flags.results && (
-          <section className="border-y border-gold/10 bg-charcoal/40 py-24 md:py-32">
-            <Container>
+          <Section tone="warm" className="border-y border-gold/10 py-24 md:py-32">
+            <Container className="max-w-5xl">
               <div className="mx-auto max-w-3xl text-center">
                 <span className="eyebrow block">{results.eyebrow}</span>
                 <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
@@ -175,13 +173,13 @@ export default function CallPage() {
               {/* Real case-study cards render here once you enable this. */}
               <div className="mt-14 grid gap-6 md:grid-cols-3" />
             </Container>
-          </section>
+          </Section>
         )}
 
         {/* 10. TESTIMONIALS — behind feature flag, default OFF */}
         {flags.testimonials && (
-          <section className="py-24 md:py-32">
-            <Container>
+          <Section tone="warm" className="py-24 md:py-32">
+            <Container className="max-w-5xl">
               <div className="mx-auto max-w-3xl text-center">
                 <span className="eyebrow block">{testimonials.eyebrow}</span>
                 <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
@@ -191,48 +189,46 @@ export default function CallPage() {
               {/* Real quote cards render here once you enable this. */}
               <div className="mt-14 grid gap-6 md:grid-cols-3" />
             </Container>
-          </section>
+          </Section>
         )}
 
-        {/* 11. THE GUARANTEE */}
-        <section className="py-16 md:py-24">
-          <Container>
-            <Reveal className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-gold/30 bg-charcoal/70 p-12 text-center gold-glow md:p-16">
-              <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-gold opacity-60" />
-              <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/30 text-gold">
-                <IconShield className="h-7 w-7" />
-              </span>
-              <h2 className="mt-7 font-display text-3xl font-medium leading-tight tracking-tight text-cream sm:text-4xl md:text-5xl">
+        {/* 11. THE GUARANTEE — full-bleed statement, darkest surface */}
+        <Section tone="void" glow edges className="py-24 md:py-36">
+          <Container className="max-w-4xl text-center">
+            <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/30 text-gold">
+              <IconShield className="h-7 w-7" />
+            </span>
+            <Reveal>
+              <h2 className="mx-auto mt-8 max-w-4xl font-display text-[clamp(2.6rem,6.5vw,5rem)] font-medium leading-[0.96] tracking-tight text-cream">
                 {guarantee.headline}
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-grey">
-                {guarantee.sub}
-              </p>
             </Reveal>
+            <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-grey">
+              {guarantee.sub}
+            </p>
           </Container>
-        </section>
+        </Section>
 
-        {/* 12. FINAL CTA */}
-        <section className="relative overflow-hidden py-28 md:py-36">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[120px]" />
+        {/* 12. FINAL CTA — the single action, oversized */}
+        <Section tone="base" glow className="py-28 md:py-40">
           <div className="divider-gold absolute inset-x-0 top-0" />
-          <Container className="relative text-center">
+          <Container className="max-w-4xl text-center">
             <Reveal>
               <Sparkle id="call-final" className="mx-auto h-9 w-9" />
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-medium leading-[1.05] tracking-tight text-cream sm:text-5xl md:text-6xl">
+              <h2 className="mx-auto mt-6 max-w-3xl font-display text-[clamp(3rem,8vw,6.5rem)] font-medium leading-[0.92] tracking-tight text-cream">
                 {finalCta.headline}
               </h2>
             </Reveal>
-            <Reveal delay={0.1} className="mt-10 flex justify-center">
-              <BookingButton label={finalCta.cta} className="px-10 py-5 text-base" />
+            <Reveal delay={0.1} className="mt-12 flex justify-center">
+              <BookingButton label={finalCta.cta} className="px-12 py-6 text-lg" />
             </Reveal>
             <Reveal delay={0.15}>
               <p className="mt-6 text-sm text-grey">{finalCta.note}</p>
             </Reveal>
           </Container>
-        </section>
+        </Section>
       </main>
 
       {/* 13. FOOTER — minimal, no nav links */}

@@ -133,6 +133,91 @@ html.lenis body {
       transparent 70%
     );
   }
+
+  /* ---------------------------------------------------------------- */
+  /*  SURFACE TONES — three deliberate dark values, plus a deepest     */
+  /*  "void". Alternate these so the page breathes as you scroll.      */
+  /* ---------------------------------------------------------------- */
+  .surface-void {
+    background-color: color-mix(in oklab, var(--color-obsidian) 82%, #000);
+  }
+  .surface-base {
+    background-color: var(--color-obsidian);
+  }
+  .surface-warm {
+    background-color: color-mix(
+      in oklab,
+      var(--color-charcoal) 55%,
+      var(--color-obsidian)
+    );
+  }
+  .surface-panel {
+    background-color: color-mix(
+      in oklab,
+      var(--color-charcoal) 78%,
+      var(--color-cream) 5%
+    );
+  }
+
+  /* Soft top/bottom edge fades so sections melt together instead of    */
+  /* hard-cutting. Place inside a `relative` section.                   */
+  .edge-fade-top {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 8rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-obsidian) 55%, transparent),
+      transparent
+    );
+  }
+  .edge-fade-bottom {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 8rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--color-obsidian) 55%, transparent),
+      transparent
+    );
+  }
+
+  /* A single, very subtle radial glow behind a key moment. */
+  .glow-soft {
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      color-mix(in oklab, var(--color-gold) 10%, transparent),
+      transparent 72%
+    );
+  }
+
+  /* Oversized editorial index numeral set quietly in the margin. */
+  .margin-index {
+    font-family: var(--font-fraunces), Georgia, serif;
+    line-height: 0.8;
+    color: color-mix(in oklab, var(--color-gold) 16%, transparent);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Film grain — one fixed, GPU-cheap overlay that gives the darkest   */
+/*  surfaces a paper-like tooth instead of flat colour.                */
+/* ------------------------------------------------------------------ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay {
+    display: none;
+  }
 }
 
 /* Respect reduced motion */
