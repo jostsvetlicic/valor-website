@@ -28,7 +28,12 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="mx-auto mt-12 max-w-4xl">
-            <VideoBlock id="welcome-video" label="Welcome video" />
+            <VideoBlock
+              id="welcome-video"
+              src="/video/call.mp4"
+              poster="/video/call-poster.jpg"
+              label="Welcome video"
+            />
           </div>
         </Container>
       </section>

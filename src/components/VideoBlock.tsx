@@ -65,6 +65,8 @@ export default function VideoBlock({
             className="h-full w-full object-cover"
             poster={poster}
             playsInline
+            preload="metadata"
+            controls={playing}
             onClick={toggle}
             onEnded={() => setPlaying(false)}
           >
