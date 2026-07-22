@@ -46,7 +46,7 @@ export default function VideoBlock({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
       className={clsx(
         "group relative w-full overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]",
@@ -82,7 +82,7 @@ export default function VideoBlock({
         </>
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,#1b160c_0%,#0a0a0a_75%)]">
-          <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(201,162,75,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(201,162,75,0.06)_1px,transparent_1px)] [background-size:44px_44px]" />
+          <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px)] [background-size:44px_44px]" />
           <Sparkle
             id={`video-${id ?? "ph"}`}
             className="h-10 w-10 opacity-30"
@@ -120,7 +120,7 @@ function PlayButton({
         fill="none"
         className="relative ml-1"
       >
-        <path d="M6 4l14 8-14 8V4z" fill="#E0C070" />
+        <path d="M6 4l14 8-14 8V4z" fill="var(--color-gold-light)" />
       </svg>
     </span>
   );

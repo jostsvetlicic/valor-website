@@ -34,9 +34,9 @@ export default function Sparkle({
             y2="64"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#E0C070" />
-            <stop offset="0.5" stopColor="#C9A24B" />
-            <stop offset="1" stopColor="#E8D190" />
+            <stop stopColor="var(--color-gold-light)" />
+            <stop offset="0.5" stopColor="var(--color-gold)" />
+            <stop offset="1" stopColor="var(--color-gold-light)" />
           </linearGradient>
         </defs>
       )}

@@ -34,7 +34,7 @@ export function Reveal({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={{
         hidden: { opacity: 0, y: 28 },
         show: {
@@ -69,7 +69,7 @@ export function RevealGroup({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: stagger } },
@@ -84,14 +84,25 @@ export function RevealItem({
   children,
   className,
   as = "div",
+  hoverLift = false,
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "li" | "span" | "p";
+  /** Gently lifts the item on hover (for cards). Transform-only, GPU-friendly. */
+  hoverLift?: boolean;
 }) {
   const MotionTag = motion[as];
   return (
-    <MotionTag className={className} variants={baseVariants}>
+    <MotionTag
+      className={className}
+      variants={baseVariants}
+      whileHover={
+        hoverLift
+          ? { y: -6, transition: { duration: 0.4, ease: easeExpensive } }
+          : undefined
+      }
+    >
       {children}
     </MotionTag>
   );

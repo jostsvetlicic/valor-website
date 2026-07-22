@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { brand, nav } from "@/config/brand";
 import { BookCallButton } from "./Button";
-import Sparkle from "./Sparkle";
+import Logo from "./Logo";
 import { clsx } from "@/lib/clsx";
 
 export default function Nav() {
@@ -44,24 +44,20 @@ export default function Nav() {
         >
           <Link
             href="/"
-            className="group flex items-center gap-2.5"
+            className="group flex items-center"
             aria-label="Valor home"
           >
-            <Sparkle
-              id="nav"
-              className={clsx(
+            <Logo
+              priority
+              markClassName={clsx(
                 "transition-all duration-500",
-                scrolled ? "h-6 w-6" : "h-7 w-7",
+                scrolled ? "h-6" : "h-7",
               )}
-            />
-            <span
-              className={clsx(
-                "font-display font-semibold tracking-[0.2em] text-cream transition-all duration-500",
+              wordClassName={clsx(
+                "transition-all duration-500",
                 scrolled ? "text-lg" : "text-xl",
               )}
-            >
-              VALOR
-            </span>
+            />
           </Link>
 
           <div className="hidden items-center gap-9 lg:flex">
@@ -113,12 +109,9 @@ export default function Nav() {
               <Link
                 href="/"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2.5"
+                className="flex items-center"
               >
-                <Sparkle id="nav-mobile" className="h-7 w-7" />
-                <span className="font-display text-xl font-semibold tracking-[0.2em] text-cream">
-                  VALOR
-                </span>
+                <Logo markClassName="h-7" wordClassName="text-xl" />
               </Link>
               <button
                 aria-label="Close menu"
@@ -147,15 +140,13 @@ export default function Nav() {
               ))}
             </div>
             <div className="px-8 pb-12">
-              <a
-                href={brand.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={brand.callUrl}
                 onClick={() => setOpen(false)}
                 className="flex w-full items-center justify-center rounded-pill bg-gold px-8 py-4 text-sm font-semibold text-obsidian"
               >
                 Book a call
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

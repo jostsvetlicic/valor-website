@@ -26,6 +26,34 @@ export default function ParticleField({
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
+    // Read the active accent from CSS variables so particles follow the
+    // palette. Parse the resolved value (hex or rgb) into an [r,g,b] tuple.
+    function readRGB(varName: string, fallback: [number, number, number]) {
+      const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim();
+      if (raw.startsWith("#")) {
+        let h = raw.slice(1);
+        if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+        const n = parseInt(h, 16);
+        if (!Number.isNaN(n) && h.length === 6) {
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255] as [
+            number,
+            number,
+            number,
+          ];
+        }
+      }
+      const m = raw.match(/(\d+),\s*(\d+),\s*(\d+)/);
+      if (m) return [+m[1], +m[2], +m[3]] as [number, number, number];
+      return fallback;
+    }
+
+    const fill = readRGB("--color-gold-light", [224, 192, 112]);
+    const glow = readRGB("--color-gold", [201, 162, 75]);
+    const fillRGB = `${fill[0]}, ${fill[1]}, ${fill[2]}`;
+    const glowRGB = `${glow[0]}, ${glow[1]}, ${glow[2]}`;
+
     let width = 0;
     let height = 0;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -87,8 +115,8 @@ export default function ParticleField({
         const alpha = Math.max(0, Math.min(1, twinkle));
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(224, 192, 112, ${alpha})`;
-        ctx!.shadowColor = "rgba(201, 162, 75, 0.6)";
+        ctx!.fillStyle = `rgba(${fillRGB}, ${alpha})`;
+        ctx!.shadowColor = `rgba(${glowRGB}, 0.6)`;
         ctx!.shadowBlur = 8;
         ctx!.fill();
       }

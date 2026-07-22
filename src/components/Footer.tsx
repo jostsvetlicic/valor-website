@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { brand, nav } from "@/config/brand";
-import Sparkle from "./Sparkle";
+import Logo from "./Logo";
 import { Container } from "./Container";
 
 const columns = [
@@ -9,8 +9,9 @@ const columns = [
     links: nav.map((n) => ({ label: n.label, href: n.href, external: false })),
   },
   {
-    title: "Connect",
+    title: "Contact",
     links: [
+      { label: "Book a call", href: brand.callUrl, external: false },
       { label: brand.instagramHandle, href: brand.instagramUrl, external: true },
       { label: "WhatsApp", href: brand.whatsappUrl, external: true },
       { label: brand.phoneDisplay, href: brand.phoneHref, external: false },
@@ -26,23 +27,16 @@ export default function Footer() {
       <Container className="relative py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <Sparkle id="footer" className="h-8 w-8" />
-              <span className="font-display text-2xl font-semibold tracking-[0.2em] text-cream">
-                VALOR
-              </span>
-            </div>
+            <Logo markClassName="h-9" wordClassName="text-2xl" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-grey">
               {brand.tagline}
             </p>
-            <a
-              href={brand.bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={brand.callUrl}
               className="mt-7 inline-flex items-center gap-2 rounded-pill bg-gold px-6 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-gold-light"
             >
               Book a call
-            </a>
+            </Link>
           </div>
 
           {columns.map((col) => (

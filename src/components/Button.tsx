@@ -1,6 +1,12 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 import { clsx } from "@/lib/clsx";
@@ -11,7 +17,7 @@ const base =
   "relative inline-flex items-center justify-center gap-2 rounded-pill px-8 py-4 text-sm font-semibold tracking-wide transition-colors duration-300 will-change-transform";
 
 const variants: Record<Variant, string> = {
-  gold: "bg-gold text-obsidian hover:bg-gold-light shadow-[0_10px_40px_-12px_rgba(201,162,75,0.7)]",
+  gold: "bg-gold text-obsidian hover:bg-gold-light shadow-[0_10px_40px_-12px_color-mix(in_oklab,var(--color-gold)_70%,transparent)]",
   ghost:
     "border border-gold/40 text-cream hover:border-gold hover:text-gold bg-transparent",
 };
@@ -36,6 +42,7 @@ export function MagneticButton({
   onClick?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const reduceMotion = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
@@ -45,6 +52,7 @@ export function MagneticButton({
   const glowScale = useTransform(glow, [0, 1], [0.6, 1]);
 
   function handleMove(e: React.MouseEvent) {
+    if (reduceMotion) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -109,12 +117,43 @@ export function MagneticButton({
 }
 
 /**
- * Convenience: the site-wide "Book a call" CTA, always pointing at the
- * booking link and opening in a new tab.
+ * The site-wide "Book a call" CTA. By default it points at the /call landing
+ * page (internal, same tab) so people are sold before they book. Pass
+ * `href={brand.bookingUrl}` + `external` on the landing page itself to link
+ * straight to the booking calendar in a new tab.
  */
 import { brand } from "@/config/brand";
 
 export function BookCallButton({
+  variant = "gold",
+  className,
+  label = "Book a call",
+  href = brand.callUrl,
+  external = false,
+}: {
+  variant?: Variant;
+  className?: string;
+  label?: string;
+  href?: string;
+  external?: boolean;
+}) {
+  return (
+    <MagneticButton
+      href={href}
+      external={external}
+      variant={variant}
+      className={className}
+    >
+      {label}
+    </MagneticButton>
+  );
+}
+
+/**
+ * The booking CTA used only on the /call landing page — links straight to the
+ * external booking calendar in a new tab.
+ */
+export function BookingButton({
   variant = "gold",
   className,
   label = "Book a call",
@@ -124,14 +163,13 @@ export function BookCallButton({
   label?: string;
 }) {
   return (
-    <MagneticButton
+    <BookCallButton
       href={brand.bookingUrl}
       external
       variant={variant}
       className={className}
-    >
-      {label}
-    </MagneticButton>
+      label={label}
+    />
   );
 }
 

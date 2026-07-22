@@ -1,14 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { steps } from "@/data/site";
+import { steps as defaultSteps } from "@/data/site";
+
+type Step = { number: string; title: string; line: string };
 
 /**
  * The four-step process row with a gold connecting line that draws in on
  * scroll (GSAP ScrollTrigger). Falls back to a static line if GSAP or
- * reduced-motion prevent the animation.
+ * reduced-motion prevent the animation. Steps default to the shared site
+ * copy but can be passed in (e.g. from the /call landing config).
  */
-export default function ProcessSteps() {
+export default function ProcessSteps({
+  steps = defaultSteps as readonly Step[],
+}: {
+  steps?: readonly Step[];
+}) {
   const rootRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLSpanElement>(null);
 

@@ -20,14 +20,14 @@
   --radius-pill: 999px;
 
   --shadow-soft: 0 20px 60px -20px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 60px -12px rgba(201, 162, 75, 0.45);
+  --shadow-glow: 0 0 60px -12px color-mix(in oklab, var(--color-gold) 45%, transparent);
 }
 
 /* ------------------------------------------------------------------ */
 /*  Base                                                               */
 /* ------------------------------------------------------------------ */
 * {
-  border-color: rgba(201, 162, 75, 0.12);
+  border-color: color-mix(in oklab, var(--color-gold) 12%, transparent);
 }
 
 html {
@@ -55,7 +55,7 @@ html.lenis body {
 }
 
 ::selection {
-  background: rgba(201, 162, 75, 0.28);
+  background: color-mix(in oklab, var(--color-gold) 28%, transparent);
   color: var(--color-cream);
 }
 
@@ -91,24 +91,29 @@ html.lenis body {
   }
 
   .text-gradient-gold {
-    background: linear-gradient(120deg, #e0c070 0%, #c9a24b 45%, #e8d190 100%);
+    background: linear-gradient(
+      120deg,
+      var(--color-gold-light) 0%,
+      var(--color-gold) 45%,
+      var(--color-gold-light) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .hairline {
-    border: 1px solid rgba(201, 162, 75, 0.18);
+    border: 1px solid color-mix(in oklab, var(--color-gold) 18%, transparent);
   }
 
   .glass {
-    background: rgba(20, 17, 13, 0.55);
+    background: color-mix(in oklab, var(--color-charcoal) 55%, transparent);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }
 
   .gold-glow {
-    box-shadow: 0 0 80px -20px rgba(201, 162, 75, 0.5);
+    box-shadow: 0 0 80px -20px color-mix(in oklab, var(--color-gold) 50%, transparent);
   }
 
   .divider-gold {
@@ -116,7 +121,7 @@ html.lenis body {
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(201, 162, 75, 0.35),
+      color-mix(in oklab, var(--color-gold) 35%, transparent),
       transparent
     );
   }
@@ -124,7 +129,7 @@ html.lenis body {
   .bg-radial-gold {
     background: radial-gradient(
       ellipse at center,
-      rgba(201, 162, 75, 0.16),
+      color-mix(in oklab, var(--color-gold) 16%, transparent),
       transparent 70%
     );
   }

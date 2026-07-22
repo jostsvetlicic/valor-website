@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
-import { brand } from "@/config/brand";
+import { brand, activePalette } from "@/config/brand";
 import SmoothScroll from "@/components/SmoothScroll";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import PaletteVars from "@/components/PaletteVars";
+import MotionProvider from "@/components/MotionProvider";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0A0A",
+  themeColor: activePalette.obsidian,
   width: "device-width",
   initialScale: 1,
 };
@@ -65,10 +65,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="bg-obsidian text-cream antialiased">
+        <PaletteVars />
         <SmoothScroll />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

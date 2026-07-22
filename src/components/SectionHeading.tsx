@@ -28,7 +28,7 @@ export default function SectionHeading({
         <motion.span
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6 }}
           className="eyebrow block"
         >
@@ -38,7 +38,7 @@ export default function SectionHeading({
       <motion.h2
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
+        viewport={{ once: false, margin: "-60px" }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         className="mt-4 font-display text-4xl font-medium leading-[1.05] tracking-tight text-cream sm:text-5xl md:text-6xl"
       >
@@ -48,7 +48,7 @@ export default function SectionHeading({
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className={clsx(
             "mt-6 text-lg leading-relaxed text-grey",
