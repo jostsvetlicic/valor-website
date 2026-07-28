@@ -8,9 +8,8 @@ import ProcessSteps from "@/components/home/ProcessSteps";
 import StatsGrid from "@/components/home/StatsGrid";
 import Testimonials from "@/components/Testimonials";
 import CtaBand from "@/components/CtaBand";
-import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { TextLink } from "@/components/Button";
-import { IconShield } from "@/components/Icons";
 import { problems, trustStats } from "@/data/site";
 
 export default function HomePage() {
@@ -198,33 +197,13 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 11. GUARANTEE — full-bleed statement, darkest surface */}
-      <Section tone="void" glow edges className="py-28 md:py-40">
-        <Container className="text-center">
-          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/30 text-gold">
-            <IconShield className="h-7 w-7" />
-          </span>
-          <Reveal>
-            <h2 className="mx-auto mt-8 max-w-5xl font-display text-[clamp(2.8rem,7vw,6rem)] font-medium leading-[0.95] tracking-tight text-cream">
-              Live in 14 days, or you{" "}
-              <span className="text-gradient-gold">do not pay.</span>
-            </h2>
-          </Reveal>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-grey">
-            We launch your site and system within 14 days. If we do not, you pay
-            nothing more until it is live. Then we keep optimizing until it is
-            converting.
-          </p>
-        </Container>
-      </Section>
-
-      {/* 12. FINAL CTA */}
+      {/* 11. FINAL CTA */}
       <CtaBand
         title="Ready to stop losing bookings?"
         sub="Only 3 founding clients taken this month."
       />
 
-      {/* 13. Footer lives in the root layout */}
+      {/* 12. Footer lives in the root layout */}
     </>
   );
 }
