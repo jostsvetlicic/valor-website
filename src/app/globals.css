@@ -135,27 +135,33 @@ html.lenis body {
   }
 
   /* ---------------------------------------------------------------- */
-  /*  SURFACE TONES — three deliberate dark values, plus a deepest     */
-  /*  "void". Alternate these so the page breathes as you scroll.      */
+  /*  SURFACE TONES — a deliberately SEPARATED warm-dark ramp so the    */
+  /*  page reads as distinct surfaces, not one flat black. Warmth comes */
+  /*  from the gold hue mixed into the darks (a warm charcoal), not     */
+  /*  from more gold accent. Steps are spaced far enough apart to be    */
+  /*  clearly perceptible while staying rich and dark.                  */
   /* ---------------------------------------------------------------- */
   .surface-void {
-    background-color: color-mix(in oklab, var(--color-obsidian) 82%, #000);
+    /* deepest — near-pure black */
+    background-color: color-mix(in oklab, var(--color-obsidian) 72%, #000);
   }
   .surface-base {
     background-color: var(--color-obsidian);
   }
   .surface-warm {
+    /* clearly warmer, lifted charcoal */
     background-color: color-mix(
       in oklab,
-      var(--color-charcoal) 55%,
-      var(--color-obsidian)
+      var(--color-obsidian) 88%,
+      var(--color-gold) 12%
     );
   }
   .surface-panel {
+    /* the raised, warmest surface */
     background-color: color-mix(
       in oklab,
-      var(--color-charcoal) 78%,
-      var(--color-cream) 5%
+      var(--color-obsidian) 76%,
+      var(--color-gold) 24%
     );
   }
 
@@ -202,17 +208,20 @@ html.lenis body {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Film grain — one fixed, GPU-cheap overlay that gives the darkest   */
-/*  surfaces a paper-like tooth instead of flat colour.                */
+/*  Film grain — one fixed overlay giving the darkest surfaces a        */
+/*  paper-like tooth. Deliberately NO mix-blend-mode: blending a fixed  */
+/*  full-screen layer forces the browser to recompute the blend across  */
+/*  the whole viewport every scroll frame, which reintroduces jank. A   */
+/*  plain grayscale-noise overlay at low opacity is composited once and */
+/*  costs nothing while scrolling.                                      */
 /* ------------------------------------------------------------------ */
 .grain-overlay {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-reduced-motion: reduce) {
   .grain-overlay {
