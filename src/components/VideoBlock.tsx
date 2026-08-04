@@ -48,53 +48,67 @@ export default function VideoBlock({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className={clsx(
-        "group relative w-full overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]",
-        aspectClass,
-      )}
+      className="group relative w-full"
     >
-      {/* soft gold glow frame */}
-      <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-gold/10" />
-      <div className="pointer-events-none absolute -inset-24 -z-10 bg-radial-gold opacity-60" />
+      {/* soft gold glow spilling out from behind the framed panel, so the      */}
+      {/* video area reads as a defined, lifted object against a dark section.  */}
+      <div className="pointer-events-none absolute -inset-8 -z-10 bg-radial-gold opacity-70 blur-2xl md:-inset-16" />
 
-      {src ? (
-        <>
-          <video
-            id={id}
-            ref={videoRef}
-            className="h-full w-full object-cover"
-            poster={poster}
-            playsInline
-            preload="none"
-            controls={playing}
-            onClick={toggle}
-            onEnded={() => setPlaying(false)}
-          >
-            <source src={src} type="video/mp4" />
-          </video>
-          {!playing && (
-            <button
-              onClick={toggle}
-              aria-label="Play video"
-              className="absolute inset-0 flex items-center justify-center bg-obsidian/30"
-            >
-              <PlayButton />
-            </button>
+      {/* the LIGHTER framed panel — a warm matte border around the video so    */}
+      {/* the player is clearly delineated from the black section even before   */}
+      {/* it plays.                                                             */}
+      <div className="rounded-[2.25rem] border border-gold/25 bg-[color-mix(in_oklab,var(--color-charcoal)_82%,var(--color-gold)_18%)] p-2 shadow-[0_0_70px_-18px_color-mix(in_oklab,var(--color-gold)_45%,transparent),0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:p-3">
+        <div
+          className={clsx(
+            "relative w-full overflow-hidden rounded-[1.6rem] bg-charcoal ring-1 ring-inset ring-gold/15",
+            aspectClass,
           )}
-        </>
-      ) : (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,#1b160c_0%,#0a0a0a_75%)]">
-          <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px)] [background-size:44px_44px]" />
-          <Sparkle
-            id={`video-${id ?? "ph"}`}
-            className="h-10 w-10 opacity-30"
-          />
-          <PlayButton className="mt-6" static />
-          <p className="mt-6 text-xs uppercase tracking-[0.28em] text-grey/70">
-            {label ?? "Video coming soon"}
-          </p>
+        >
+          {src ? (
+            <>
+              <video
+                id={id}
+                ref={videoRef}
+                className="h-full w-full object-cover"
+                poster={poster}
+                playsInline
+                preload="none"
+                controls={playing}
+                onClick={toggle}
+                onEnded={() => setPlaying(false)}
+              >
+                <source src={src} type="video/mp4" />
+              </video>
+              {!playing && (
+                <button
+                  onClick={toggle}
+                  aria-label="Play video"
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--color-obsidian)_45%,transparent)_0%,transparent_65%)]"
+                >
+                  <PlayButton />
+                  {label && (
+                    <span className="text-[0.7rem] uppercase tracking-[0.32em] text-cream/80">
+                      {label}
+                    </span>
+                  )}
+                </button>
+              )}
+            </>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,#1b160c_0%,#0a0a0a_75%)]">
+              <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_oklab,var(--color-gold)_6%,transparent)_1px,transparent_1px)] [background-size:44px_44px]" />
+              <Sparkle
+                id={`video-${id ?? "ph"}`}
+                className="h-10 w-10 opacity-30"
+              />
+              <PlayButton className="mt-6" static />
+              <p className="mt-6 text-xs uppercase tracking-[0.28em] text-grey/70">
+                {label ?? "Video coming soon"}
+              </p>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </motion.div>
   );
 }
@@ -109,18 +123,19 @@ function PlayButton({
   return (
     <span
       className={clsx(
-        "relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/40 bg-obsidian/40 backdrop-blur-sm transition-transform duration-500",
+        "relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-gold/70 bg-obsidian/55 shadow-[0_0_50px_-6px_color-mix(in_oklab,var(--color-gold)_65%,transparent)] backdrop-blur-sm transition-transform duration-500",
         !isStatic && "group-hover:scale-110",
         className,
       )}
     >
-      <span className="absolute inset-0 rounded-full bg-gold/20 blur-xl" />
+      <span className="absolute inset-0 rounded-full bg-gold/25 blur-xl" />
+      <span className="absolute -inset-1.5 rounded-full border border-gold/25" />
       <svg
-        width="26"
-        height="26"
+        width="32"
+        height="32"
         viewBox="0 0 24 24"
         fill="none"
-        className="relative ml-1"
+        className="relative ml-1.5"
       >
         <path d="M6 4l14 8-14 8V4z" fill="var(--color-gold-light)" />
       </svg>

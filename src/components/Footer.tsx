@@ -15,7 +15,10 @@ const columns = [
       { label: brand.instagramHandle, href: brand.instagramUrl, external: true },
       { label: "WhatsApp", href: brand.whatsappUrl, external: true },
       { label: brand.phoneDisplay, href: brand.phoneHref, external: false },
-      { label: "Email us", href: `mailto:${brand.email}`, external: false },
+      // "Email us" is hidden until the inbox is live (brand.emailIsPlaceholder).
+      ...(brand.emailIsPlaceholder
+        ? []
+        : [{ label: "Email us", href: `mailto:${brand.email}`, external: false }]),
     ],
   },
 ];

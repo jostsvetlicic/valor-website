@@ -6,20 +6,23 @@ import { testimonials } from "@/data/site";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function Testimonials() {
+  // No real testimonials yet → render nothing. Empty beats visibly fake.
+  if (testimonials.length === 0) return null;
+
   return (
     <motion.div
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
-      variants={{ show: { transition: { staggerChildren: 0.14 } } }}
+      variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       className="grid gap-6 md:grid-cols-3"
     >
       {testimonials.map((t, i) => (
         <motion.figure
           key={i}
           variants={{
-            hidden: { opacity: 0, y: 28 },
-            show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+            hidden: { opacity: 0, y: 16 },
+            show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
           }}
           className="relative flex flex-col rounded-[1.75rem] border border-gold/12 bg-charcoal/50 p-8"
         >

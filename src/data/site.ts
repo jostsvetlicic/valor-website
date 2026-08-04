@@ -78,7 +78,7 @@ export const steps = [
   {
     number: "03",
     title: "Launch",
-    line: "Live in 14 days, tested on every device and language.",
+    line: "Tested on every device and in every language before it goes live.",
   },
   {
     number: "04",
@@ -134,23 +134,15 @@ export const problems = [
   },
 ] as const;
 
-export const testimonials = [
-  {
-    quote:
-      "The AI answers our guests before we've even seen the message. Our direct bookings have never looked healthier.",
-    name: "Client name",
-    property: "Boutique hotel · placeholder",
-  },
-  {
-    quote:
-      "We were bleeding commission to the big platforms. Valor built us a site that finally makes direct the easy option.",
-    name: "Client name",
-    property: "Villa rental · placeholder",
-  },
-  {
-    quote:
-      "Live in under two weeks, and it just works — in three languages, around the clock. It feels like another team member.",
-    name: "Client name",
-    property: "Guesthouse · placeholder",
-  },
-] as const;
+/**
+ * Real client testimonials ONLY. Empty until we have genuine quotes: the UI
+ * hides the whole testimonials section while this is empty, because to a
+ * prospect a visible "Client name / placeholder" quote reads as "no clients".
+ * Empty beats visibly fake. Add objects of the shape below to switch it on:
+ *   { quote: "…", name: "Real name", property: "Property · City" }
+ */
+export const testimonials: {
+  quote: string;
+  name: string;
+  property: string;
+}[] = [];

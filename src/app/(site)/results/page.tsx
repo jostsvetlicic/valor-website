@@ -1,37 +1,31 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
-import Testimonials from "@/components/Testimonials";
 import CtaBand from "@/components/CtaBand";
-import { Reveal } from "@/components/Reveal";
+import { RevealGroup, RevealItem } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Results",
   description:
-    "Case studies and measured results from Valor's direct-booking websites and AI booking systems. Real numbers, coming soon.",
+    "The measures Valor holds itself to on every direct-booking website and AI booking system — reply time, direct bookings, and commission saved.",
 };
 
-const caseStudies = [
+// What we WILL publish here, stated honestly — no fabricated numbers, no empty
+// "—" placeholders. Real founding-client figures replace this once they're in.
+const measures = [
   {
-    tag: "Case study · coming soon",
-    property: "Boutique hotel",
-    headline: "Turning after-hours enquiries into confirmed stays.",
-    metrics: [
-      { value: "—", label: "direct bookings / mo" },
-      { value: "—", label: "avg. reply time" },
-      { value: "—", label: "commission saved" },
-    ],
+    label: "Reply time",
+    body: "How fast every guest enquiry is answered — day, night, and in their language.",
   },
   {
-    tag: "Case study · coming soon",
-    property: "Villa collection",
-    headline: "One inbox, three languages, zero missed guests.",
-    metrics: [
-      { value: "—", label: "enquiries answered" },
-      { value: "—", label: "languages handled" },
-      { value: "—", label: "revenue kept direct" },
-    ],
+    label: "Direct bookings",
+    body: "Reservations taken directly through your own site, with no platform commission.",
+  },
+  {
+    label: "Commission saved",
+    body: "Revenue kept in your pocket each month instead of handed to the booking platforms.",
   },
 ];
 
@@ -46,54 +40,34 @@ export default function ResultsPage() {
             <span className="text-gradient-gold">Measured, not promised.</span>
           </>
         }
-        intro="We're building our first founding case studies now. This is where the measured results will live — reply times, direct bookings, and commission saved."
+        intro="We're building our first founding case studies now. When they land, this is exactly where the measured results will live — no rounded-up marketing figures, only what actually happened."
       />
 
-      <section className="py-12 md:py-16">
-        <Container>
-          <div className="grid gap-6 md:grid-cols-2">
-            {caseStudies.map((cs, i) => (
-              <Reveal
-                key={cs.property}
-                delay={i * 0.08}
-                className="relative overflow-hidden rounded-[2rem] border border-gold/12 bg-charcoal/50 p-8 md:p-10"
-              >
-                <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-radial-gold" />
-                <span className="eyebrow">{cs.tag}</span>
-                <h2 className="mt-4 font-display text-2xl font-medium text-cream md:text-3xl">
-                  {cs.headline}
-                </h2>
-                <p className="mt-3 text-grey">{cs.property}</p>
-                <div className="mt-8 grid grid-cols-3 gap-4 border-t border-gold/12 pt-6">
-                  {cs.metrics.map((m) => (
-                    <div key={m.label}>
-                      <div className="font-display text-3xl text-gradient-gold">
-                        {m.value}
-                      </div>
-                      <div className="mt-1.5 text-xs leading-snug text-grey">
-                        {m.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-20 md:py-28">
+      <Section tone="warm" edges className="py-20 md:py-28">
         <Container>
           <SectionHeading
-            eyebrow="In their words"
-            title="What clients say."
-            intro="Placeholder quotes for now — ready to swap in your real ones."
+            eyebrow="What we measure"
+            title="The three numbers we hold ourselves to."
+            intro="Every engagement is judged on the same measures. These are the ones that decide whether the work paid for itself."
           />
-          <div className="mt-14">
-            <Testimonials />
-          </div>
+          <RevealGroup className="mt-14 grid gap-6 md:grid-cols-3">
+            {measures.map((m) => (
+              <RevealItem
+                key={m.label}
+                hoverLift
+                className="flex h-full flex-col rounded-[1.75rem] border border-gold/12 bg-charcoal/50 p-8 transition-colors duration-300 ease-out hover:border-gold/30"
+              >
+                <h3 className="font-display text-2xl font-medium text-cream">
+                  {m.label}
+                </h3>
+                <p className="mt-3 flex-1 text-[0.98rem] leading-relaxed text-grey">
+                  {m.body}
+                </p>
+              </RevealItem>
+            ))}
+          </RevealGroup>
         </Container>
-      </section>
+      </Section>
 
       <CtaBand
         eyebrow="Be one of the first"

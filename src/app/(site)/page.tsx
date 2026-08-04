@@ -6,7 +6,6 @@ import SectionHeading from "@/components/SectionHeading";
 import ServiceCards from "@/components/home/ServiceCards";
 import ProcessSteps from "@/components/home/ProcessSteps";
 import StatsGrid from "@/components/home/StatsGrid";
-import Testimonials from "@/components/Testimonials";
 import CtaBand from "@/components/CtaBand";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { TextLink } from "@/components/Button";
@@ -19,7 +18,7 @@ export default function HomePage() {
       <Hero />
 
       {/* 3. WELCOME VIDEO — full-bleed break, asymmetric heading offset */}
-      <Section tone="void" edges className="py-24 md:py-32">
+      <Section id="welcome" tone="void" edges className="py-24 md:py-32">
         <Container>
           <div className="grid items-end gap-8 md:grid-cols-12">
             <div className="md:col-span-5">
@@ -183,27 +182,13 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 10. TESTIMONIALS — warm */}
-      <Section tone="warm" className="py-24 md:py-32">
-        <Container>
-          <SectionHeading
-            eyebrow="In their words"
-            title="Quietly making properties busier."
-            intro="Placeholder quotes for now — ready to swap in your real clients."
-          />
-          <div className="mt-14">
-            <Testimonials />
-          </div>
-        </Container>
-      </Section>
-
-      {/* 11. FINAL CTA */}
+      {/* 10. FINAL CTA — (testimonials section hidden until real quotes exist) */}
       <CtaBand
         title="Ready to stop losing bookings?"
         sub="Only 3 founding clients taken this month."
       />
 
-      {/* 12. Footer lives in the root layout */}
+      {/* 11. Footer lives in the root layout */}
     </>
   );
 }

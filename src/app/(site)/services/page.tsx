@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
 import { BookCallButton } from "@/components/Button";
@@ -31,10 +32,12 @@ export default function ServicesPage() {
           const Icon = service.icon;
           const reversed = i % 2 === 1;
           return (
-            <section
+            <Section
               key={service.slug}
               id={service.slug}
-              className="scroll-mt-28 py-16 md:py-24"
+              tone={reversed ? "warm" : "base"}
+              edges={reversed}
+              className="scroll-mt-28 py-20 md:py-28"
             >
               <Container>
                 <div
@@ -84,7 +87,7 @@ export default function ServicesPage() {
                   </Reveal>
                 </div>
               </Container>
-            </section>
+            </Section>
           );
         })}
       </div>

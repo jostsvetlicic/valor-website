@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
 import { BookCallButton } from "@/components/Button";
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
     "Book a discovery call with Valor, or reach us by phone, WhatsApp, or Instagram. Premium websites and AI booking systems for hospitality.",
 };
 
+// Email is intentionally omitted until the inbox is live (brand.emailIsPlaceholder):
+// showing an address that bounces, labelled "placeholder", reads as unfinished.
 const channels = [
   {
     label: "Phone",
@@ -32,13 +35,16 @@ const channels = [
     href: brand.instagramUrl,
     external: true,
   },
-  {
-    label: "Email",
-    value: brand.email,
-    href: `mailto:${brand.email}`,
-    external: false,
-    note: "Placeholder — email inbox coming soon.",
-  },
+  ...(brand.emailIsPlaceholder
+    ? []
+    : [
+        {
+          label: "Email",
+          value: brand.email,
+          href: `mailto:${brand.email}`,
+          external: false,
+        },
+      ]),
 ];
 
 export default function ContactPage() {
@@ -52,10 +58,10 @@ export default function ContactPage() {
             <span className="text-gradient-gold">booked directly.</span>
           </>
         }
-        intro="The fastest way to start is a short discovery call. Prefer to write? Use the form and it will open in your mail app."
+        intro="The fastest way to start is a short discovery call. Prefer to write? Send a message and we'll get straight back to you."
       />
 
-      <section className="pb-24 md:pb-32">
+      <Section tone="base" className="pb-24 md:pb-32">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
             {/* Left: primary CTA + channels */}
@@ -90,11 +96,6 @@ export default function ContactPage() {
                       >
                         {c.value}
                       </a>
-                      {c.note && (
-                        <span className="mt-1 block text-xs text-gold/70">
-                          {c.note}
-                        </span>
-                      )}
                     </dd>
                   </div>
                 ))}
@@ -118,7 +119,7 @@ export default function ContactPage() {
             </Reveal>
           </div>
         </Container>
-      </section>
+      </Section>
     </>
   );
 }

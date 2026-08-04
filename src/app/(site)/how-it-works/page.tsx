@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
@@ -70,7 +71,7 @@ export default function HowItWorksPage() {
         intro="A calm, four-step process with almost no lift on your side. Here is exactly what happens, and who does what."
       />
 
-      <section className="py-12 md:py-16">
+      <Section tone="base" className="py-16 md:py-24">
         <Container>
           <div className="space-y-6">
             {detail.map((step, i) => (
@@ -97,9 +98,9 @@ export default function HowItWorksPage() {
             ))}
           </div>
         </Container>
-      </section>
+      </Section>
 
-      <section className="py-20 md:py-28">
+      <Section tone="warm" edges className="py-20 md:py-28">
         <Container>
           <SectionHeading
             eyebrow="Who does what"
@@ -138,7 +139,7 @@ export default function HowItWorksPage() {
             </RevealGroup>
           </div>
         </Container>
-      </section>
+      </Section>
 
       <CtaBand
         eyebrow="Ready when you are"

@@ -6,11 +6,11 @@ import type { ReactNode } from "react";
 const easeExpensive = [0.16, 1, 0.3, 1] as const;
 
 const baseVariants: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.9, ease: easeExpensive },
+    transition: { duration: 0.5, ease: easeExpensive },
   },
 };
 
@@ -36,11 +36,11 @@ export function Reveal({
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
       variants={{
-        hidden: { opacity: 0, y: 28 },
+        hidden: { opacity: 0, y: 16 },
         show: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.9, ease: easeExpensive, delay },
+          transition: { duration: 0.5, ease: easeExpensive, delay },
         },
       }}
     >
@@ -55,7 +55,7 @@ export function Reveal({
 export function RevealGroup({
   children,
   className,
-  stagger = 0.14,
+  stagger = 0.07,
   as = "div",
 }: {
   children: ReactNode;
@@ -63,6 +63,7 @@ export function RevealGroup({
   stagger?: number;
   as?: "div" | "section" | "ul" | "ol";
 }) {
+  // Short stagger (emil: 30–80ms between items) — long delays feel slow.
   const MotionTag = motion[as];
   return (
     <MotionTag
@@ -72,7 +73,7 @@ export function RevealGroup({
       viewport={{ once: true, margin: "-80px" }}
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: stagger } },
+        show: { transition: { staggerChildren: stagger, delayChildren: 0.04 } },
       }}
     >
       {children}
@@ -99,7 +100,7 @@ export function RevealItem({
       variants={baseVariants}
       whileHover={
         hoverLift
-          ? { y: -6, transition: { duration: 0.4, ease: easeExpensive } }
+          ? { y: -6, transition: { duration: 0.25, ease: easeExpensive } }
           : undefined
       }
     >

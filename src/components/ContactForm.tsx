@@ -29,9 +29,21 @@ export default function ContactForm() {
       message,
     ].join("\n");
 
-    window.location.href = `mailto:${brand.email}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
+    // While the email inbox isn't live yet, route the message to WhatsApp so it
+    // actually reaches us — a form that silently mails a dead address is worse
+    // than no form. Once brand.emailIsPlaceholder is false, it uses email.
+    if (brand.emailIsPlaceholder) {
+      const text = `${subject}\n\n${body}`;
+      window.open(
+        `${brand.whatsappUrl}?text=${encodeURIComponent(text)}`,
+        "_blank",
+        "noopener,noreferrer",
+      );
+    } else {
+      window.location.href = `mailto:${brand.email}?subject=${encodeURIComponent(
+        subject,
+      )}&body=${encodeURIComponent(body)}`;
+    }
     setSent(true);
   }
 
@@ -99,8 +111,9 @@ export default function ContactForm() {
       </button>
       {sent && (
         <p className="text-sm text-gold">
-          Your mail app should have opened with the message ready to send. If
-          not, email us directly at {brand.email}.
+          {brand.emailIsPlaceholder
+            ? "Thanks — WhatsApp should have opened with your message ready to send. If not, reach us on WhatsApp or by phone above."
+            : "Your mail app should have opened with the message ready to send. If not, reach us on WhatsApp or by phone above."}
         </p>
       )}
     </form>

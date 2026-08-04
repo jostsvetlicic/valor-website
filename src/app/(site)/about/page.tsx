@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
@@ -43,7 +44,7 @@ export default function AboutPage() {
         intro="Valor is an AI and web studio for hospitality. We build the websites and booking systems that let beautiful properties be booked as effortlessly as they deserve to be."
       />
 
-      <section className="py-12 md:py-20">
+      <Section tone="base" className="py-20 md:py-28">
         <Container>
           <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] md:gap-20">
             <Reveal className="space-y-6 text-lg leading-relaxed text-grey">
@@ -82,9 +83,9 @@ export default function AboutPage() {
             </Reveal>
           </div>
         </Container>
-      </section>
+      </Section>
 
-      <section className="py-16 md:py-24">
+      <Section tone="warm" edges className="py-20 md:py-28">
         <Container>
           <SectionHeading
             eyebrow="The standard"
@@ -107,9 +108,9 @@ export default function AboutPage() {
             ))}
           </RevealGroup>
         </Container>
-      </section>
+      </Section>
 
-      <section className="py-16 md:py-24">
+      <Section tone="void" glow edges className="py-20 md:py-28">
         <Container>
           <Reveal className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-gold/20 bg-charcoal/60 p-12 text-center md:p-16">
             <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-gold opacity-50" />
@@ -125,7 +126,7 @@ export default function AboutPage() {
             </p>
           </Reveal>
         </Container>
-      </section>
+      </Section>
 
       <CtaBand
         title="Let's build yours."

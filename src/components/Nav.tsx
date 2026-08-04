@@ -36,7 +36,7 @@ export default function Nav() {
       >
         <nav
           className={clsx(
-            "mt-0 flex w-full items-center justify-between px-6 transition-all duration-500 md:px-10",
+            "mt-0 flex w-full items-center justify-between px-6 transition-[padding,background-color,border-color] duration-300 ease-out md:px-10",
             scrolled
               ? "glass border-b border-gold/10 py-3"
               : "border-b border-transparent py-5",
@@ -50,11 +50,11 @@ export default function Nav() {
             <Logo
               priority
               markClassName={clsx(
-                "transition-all duration-500",
+                "transition-[height] duration-300 ease-out",
                 scrolled ? "h-6" : "h-7",
               )}
               wordClassName={clsx(
-                "transition-all duration-500",
+                "transition-[font-size] duration-300 ease-out",
                 scrolled ? "text-lg" : "text-xl",
               )}
             />
@@ -74,10 +74,7 @@ export default function Nav() {
 
           <div className="hidden lg:block">
             <BookCallButton
-              className={clsx(
-                "transition-all duration-500",
-                scrolled ? "px-6 py-3 text-sm" : "px-7 py-3.5",
-              )}
+              className={scrolled ? "px-6 py-3 text-sm" : "px-7 py-3.5"}
             />
           </div>
 

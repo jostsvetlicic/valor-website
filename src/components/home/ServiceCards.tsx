@@ -12,7 +12,7 @@ export default function ServiceCards() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-60px" }}
-      variants={{ show: { transition: { staggerChildren: 0.12 } } }}
+      variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       className="grid gap-6 sm:grid-cols-2"
     >
       {services.map((service) => {
@@ -21,16 +21,16 @@ export default function ServiceCards() {
           <motion.div
             key={service.slug}
             variants={{
-              hidden: { opacity: 0, y: 30 },
-              show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+              hidden: { opacity: 0, y: 16 },
+              show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
             }}
           >
             <Link
               href={`/services#${service.slug}`}
-              className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold/12 bg-charcoal/60 p-8 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/35 hover:shadow-[0_30px_80px_-30px_color-mix(in_oklab,var(--color-gold)_35%,transparent)]"
+              className="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold/12 bg-charcoal/60 p-8 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1.5 hover:border-gold/35 hover:shadow-[0_30px_80px_-30px_color-mix(in_oklab,var(--color-gold)_35%,transparent)]"
             >
-              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gold/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-obsidian">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gold/10 opacity-0 blur-3xl transition-opacity duration-300 ease-out group-hover:opacity-100" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-gold/25 text-gold transition-colors duration-300 ease-out group-hover:bg-gold group-hover:text-obsidian">
                 <Icon className="h-7 w-7" />
               </span>
               <h3 className="mt-7 font-display text-2xl font-medium text-cream">

@@ -19,6 +19,11 @@
 
   --radius-pill: 999px;
 
+  /* Stronger ease-out than the CSS default — the emil-kowalski curve. This
+     overrides Tailwind's `ease-out` utility site-wide so every CSS transition
+     using it feels intentional (fast start, soft settle) rather than weak. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
   --shadow-soft: 0 20px 60px -20px rgba(0, 0, 0, 0.7);
   --shadow-glow: 0 0 60px -12px color-mix(in oklab, var(--color-gold) 45%, transparent);
 }
@@ -40,6 +45,19 @@ body {
   color: var(--color-cream);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Typographic hierarchy: balance headline line lengths (so a headline never
+   drops one lonely word to its own line at any width) and prevent orphans in
+   body copy. Cheap, native, and a large part of the "considered" feel. */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
 
 /* Lenis smooth scroll */

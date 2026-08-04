@@ -93,6 +93,8 @@ export function MagneticButton({
     onMouseLeave: handleLeave,
     onClick,
     style: { x: sx, y: sy },
+    // Instant, subtle press feedback so the button feels like it's listening.
+    whileTap: { scale: 0.97 },
     className: clsx(base, variants[variant], className),
   };
 
