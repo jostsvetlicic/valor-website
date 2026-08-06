@@ -93,9 +93,9 @@ export const brand = {
   legalName: "Valor",
   domain: "valorai.eu",
   url: "https://valorai.eu",
-  tagline: "Websites and AI systems that turn visitors into bookings.",
+  tagline: "The AI infrastructure your business runs on.",
   description:
-    "Premium websites and AI booking systems for hospitality. Every guest answered in 60 seconds. Every booking direct.",
+    "Valor builds the AI infrastructure a company runs on: the frontend that sells, the automation behind it, the operations system your team works in, and the integration layer between the tools you already use.",
 
   // The single site-wide "Book a call" destination — the external booking
   // calendar. Every CTA links straight here and opens in a new tab. Change
@@ -122,9 +122,9 @@ export const brand = {
 };
 
 export const nav = [
-  { label: "Services", href: "/services" },
-  { label: "How it works", href: "/how-it-works" },
-  { label: "Results", href: "/results" },
+  { label: "Infrastructure", href: "/infrastructure" },
+  { label: "Industries", href: "/industries" },
+  { label: "Process", href: "/process" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

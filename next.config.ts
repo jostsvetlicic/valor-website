@@ -8,15 +8,14 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
 
-  // The old /call landing page was removed in the infrastructure rebuild.
-  // Keep old links alive by sending them to the homepage.
+  // Pages removed in the infrastructure rebuild. Keep old links (and any
+  // search-indexed URLs) alive by redirecting to their nearest replacement.
   async redirects() {
     return [
-      {
-        source: "/call",
-        destination: "/",
-        permanent: true,
-      },
+      { source: "/call", destination: "/", permanent: true },
+      { source: "/how-it-works", destination: "/process", permanent: true },
+      { source: "/services", destination: "/infrastructure", permanent: true },
+      { source: "/results", destination: "/", permanent: true },
     ];
   },
 };

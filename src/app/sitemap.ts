@@ -1,8 +1,17 @@
 import type { MetadataRoute } from "next";
 import { brand } from "@/config/brand";
+import { industrySlugs } from "@/content/industries";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/services", "/how-it-works", "/results", "/about", "/contact"];
+  const routes = [
+    "",
+    "/infrastructure",
+    "/industries",
+    ...industrySlugs.map((slug) => `/industries/${slug}`),
+    "/process",
+    "/about",
+    "/contact",
+  ];
   const now = new Date();
   return routes.map((route) => ({
     url: `${brand.url}${route}`,

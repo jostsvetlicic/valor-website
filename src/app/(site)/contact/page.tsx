@@ -11,7 +11,7 @@ import { IconClock } from "@/components/Icons";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Book a discovery call with Valor, or reach us by phone, WhatsApp, or Instagram. Premium websites and AI booking systems for hospitality.",
+    "Book a call with Valor, or reach us by phone, WhatsApp or Instagram. We build the AI infrastructure your business runs on.",
 };
 
 // Email is intentionally omitted until the inbox is live (brand.emailIsPlaceholder):
@@ -54,11 +54,11 @@ export default function ContactPage() {
         eyebrow="Contact"
         title={
           <>
-            Let&rsquo;s get you{" "}
-            <span className="text-gradient-gold">booked directly.</span>
+            Let&rsquo;s find where the{" "}
+            <span className="text-gold">manual work is.</span>
           </>
         }
-        intro="The fastest way to start is a short discovery call. Prefer to write? Send a message and we'll get straight back to you."
+        intro="The fastest way to start is a short call. Prefer to write? Send a message and we'll get straight back to you."
       />
 
       <Section tone="base" className="pb-24 md:pb-32">
@@ -71,11 +71,11 @@ export default function ContactPage() {
                   <IconClock className="h-6 w-6" />
                 </span>
                 <h2 className="mt-6 font-display text-2xl font-medium text-cream md:text-3xl">
-                  Book a discovery call
+                  Book a call
                 </h2>
                 <p className="mt-3 leading-relaxed text-grey">
-                  Fifteen focused minutes. We&rsquo;ll map where you&rsquo;re
-                  losing bookings and show you exactly what we&rsquo;d build.
+                  Thirty minutes. We&rsquo;ll find where the manual work is and
+                  what it costs — no deck, no obligation.
                 </p>
                 <div className="mt-7">
                   <BookCallButton className="w-full sm:w-auto" />
@@ -111,7 +111,7 @@ export default function ContactPage() {
                 Send a message
               </h2>
               <p className="mt-3 text-grey">
-                Tell us about your property and we&rsquo;ll be in touch.
+                Tell us how the work runs today and we&rsquo;ll be in touch.
               </p>
               <div className="mt-8">
                 <ContactForm />

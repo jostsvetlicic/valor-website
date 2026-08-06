@@ -4,9 +4,10 @@ import { useState } from "react";
 import { brand } from "@/config/brand";
 
 /**
- * Simple contact form that composes a mailto: link and opens the visitor's
- * own mail client. No backend — deliberately, for now. When a real inbox /
- * form endpoint exists, swap the handleSubmit body.
+ * Simple contact form that composes a message and opens the visitor's own
+ * WhatsApp (or mail client once a real inbox exists). No backend —
+ * deliberately, for now. When a real form endpoint exists, swap the
+ * handleSubmit body.
  */
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -17,14 +18,14 @@ export default function ContactForm() {
     const data = new FormData(form);
     const name = String(data.get("name") ?? "");
     const email = String(data.get("email") ?? "");
-    const property = String(data.get("property") ?? "");
+    const company = String(data.get("company") ?? "");
     const message = String(data.get("message") ?? "");
 
     const subject = `New enquiry from ${name || "a visitor"}`;
     const body = [
       `Name: ${name}`,
       `Email: ${email}`,
-      `Property: ${property}`,
+      `Company: ${company}`,
       "",
       message,
     ].join("\n");
@@ -48,7 +49,7 @@ export default function ContactForm() {
   }
 
   const fieldClass =
-    "w-full rounded-2xl border border-gold/15 bg-obsidian/60 px-5 py-4 text-cream placeholder:text-grey/60 outline-none transition-colors focus:border-gold/50";
+    "w-full rounded-2xl border border-gold/15 bg-obsidian/60 px-5 py-4 text-cream placeholder:text-grey/70 outline-none transition-colors focus:border-gold/50";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -80,13 +81,13 @@ export default function ContactForm() {
         </div>
       </div>
       <div>
-        <label htmlFor="property" className="sr-only">
-          Property name
+        <label htmlFor="company" className="sr-only">
+          Company
         </label>
         <input
-          id="property"
-          name="property"
-          placeholder="Property name (optional)"
+          id="company"
+          name="company"
+          placeholder="Company (optional)"
           className={fieldClass}
         />
       </div>
@@ -99,7 +100,7 @@ export default function ContactForm() {
           name="message"
           required
           rows={5}
-          placeholder="Where are you losing bookings right now?"
+          placeholder="What's the most manual part of your operation right now?"
           className={`${fieldClass} resize-none`}
         />
       </div>

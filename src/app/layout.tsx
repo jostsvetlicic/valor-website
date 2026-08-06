@@ -24,29 +24,31 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(brand.url),
   title: {
-    default: "Valor — AI booking systems & premium websites for hospitality",
+    default: "Valor — The AI infrastructure your business runs on",
     template: "%s — Valor",
   },
   description: brand.description,
   keywords: [
-    "hospitality AI",
-    "direct booking website",
-    "AI booking assistant",
-    "hotel website",
-    "reduce booking commission",
+    "AI infrastructure",
+    "business automation",
+    "systems integration",
+    "custom software",
+    "internal tools and portals",
+    "operations software",
+    "Slovenia",
     "Valor",
   ],
   authors: [{ name: "Valor" }],
   openGraph: {
     type: "website",
     url: brand.url,
-    title: "Valor — Every guest answered in 60 seconds. Every booking direct.",
+    title: "Valor — The AI infrastructure your business runs on",
     description: brand.description,
     siteName: "Valor",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Valor — Every guest answered in 60 seconds. Every booking direct.",
+    title: "Valor — The AI infrastructure your business runs on",
     description: brand.description,
   },
   alternates: { canonical: "/" },
@@ -59,6 +61,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Structured data — Organization + the service Valor provides. Rendered
+// site-wide so search engines get a consistent picture of the company.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: brand.name,
+  url: brand.url,
+  logo: `${brand.url}/brand/valor-mark-light.png`,
+  description: brand.description,
+  sameAs: [brand.instagramUrl],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: brand.phoneDisplay,
+    contactType: "sales",
+  },
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "AI infrastructure & custom software",
+  provider: { "@type": "Organization", name: brand.name, url: brand.url },
+  serviceType: "Custom software, automation and systems integration",
+  areaServed: ["Slovenia", "Croatia", "Italy", "European Union"],
+  description: brand.description,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -69,6 +98,14 @@ export default function RootLayout({
         <SmoothScroll />
         <MotionProvider>{children}</MotionProvider>
         <div className="grain-overlay" aria-hidden="true" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        />
       </body>
     </html>
   );

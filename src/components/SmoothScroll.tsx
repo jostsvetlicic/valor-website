@@ -63,21 +63,8 @@ export default function SmoothScroll() {
       }
     }
 
-    // Keep GSAP ScrollTrigger in sync if it is present.
-    let cleanupGsap = () => {};
-    (async () => {
-      try {
-        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-        lenis.on("scroll", ScrollTrigger.update);
-        cleanupGsap = () => lenis.off("scroll", ScrollTrigger.update);
-      } catch {
-        /* ScrollTrigger not loaded — ignore */
-      }
-    })();
-
     return () => {
       cancelAnimationFrame(frame);
-      cleanupGsap();
       document.removeEventListener("click", onAnchorClick);
       lenis.destroy();
     };

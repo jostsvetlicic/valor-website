@@ -10,21 +10,21 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The Valor story — the standard we hold, and the bigger vision of building the AI infrastructure of tomorrow for hospitality.",
+    "Valor is an AI infrastructure company. The standard we hold, the way we work, and the bigger vision — building the systems the best businesses of the next decade will run on.",
 };
 
 const principles = [
   {
-    title: "Nothing ships that isn't beautiful",
-    body: "Your property is a premium experience. The systems around it should feel the same — considered, calm, and quietly expensive.",
+    title: "Start where the manual work is",
+    body: "We map the manual work first and rank it by cost. Then we automate the most expensive process, prove it, and move to the next — no eighteen-month rebuild before anything works.",
   },
   {
-    title: "Speed is respect",
-    body: "A guest who waits is a guest who leaves. Answering in seconds, at any hour, in their language, is the least we can do for them and for you.",
+    title: "One source of truth",
+    body: "Everything reads from the same place — the public product, the operations panel, the integrations. Nothing gets typed in twice, and no one argues about which number is right.",
   },
   {
-    title: "Direct is the future",
-    body: "Every booking you own is a relationship you own. We build so the platforms become optional, not essential.",
+    title: "Build on what you already run",
+    body: "We don't rip out your core systems. We build the layer on top of them that people actually use, and integrate through the interfaces they already expose.",
   },
 ];
 
@@ -35,13 +35,11 @@ export default function AboutPage() {
         eyebrow="About Valor"
         title={
           <>
-            Built for hospitality.{" "}
-            <span className="text-gradient-gold">
-              Obsessed with the details.
-            </span>
+            We build the infrastructure,{" "}
+            <span className="text-gold">not the buzzwords.</span>
           </>
         }
-        intro="Valor is an AI and web studio for hospitality. We build the websites and booking systems that let beautiful properties be booked as effortlessly as they deserve to be."
+        intro="Valor is an AI infrastructure company. We build the software a business actually runs on — the frontend that sells, the automation behind it, the operations system your team works in, and the layer that connects the tools you already use."
       />
 
       <Section tone="base" className="py-20 md:py-28">
@@ -49,23 +47,22 @@ export default function AboutPage() {
           <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] md:gap-20">
             <Reveal className="space-y-6 text-lg leading-relaxed text-grey">
               <p>
-                Valor started from a simple frustration: extraordinary
-                properties losing bookings to whoever happened to reply first,
-                and handing a quarter of their revenue to platforms in the
-                process. The experience of staying was world-class. The
-                experience of booking was anything but.
+                Most companies do not have a software problem. They have a dozen
+                tools that do not talk to each other, work typed in by hand
+                twice, and no single, current view of how the operation is
+                running.
               </p>
               <p>
-                So we set out to fix the whole path a guest travels — from the
-                first search, to the first message, to the confirmed
-                reservation. Premium websites that make direct the obvious
-                choice. AI that answers in seconds, around the clock, in any
-                language. Automation that means nothing is ever missed.
+                So we build the whole path instead of a single tool — from the
+                interface a customer touches, to the automation that answers and
+                follows up, to the operations system the team lives in, to the
+                integration layer that ties the existing systems together. One
+                system, not ten disconnected ones.
               </p>
               <p className="text-cream/90">
-                The standard we hold is uncompromising: if it isn&rsquo;t fast,
-                beautiful, and genuinely useful to a real guest at 2am, it
-                isn&rsquo;t finished.
+                The standard we hold is simple: if it is not faster, clearer, and
+                genuinely less work for a real person on a real Tuesday, it is
+                not finished.
               </p>
             </Reveal>
 
@@ -76,8 +73,8 @@ export default function AboutPage() {
               <div className="pointer-events-none absolute inset-0 -z-10 bg-radial-gold opacity-50" />
               <Sparkle id="about" className="h-10 w-10" />
               <p className="mt-6 font-display text-2xl italic leading-snug text-cream">
-                &ldquo;We&rsquo;re not building websites. We&rsquo;re building
-                the AI infrastructure the best properties of tomorrow will run
+                &ldquo;We&rsquo;re not building websites. We&rsquo;re building the
+                infrastructure the best companies of the next decade will run
                 on.&rdquo;
               </p>
             </Reveal>
@@ -119,19 +116,16 @@ export default function AboutPage() {
               The infrastructure of tomorrow, built today.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-grey">
-              Hospitality is only the beginning. The same intelligence that
-              answers a guest in 60 seconds will quietly run the businesses of
-              the next decade. We intend to build it — carefully, beautifully,
-              and for the people who care about their craft.
+              The same intelligence that answers a customer in seconds will
+              quietly run the businesses of the next decade. We intend to build
+              it — carefully, and for the people who care about how their
+              business actually works.
             </p>
           </Reveal>
         </Container>
       </Section>
 
-      <CtaBand
-        title="Let's build yours."
-        sub="Only 3 founding clients taken this month."
-      />
+      <CtaBand title="Let's build yours." />
     </>
   );
 }
