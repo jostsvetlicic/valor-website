@@ -3,6 +3,7 @@ import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
 import WelcomeVideo from "@/components/home/WelcomeVideo";
 import Infrastructure from "@/components/home/Infrastructure";
+import IndustrySlider from "@/components/industries/IndustrySlider";
 import VideoBlock from "@/components/VideoBlock";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCards from "@/components/home/ServiceCards";
@@ -38,7 +39,25 @@ export default function HomePage() {
       {/* 4. INFRASTRUCTURE — the core section, the heaviest on the page */}
       <Infrastructure />
 
-      {/* 5. TRUST STRIP — raised panel band, quiet */}
+      {/* 5. INDUSTRIES — teaser slider linking to each vertical */}
+      <Section tone="warm" edges className="py-24 md:py-32">
+        <Container>
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <SectionHeading
+              eyebrow="Industries"
+              title="One method, shaped to your business."
+            />
+            <TextLink href="/industries" className="shrink-0">
+              All industries
+            </TextLink>
+          </div>
+          <div className="mt-14">
+            <IndustrySlider />
+          </div>
+        </Container>
+      </Section>
+
+      {/* 6. TRUST STRIP — raised panel band, quiet */}
       <Section tone="panel" className="border-y border-gold/10">
         <Container className="py-10">
           <ul className="grid grid-cols-2 gap-8 md:grid-cols-4">
