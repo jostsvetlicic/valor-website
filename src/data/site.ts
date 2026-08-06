@@ -116,7 +116,6 @@ export const trustStats = [
   { value: "60 sec", label: "reply" },
   { value: "24/7", label: "always on" },
   { value: "15–25%", label: "commission saved" },
-  { value: "14 days", label: "to live" },
 ] as const;
 
 export const problems = [

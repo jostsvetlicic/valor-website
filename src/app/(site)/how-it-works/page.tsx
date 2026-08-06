@@ -9,7 +9,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "Discovery, build, launch, optimise. The full Valor process and 14-day timeline — done for you, with the lightest possible lift on your side.",
+    "Discovery, build, launch, optimise. The full Valor process — done for you, with the lightest possible lift on your side.",
 };
 
 const detail = [
@@ -30,8 +30,8 @@ const detail = [
   {
     number: "03",
     title: "Launch",
-    line: "Live in 14 days, tested on every device and language.",
-    body: "We take it live within 14 days, tested across phones, tablets, and desktops, and across the languages your guests actually speak. Nothing ships until it feels effortless.",
+    line: "Tested on every device and language before it goes live.",
+    body: "We take it live once it is tested across phones, tablets, and desktops, and across the languages your guests actually speak. Nothing ships until it feels effortless.",
     days: "Day 14",
   },
   {
@@ -64,8 +64,8 @@ export default function HowItWorksPage() {
         eyebrow="How we work"
         title={
           <>
-            Live in <span className="text-gradient-gold">14 days.</span> Done
-            for you, start to finish.
+            Done for you,{" "}
+            <span className="text-gradient-gold">start to finish.</span>
           </>
         }
         intro="A calm, four-step process with almost no lift on your side. Here is exactly what happens, and who does what."
