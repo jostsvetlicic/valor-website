@@ -2,6 +2,7 @@ import { Container, Eyebrow } from "@/components/Container";
 import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
 import WelcomeVideo from "@/components/home/WelcomeVideo";
+import Infrastructure from "@/components/home/Infrastructure";
 import VideoBlock from "@/components/VideoBlock";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCards from "@/components/home/ServiceCards";
@@ -34,7 +35,10 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 4. TRUST STRIP — raised panel band, quiet */}
+      {/* 4. INFRASTRUCTURE — the core section, the heaviest on the page */}
+      <Infrastructure />
+
+      {/* 5. TRUST STRIP — raised panel band, quiet */}
       <Section tone="panel" className="border-y border-gold/10">
         <Container className="py-10">
           <ul className="grid grid-cols-2 gap-8 md:grid-cols-4">
