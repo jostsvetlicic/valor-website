@@ -96,13 +96,10 @@ export const brand = {
   description:
     "Premium websites and AI booking systems for hospitality. Every guest answered in 60 seconds. Every booking direct.",
 
-  // The external booking calendar. Only the /call landing page links here
-  // directly; everywhere else on the site sends people to /call first.
+  // The single site-wide "Book a call" destination — the external booking
+  // calendar. Every CTA links straight here and opens in a new tab. Change
+  // it in this one place.
   bookingUrl: "https://calendar.notion.so/meet/jostsvetlicic/discovery-call",
-
-  // Site-wide "Book a call" destination — the dedicated landing page that
-  // does the selling before anyone books. Change in one place.
-  callUrl: "/call",
 
   // Contact
   phoneDisplay: "+386 69 636 766",

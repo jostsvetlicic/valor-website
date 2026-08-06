@@ -3,8 +3,8 @@ import Footer from "@/components/Footer";
 
 /**
  * Layout for the main marketing site — includes the sticky nav and full
- * footer. The /call landing page lives outside this group and deliberately
- * has neither, so there's no navigation and no way out except booking.
+ * footer, shared by every page. Every "Book a call" CTA links straight to
+ * the external booking calendar (brand.bookingUrl) in a new tab.
  */
 export default function SiteLayout({
   children,

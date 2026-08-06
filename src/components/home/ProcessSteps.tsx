@@ -9,7 +9,7 @@ type Step = { number: string; title: string; line: string };
  * The four-step process row with a gold connecting line that draws in on
  * scroll (GSAP ScrollTrigger). Falls back to a static line if GSAP or
  * reduced-motion prevent the animation. Steps default to the shared site
- * copy but can be passed in (e.g. from the /call landing config).
+ * copy but can be passed in (e.g. a condensed set for a teaser).
  */
 export default function ProcessSteps({
   steps = defaultSteps as readonly Step[],

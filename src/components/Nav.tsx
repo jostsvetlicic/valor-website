@@ -137,13 +137,15 @@ export default function Nav() {
               ))}
             </div>
             <div className="px-8 pb-12">
-              <Link
-                href={brand.callUrl}
+              <a
+                href={brand.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
                 className="flex w-full items-center justify-center rounded-pill bg-gold px-8 py-4 text-sm font-semibold text-obsidian"
               >
                 Book a call
-              </Link>
+              </a>
             </div>
           </motion.div>
         )}

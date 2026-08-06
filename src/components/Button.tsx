@@ -119,10 +119,9 @@ export function MagneticButton({
 }
 
 /**
- * The site-wide "Book a call" CTA. By default it points at the /call landing
- * page (internal, same tab) so people are sold before they book. Pass
- * `href={brand.bookingUrl}` + `external` on the landing page itself to link
- * straight to the booking calendar in a new tab.
+ * The site-wide "Book a call" CTA. It links straight to the external booking
+ * calendar (`brand.bookingUrl`) and opens in a new tab. This is the single
+ * conversion action across the whole site.
  */
 import { brand } from "@/config/brand";
 
@@ -130,8 +129,8 @@ export function BookCallButton({
   variant = "gold",
   className,
   label = "Book a call",
-  href = brand.callUrl,
-  external = false,
+  href = brand.bookingUrl,
+  external = true,
 }: {
   variant?: Variant;
   className?: string;
@@ -148,30 +147,6 @@ export function BookCallButton({
     >
       {label}
     </MagneticButton>
-  );
-}
-
-/**
- * The booking CTA used only on the /call landing page — links straight to the
- * external booking calendar in a new tab.
- */
-export function BookingButton({
-  variant = "gold",
-  className,
-  label = "Book a call",
-}: {
-  variant?: Variant;
-  className?: string;
-  label?: string;
-}) {
-  return (
-    <BookCallButton
-      href={brand.bookingUrl}
-      external
-      variant={variant}
-      className={className}
-      label={label}
-    />
   );
 }
 

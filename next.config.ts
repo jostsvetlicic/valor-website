@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+
+  // The old /call landing page was removed in the infrastructure rebuild.
+  // Keep old links alive by sending them to the homepage.
+  async redirects() {
+    return [
+      {
+        source: "/call",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

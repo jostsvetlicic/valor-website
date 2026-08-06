@@ -11,7 +11,7 @@ const columns = [
   {
     title: "Contact",
     links: [
-      { label: "Book a call", href: brand.callUrl, external: false },
+      { label: "Book a call", href: brand.bookingUrl, external: true },
       { label: brand.instagramHandle, href: brand.instagramUrl, external: true },
       { label: "WhatsApp", href: brand.whatsappUrl, external: true },
       { label: brand.phoneDisplay, href: brand.phoneHref, external: false },
@@ -34,12 +34,14 @@ export default function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-grey">
               {brand.tagline}
             </p>
-            <Link
-              href={brand.callUrl}
+            <a
+              href={brand.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-7 inline-flex items-center gap-2 rounded-pill bg-gold px-6 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-gold-light"
             >
               Book a call
-            </Link>
+            </a>
           </div>
 
           {columns.map((col) => (
