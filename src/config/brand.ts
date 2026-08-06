@@ -83,7 +83,8 @@ export const palettes: Record<PaletteName, Palette> = {
 };
 
 /* >>> ONE-LINE SWITCH: change this to preview a palette. <<< */
-export const ACTIVE_PALETTE: PaletteName = "champagne";
+/* "gold" = the specified champagne gold #C9A24B accent. */
+export const ACTIVE_PALETTE: PaletteName = "gold";
 
 export const activePalette: Palette = palettes[ACTIVE_PALETTE];
 

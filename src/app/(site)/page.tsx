@@ -1,6 +1,7 @@
 import { Container, Eyebrow } from "@/components/Container";
 import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
+import WelcomeVideo from "@/components/home/WelcomeVideo";
 import VideoBlock from "@/components/VideoBlock";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCards from "@/components/home/ServiceCards";
@@ -10,6 +11,7 @@ import CtaBand from "@/components/CtaBand";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { TextLink } from "@/components/Button";
 import { problems, trustStats } from "@/data/site";
+import { welcomeVideo } from "@/config/media";
 
 export default function HomePage() {
   return (
@@ -17,37 +19,19 @@ export default function HomePage() {
       {/* 2. HERO (1. Nav lives in the root layout) */}
       <Hero />
 
-      {/* 3. WELCOME VIDEO — full-bleed break, asymmetric heading offset */}
+      {/* 3. WELCOME VIDEO — raised panel with the caption to the side */}
       <Section id="welcome" tone="void" edges className="py-24 md:py-32">
         <Container>
-          <div className="grid items-end gap-8 md:grid-cols-12">
-            <div className="md:col-span-5">
-              <Eyebrow>Meet Valor</Eyebrow>
-              <h2 className="mt-4 font-display text-[clamp(2.4rem,4.5vw,4rem)] font-medium leading-[0.98] tracking-tight text-cream">
-                A quiet obsession with getting you{" "}
-                <span className="text-gradient-gold">booked directly.</span>
-              </h2>
-            </div>
-            <div className="md:col-span-6 md:col-start-7">
-              <p className="text-lg leading-relaxed text-grey">
-                Ninety seconds on why direct beats the platforms — and how we
-                build the website and AI that make it happen.
+          <div className="grid items-center gap-10 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
+            <WelcomeVideo />
+            <div className="lg:pl-2">
+              <Eyebrow>The 90-second version</Eyebrow>
+              <p className="mt-5 font-display text-2xl font-medium leading-snug text-cream md:text-[1.7rem]">
+                {welcomeVideo.caption}
               </p>
             </div>
           </div>
         </Container>
-        {/* break the container: video runs wider than the text column */}
-        <div className="mt-14 px-4 md:mt-20 md:px-10">
-          <div className="mx-auto max-w-[110rem]">
-            <VideoBlock
-              id="welcome-video"
-              src="/video/call.mp4"
-              poster="/video/call-poster.jpg"
-              label="Welcome video"
-              aspect="wide"
-            />
-          </div>
-        </div>
       </Section>
 
       {/* 4. TRUST STRIP — raised panel band, quiet */}
