@@ -139,7 +139,7 @@ export default function Infrastructure() {
                     <span
                       className={clsx(
                         "font-display text-2xl tabular-nums transition-colors duration-300 md:text-3xl",
-                        isActive ? "text-gold" : "text-grey/50",
+                        isActive ? "text-gold" : "text-grey",
                       )}
                     >
                       {layer.index}

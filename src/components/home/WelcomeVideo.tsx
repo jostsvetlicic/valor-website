@@ -26,21 +26,11 @@ export default function WelcomeVideo() {
   const v = welcomeVideo;
 
   return (
-    <div
-      className="relative rounded-[1.75rem] border p-2.5 sm:p-3"
-      style={{
-        backgroundColor: "#141416",
-        borderColor: "rgba(201,162,75,0.25)",
-      }}
-    >
+    <div className="relative rounded-[1.75rem] border border-gold/25 bg-charcoal p-2.5 sm:p-3">
       {/* soft outer glow so the panel lifts off the black section */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.75rem] opacity-70 blur-2xl"
-        style={{
-          background:
-            "radial-gradient(50% 50% at 50% 50%, rgba(201,162,75,0.16), transparent 70%)",
-        }}
+        className="bg-radial-gold pointer-events-none absolute -inset-6 -z-10 rounded-[2.75rem] opacity-70 blur-2xl"
       />
 
       <div className="relative aspect-video w-full overflow-hidden rounded-[1.3rem] bg-black">
@@ -82,7 +72,13 @@ export default function WelcomeVideo() {
               aria-hidden
               className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"
             />
-            <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gold shadow-[0_0_50px_-6px_rgba(201,162,75,0.75)] transition-transform duration-200 ease-out group-hover:scale-105 group-active:scale-95">
+            <span
+              className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gold transition-transform duration-200 ease-out group-hover:scale-105 group-active:scale-95"
+              style={{
+                boxShadow:
+                  "0 0 50px -6px color-mix(in oklab, var(--color-gold) 75%, transparent)",
+              }}
+            >
               <svg
                 width="28"
                 height="28"
@@ -90,7 +86,7 @@ export default function WelcomeVideo() {
                 className="ml-1"
                 aria-hidden
               >
-                <path d="M6 4l14 8-14 8V4z" fill="#0A0A0A" />
+                <path d="M6 4l14 8-14 8V4z" fill="var(--color-obsidian)" />
               </svg>
             </span>
           </button>

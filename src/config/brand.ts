@@ -39,10 +39,10 @@ export const palettes: Record<PaletteName, Palette> = {
   gold: {
     gold: "#C9A24B",
     goldLight: "#E0C070",
-    obsidian: "#0A0A0A",
-    charcoal: "#14110D",
-    cream: "#F5F1E8",
-    grey: "#BDBDBD",
+    obsidian: "#0A0A0B", // base
+    charcoal: "#141416", // elevated surface
+    cream: "#F2EFE9", // text
+    grey: "rgba(242, 239, 233, 0.62)", // muted text
   },
   // 1. Champagne — soft warm ivory-gold on obsidian.
   champagne: {

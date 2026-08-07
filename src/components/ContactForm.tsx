@@ -49,7 +49,7 @@ export default function ContactForm() {
   }
 
   const fieldClass =
-    "w-full rounded-2xl border border-gold/15 bg-obsidian/60 px-5 py-4 text-cream placeholder:text-grey/70 outline-none transition-colors focus:border-gold/50";
+    "w-full rounded-2xl border border-gold/15 bg-obsidian/60 px-5 py-4 text-cream placeholder:text-grey outline-none transition-colors focus:border-gold/50";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

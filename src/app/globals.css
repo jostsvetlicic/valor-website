@@ -4,15 +4,15 @@
 /*  VALOR design tokens                                                */
 /* ------------------------------------------------------------------ */
 @theme {
-  --color-obsidian: #0a0a0a;
-  --color-charcoal: #14110d;
-  --color-gold: #c9a24b;
+  --color-obsidian: #0a0a0b; /* base */
+  --color-charcoal: #141416; /* elevated surface */
+  --color-gold: #c9a24b; /* accent only */
   --color-gold-light: #e0c070;
-  --color-cream: #f5f1e8;
-  --color-grey: #bdbdbd;
+  --color-cream: #f2efe9; /* text */
+  --color-grey: rgba(242, 239, 233, 0.62); /* muted text */
 
-  --color-background: #0a0a0a;
-  --color-foreground: #f5f1e8;
+  --color-background: #0a0a0b;
+  --color-foreground: #f2efe9;
 
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-inter);
@@ -89,14 +89,14 @@ html.lenis body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--color-obsidian);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2410;
+  background: color-mix(in oklab, var(--color-gold) 30%, black);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3116;
+  background: color-mix(in oklab, var(--color-gold) 45%, black);
 }
 
 /* ------------------------------------------------------------------ */
@@ -167,28 +167,26 @@ html.lenis body {
   /*  from more gold accent. Steps are spaced far enough apart to be    */
   /*  clearly perceptible while staying rich and dark.                  */
   /* ---------------------------------------------------------------- */
+  /* A neutral dark ramp derived only from the base + elevated tokens — no
+     gold is mixed into any surface (gold stays an accent, never a fill). */
   .surface-void {
-    /* deepest — near-pure black */
-    background-color: color-mix(in oklab, var(--color-obsidian) 72%, #000);
+    /* deepest — below base */
+    background-color: color-mix(in oklab, var(--color-obsidian) 55%, black);
   }
   .surface-base {
     background-color: var(--color-obsidian);
   }
   .surface-warm {
-    /* clearly warmer, lifted charcoal */
+    /* neutral mid-tone between base and the elevated panel */
     background-color: color-mix(
       in oklab,
-      var(--color-obsidian) 88%,
-      var(--color-gold) 12%
+      var(--color-obsidian) 50%,
+      var(--color-charcoal) 50%
     );
   }
   .surface-panel {
-    /* the raised, warmest surface */
-    background-color: color-mix(
-      in oklab,
-      var(--color-obsidian) 76%,
-      var(--color-gold) 24%
-    );
+    /* the raised, elevated surface (#141416) */
+    background-color: var(--color-charcoal);
   }
 
   /* Soft top/bottom edge fades so sections melt together instead of    */
