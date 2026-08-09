@@ -1,6 +1,8 @@
 import { Container, Eyebrow } from "@/components/Container";
 import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
+import BrandLogoBar from "@/components/home/BrandLogoBar";
+import SelectedBuilds from "@/components/home/SelectedBuilds";
 import WelcomeVideo from "@/components/home/WelcomeVideo";
 import Problem from "@/components/home/Problem";
 import Infrastructure from "@/components/home/Infrastructure";
@@ -16,10 +18,15 @@ import { welcomeVideo } from "@/config/media";
 export default function HomePage() {
   return (
     <>
-      {/* 4.1 HERO (nav lives in the root layout) */}
+      {/* 1. HERO (nav lives in the root layout) */}
       <Hero />
 
-      {/* 4.2 WELCOME VIDEO — raised panel, caption to the side */}
+      {/* 2. SELECTED BUILDS / BRAND LOGOS — credibility strip below the hero.
+          Both render nothing until their flag + real content exist. */}
+      <BrandLogoBar />
+      <SelectedBuilds />
+
+      {/* 3. WELCOME VIDEO — raised panel, caption to the side */}
       <Section id="welcome" tone="void" edges className="py-24 md:py-32">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
@@ -34,16 +41,19 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 4.3 THE PROBLEM — observations, feel-seen */}
+      {/* 4. THE PROBLEM — observations, feel-seen */}
       <Problem />
 
-      {/* 4.4 INFRASTRUCTURE — the core section */}
+      {/* 5. INFRASTRUCTURE — the core section */}
       <Infrastructure />
 
-      {/* 4.5 WHAT'S POSSIBLE — capability grid */}
+      {/* 6. HOW IT WORKS — condensed five-step process (+ optional Loom slot) */}
+      <ProcessTeaser />
+
+      {/* 7. WHAT'S POSSIBLE — capability grid */}
       <CapabilityGrid />
 
-      {/* 4.6 INDUSTRIES — teaser slider linking to each vertical */}
+      {/* 8. INDUSTRIES — teaser slider linking to each vertical */}
       <Section tone="warm" edges className="py-24 md:py-32">
         <Container>
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -61,13 +71,10 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 4.7 PROCESS — condensed teaser, full detail on /process */}
-      <ProcessTeaser />
-
-      {/* 4.8 REFERENCES & REVIEWS — renders nothing until FEATURES.reviews is on */}
+      {/* 9. CLIENT REVIEWS — renders nothing until FEATURES.reviews is on */}
       <Reviews />
 
-      {/* 4.9 CLOSING CTA — one line, one button */}
+      {/* 10. CLOSING CTA — one line, one button */}
       <CtaBand title="Let's map where the manual work is." />
 
       {/* Footer lives in the root layout */}

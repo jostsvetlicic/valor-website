@@ -2,18 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { welcomeVideo } from "@/config/media";
+import { welcomeVideo, type VideoConfig } from "@/config/media";
 
 /**
- * The homepage welcome video, in a raised panel that reads clearly against
- * the near-black section even before it plays: a lighter surface, a hairline
- * gold border and a soft outer glow, with a bright poster and a large centred
- * play button. Nothing plays until the visitor clicks — no autoplay, no sound
- * on load.
+ * A video in a raised panel that reads clearly against the near-black section
+ * even before it plays: an elevated surface, a hairline gold border and a soft
+ * outer glow, with a large centred play button. Nothing plays until the visitor
+ * clicks — no autoplay, no sound on load.
  *
- * Source is driven entirely by `welcomeVideo.mode` in config/media.ts:
- * "mp4" plays the local file, "loom" swaps in a Loom embed. The component
- * doesn't change when a real video is dropped in later.
+ * Source is driven entirely by the passed `video` config (defaults to the
+ * homepage welcome video): `mode: "mp4"` plays the local file, `mode: "loom"`
+ * swaps in a Loom embed. Reused for the How-it-works walkthrough.
  */
 function loomSrc(url: string) {
   if (!url) return "";
@@ -21,9 +20,15 @@ function loomSrc(url: string) {
   return `${url}${sep}autoplay=1`;
 }
 
-export default function WelcomeVideo() {
+export default function WelcomeVideo({
+  video = welcomeVideo,
+  label = "Play the video",
+}: {
+  video?: VideoConfig;
+  label?: string;
+}) {
   const [playing, setPlaying] = useState(false);
-  const v = welcomeVideo;
+  const v = video;
 
   return (
     <div className="relative rounded-[1.75rem] border border-gold/25 bg-charcoal p-2.5 sm:p-3">
@@ -38,7 +43,7 @@ export default function WelcomeVideo() {
           v.mode === "loom" ? (
             <iframe
               src={loomSrc(v.loomUrl)}
-              title="Valor welcome video"
+              title={label}
               className="absolute inset-0 h-full w-full"
               allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
@@ -58,16 +63,18 @@ export default function WelcomeVideo() {
           <button
             type="button"
             onClick={() => setPlaying(true)}
-            aria-label="Play the Valor welcome video"
-            className="group absolute inset-0 flex items-center justify-center rounded-[1.3rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            aria-label={label}
+            className="group absolute inset-0 flex items-center justify-center rounded-[1.3rem] bg-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-black"
           >
-            <Image
-              src={v.poster}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 60vw, 100vw"
-              className="object-cover"
-            />
+            {v.poster && (
+              <Image
+                src={v.poster}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 60vw, 100vw"
+                className="object-cover"
+              />
+            )}
             <span
               aria-hidden
               className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"

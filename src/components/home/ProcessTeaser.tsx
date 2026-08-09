@@ -5,14 +5,16 @@ import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { TextLink } from "@/components/Button";
+import WelcomeVideo from "@/components/home/WelcomeVideo";
 import { processSteps } from "@/content/process";
+import { walkthroughVideo } from "@/config/media";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /** Condensed five-step process. Full detail lives on /process. */
 export default function ProcessTeaser() {
   return (
-    <Section tone="base" className="py-24 md:py-32">
+    <Section tone="warm" edges className="py-24 md:py-32">
       <Container>
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeading eyebrow="How we work" title="How a project actually runs." />
@@ -49,6 +51,19 @@ export default function ProcessTeaser() {
             </motion.li>
           ))}
         </motion.ol>
+
+        {/* Loom walkthrough slot — hidden entirely until a URL is set in
+            config/media.ts (walkthroughVideo.loomUrl). */}
+        {walkthroughVideo.loomUrl && (
+          <div className="mx-auto mt-16 max-w-4xl md:mt-20">
+            <WelcomeVideo video={walkthroughVideo} label="Play the walkthrough" />
+            {walkthroughVideo.caption && (
+              <p className="mt-5 text-center text-sm leading-relaxed text-grey">
+                {walkthroughVideo.caption}
+              </p>
+            )}
+          </div>
+        )}
       </Container>
     </Section>
   );

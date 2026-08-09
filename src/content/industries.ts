@@ -29,7 +29,7 @@ export type Industry = {
   securityNote?: string;
 };
 
-export const industries: Industry[] = [
+const industriesSource: Industry[] = [
   {
     slug: "real-estate",
     name: "Real estate agencies & developers",
@@ -217,6 +217,19 @@ export const industries: Industry[] = [
     flagship: undefined,
   },
 ];
+
+// Display order — real estate and hospitality lead, then the rest.
+const ORDER = [
+  "real-estate",
+  "hospitality",
+  "automotive",
+  "finance",
+  "enterprise",
+  "other",
+];
+export const industries: Industry[] = [...industriesSource].sort(
+  (a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug),
+);
 
 export const industrySlugs = industries.map((i) => i.slug);
 

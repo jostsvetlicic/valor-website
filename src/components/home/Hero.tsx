@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Container } from "@/components/Container";
 import SystemDiagram from "@/components/home/SystemDiagram";
-import { BookCallButton, MagneticButton } from "@/components/Button";
+import { BookCallButton } from "@/components/Button";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -51,24 +51,18 @@ export default function Hero() {
           transition={{ duration: 0.55, ease, delay: 0.16 }}
           className="mt-7 max-w-2xl text-lg leading-relaxed text-grey md:text-xl"
         >
-          The frontend that sells, the backend that runs operations, and the
-          automation that connects the tools you already use.
+          We fix the manual work inside real estate, hospitality, and other
+          operationally heavy businesses — the backend, the CRM, the repetitive
+          tasks, and the inquiries that never get answered fast enough.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease, delay: 0.24 }}
-          className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
+          className="mt-10"
         >
           <BookCallButton className="px-9 py-5 text-base" />
-          <MagneticButton
-            href="#infrastructure"
-            variant="ghost"
-            className="px-9 py-5 text-base"
-          >
-            See what we build
-          </MagneticButton>
         </motion.div>
       </Container>
     </section>
