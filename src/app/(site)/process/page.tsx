@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
-import ProcessTimeline from "@/components/process/ProcessTimeline";
 import CtaBand from "@/components/CtaBand";
+
+const ProcessTimeline = dynamic(() => import("@/components/process/ProcessTimeline"));
 
 export const metadata: Metadata = {
   title: "Process",

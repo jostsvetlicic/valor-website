@@ -1,19 +1,23 @@
+import dynamic from "next/dynamic";
 import { Container, Eyebrow } from "@/components/Container";
 import { Section } from "@/components/Section";
 import Hero from "@/components/home/Hero";
-import BrandLogoBar from "@/components/home/BrandLogoBar";
-import SelectedBuilds from "@/components/home/SelectedBuilds";
-import WelcomeVideo from "@/components/home/WelcomeVideo";
-import Problem from "@/components/home/Problem";
-import Infrastructure from "@/components/home/Infrastructure";
-import CapabilityGrid from "@/components/home/CapabilityGrid";
-import IndustrySlider from "@/components/industries/IndustrySlider";
-import ProcessTeaser from "@/components/home/ProcessTeaser";
-import Reviews from "@/components/home/Reviews";
 import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import { TextLink } from "@/components/Button";
 import { welcomeVideo } from "@/config/media";
+
+// Below-fold components — code-split into separate JS chunks so the
+// initial bundle only contains what's visible above the fold.
+const BrandLogoBar = dynamic(() => import("@/components/home/BrandLogoBar"));
+const SelectedBuilds = dynamic(() => import("@/components/home/SelectedBuilds"));
+const WelcomeVideo = dynamic(() => import("@/components/home/WelcomeVideo"));
+const Problem = dynamic(() => import("@/components/home/Problem"));
+const Infrastructure = dynamic(() => import("@/components/home/Infrastructure"));
+const ProcessTeaser = dynamic(() => import("@/components/home/ProcessTeaser"));
+const CapabilityGrid = dynamic(() => import("@/components/home/CapabilityGrid"));
+const IndustrySlider = dynamic(() => import("@/components/industries/IndustrySlider"));
+const Reviews = dynamic(() => import("@/components/home/Reviews"));
 
 export default function HomePage() {
   return (

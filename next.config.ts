@@ -18,6 +18,43 @@ const nextConfig: NextConfig = {
       { source: "/results", destination: "/", permanent: true },
     ];
   },
+
+  // Cache-Control headers for static assets.
+  // - _next/static: content-hashed filenames, safe to cache for 1 year.
+  // - /brand/: logo PNGs served from /public — fingerprinted via Next.js
+  //   Image at runtime; raw public files get a generous cache.
+  // - /video/: large MP4 — revalidate infrequently.
+  async headers() {
+    return [
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/brand/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/video/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=2592000",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { industries } from "@/content/industries";
 import { clsx } from "@/lib/clsx";
@@ -46,7 +46,7 @@ export default function IndustrySlider() {
     el.scrollBy({ left: dir * amount, behavior: "smooth" });
   }, []);
 
-  function onKeyDown(e: React.KeyboardEvent) {
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
       e.preventDefault();
       scrollByCards(1);
@@ -54,7 +54,7 @@ export default function IndustrySlider() {
       e.preventDefault();
       scrollByCards(-1);
     }
-  }
+  }, [scrollByCards]);
 
   return (
     <div>
@@ -124,7 +124,7 @@ export default function IndustrySlider() {
   );
 }
 
-function SliderArrow({
+const SliderArrow = memo(function SliderArrow({
   dir,
   disabled,
   onClick,
@@ -157,4 +157,4 @@ function SliderArrow({
       </svg>
     </button>
   );
-}
+});
