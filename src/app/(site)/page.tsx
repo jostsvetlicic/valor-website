@@ -9,6 +9,7 @@ import { welcomeVideo } from "@/config/media";
 
 // Below-fold components — code-split into separate JS chunks so the
 // initial bundle only contains what's visible above the fold.
+const StatsBar = dynamic(() => import("@/components/home/StatsBar"));
 const BrandLogoBar = dynamic(() => import("@/components/home/BrandLogoBar"));
 const SelectedBuilds = dynamic(() => import("@/components/home/SelectedBuilds"));
 const WelcomeVideo = dynamic(() => import("@/components/home/WelcomeVideo"));
@@ -25,7 +26,10 @@ export default function HomePage() {
       {/* 1. HERO (nav lives in the root layout) */}
       <Hero />
 
-      {/* 2. SELECTED BUILDS / BRAND LOGOS — credibility strip below the hero.
+      {/* 2. STATS BAR — trust signal strip immediately below the hero */}
+      <StatsBar />
+
+      {/* 3. SELECTED BUILDS / BRAND LOGOS — credibility strip.
           Both render nothing until their flag + real content exist. */}
       <BrandLogoBar />
       <SelectedBuilds />
