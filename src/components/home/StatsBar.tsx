@@ -14,7 +14,7 @@ const stats = [
 function CountUp({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { once: true, amount: 0.5 });
 
   useEffect(() => {
     if (!inView) return;
@@ -39,21 +39,21 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 
 export default function StatsBar() {
   return (
-    <div className="border-y border-gold/10 py-2 md:py-0">
+    <div className="py-16 md:py-20">
       <Container>
-        <dl>
-          {stats.map((stat, i) => (
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-y-0">
+          {stats.map((stat) => (
             <div
               key={stat.label}
-              className={[
-                "flex items-center justify-between gap-8 py-5 md:py-6",
-                i < stats.length - 1 ? "border-b border-gold/10" : "",
-              ].join(" ").trim()}
+              className="flex flex-col items-center gap-3 text-center"
             >
-              <dd className="shrink-0 font-display text-[clamp(2rem,4.5vw,3rem)] font-medium leading-none tracking-tight text-gold">
+              <dd
+                className="font-display font-medium leading-none tracking-tight text-gold"
+                style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
+              >
                 <CountUp target={stat.number} suffix={stat.suffix} />
               </dd>
-              <dt className="text-right text-sm font-medium leading-snug text-grey sm:text-base">
+              <dt className="text-sm font-medium leading-snug text-grey">
                 {stat.label}
               </dt>
             </div>
