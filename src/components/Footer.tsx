@@ -80,9 +80,13 @@ export default function Footer() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-grey md:flex-row">
           <p>© 2026 Valor · {brand.domain}</p>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <Link href="/privacy" className="transition-colors hover:text-cream">
               Privacy policy
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/terms" className="transition-colors hover:text-cream">
+              Terms of service
             </Link>
           </div>
         </div>
