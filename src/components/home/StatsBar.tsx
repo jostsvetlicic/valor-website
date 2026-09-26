@@ -39,35 +39,23 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 
 export default function StatsBar() {
   return (
-    <div className="border-y border-gold/10 bg-charcoal/30 py-10 md:py-12">
+    <div className="border-y border-gold/10 py-2 md:py-0">
       <Container>
-        <dl className="grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-y-0">
+        <dl>
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className="relative flex flex-col items-center gap-2 px-4 text-center md:px-6"
+              className={[
+                "flex items-center justify-between gap-8 py-5 md:py-6",
+                i < stats.length - 1 ? "border-b border-gold/10" : "",
+              ].join(" ").trim()}
             >
-              {/*
-                Dividers: show after items 0, 1, 2 (not after the last).
-                On mobile (2-col), item 1 sits at the right edge of the row —
-                hide its divider so it doesn't float in empty space.
-              */}
-              {i < stats.length - 1 && (
-                <span
-                  aria-hidden="true"
-                  className={[
-                    "pointer-events-none absolute right-0 top-1/2 h-10 w-px -translate-y-1/2 bg-gold/15",
-                    i === 1 ? "hidden md:block" : "",
-                  ].join(" ").trim()}
-                />
-              )}
-
-              <dt className="order-2 text-sm font-medium leading-snug text-grey">
-                {stat.label}
-              </dt>
-              <dd className="order-1 font-display text-[clamp(2.4rem,5vw,3.4rem)] font-medium leading-none tracking-tight text-gold">
+              <dd className="shrink-0 font-display text-[clamp(2rem,4.5vw,3rem)] font-medium leading-none tracking-tight text-gold">
                 <CountUp target={stat.number} suffix={stat.suffix} />
               </dd>
+              <dt className="text-right text-sm font-medium leading-snug text-grey sm:text-base">
+                {stat.label}
+              </dt>
             </div>
           ))}
         </dl>
