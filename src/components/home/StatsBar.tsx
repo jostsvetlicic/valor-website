@@ -11,54 +11,64 @@ const stats = [
   { number: 4,  suffix: "",  label: "Continents" },
 ];
 
-function CountUp({ target, suffix }: { target: number; suffix: string }) {
+function useCountUp(target: number, active: boolean) {
   const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
 
   useEffect(() => {
-    if (!inView) return;
-    const duration = 900;
-    const steps = Math.max(target, 20);
-    const interval = duration / steps;
-    let step = 0;
-    const timer = setInterval(() => {
-      step++;
-      setCount(Math.round((target * step) / steps));
-      if (step >= steps) clearInterval(timer);
-    }, interval);
-    return () => clearInterval(timer);
-  }, [inView, target]);
+    if (!active) return;
+    let frame = 0;
+    const total = 50;
+    const tick = () => {
+      frame++;
+      setCount(Math.round(target * (frame / total)));
+      if (frame < total) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [active, target]);
 
+  return count;
+}
+
+function StatItem({
+  number,
+  suffix,
+  label,
+  active,
+}: {
+  number: number;
+  suffix: string;
+  label: string;
+  active: boolean;
+}) {
+  const count = useCountUp(number, active);
   return (
-    <span ref={ref} aria-label={`${target}${suffix}`}>
-      {count}{suffix}
-    </span>
+    <div className="flex flex-col items-center gap-3 text-center">
+      <span
+        className="font-display font-medium leading-none tracking-tight text-gold"
+        style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
+      >
+        {count}{suffix}
+      </span>
+      <span className="text-sm font-medium leading-snug text-grey">
+        {label}
+      </span>
+    </div>
   );
 }
 
 export default function StatsBar() {
+  // Observe the whole section — much more reliable than a tiny span
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0 });
+
   return (
-    <div className="py-16 md:py-20">
+    <div ref={sectionRef} className="py-16 md:py-20">
       <Container>
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-y-0">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-y-0">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center gap-3 text-center"
-            >
-              <dd
-                className="font-display font-medium leading-none tracking-tight text-gold"
-                style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-              >
-                <CountUp target={stat.number} suffix={stat.suffix} />
-              </dd>
-              <dt className="text-sm font-medium leading-snug text-grey">
-                {stat.label}
-              </dt>
-            </div>
+            <StatItem key={stat.label} {...stat} active={inView} />
           ))}
-        </dl>
+        </div>
       </Container>
     </div>
   );
