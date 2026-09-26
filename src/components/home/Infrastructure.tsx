@@ -120,10 +120,10 @@ export default function Infrastructure() {
               >
                 <div
                   className={clsx(
-                    "overflow-hidden rounded-[1.5rem] border transition-colors duration-300",
+                    "overflow-hidden rounded-[1.5rem] border backdrop-blur-xl backdrop-saturate-[160%] transition-[border-color,background-color,box-shadow] duration-300",
                     isActive
-                      ? "border-gold/35 bg-charcoal/70"
-                      : "border-gold/12 bg-charcoal/30",
+                      ? "border-gold/30 bg-charcoal/65 shadow-[0_0_0_1px_rgba(201,162,75,0.08),0_12px_40px_-12px_rgba(0,0,0,0.6)]"
+                      : "border-white/[0.07] bg-charcoal/25",
                   )}
                 >
                   <button

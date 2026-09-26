@@ -133,9 +133,15 @@ html.lenis body {
   }
 
   .glass {
-    background: color-mix(in oklab, var(--color-charcoal) 55%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in oklab, var(--color-charcoal) 60%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .glass-card {
+    background: color-mix(in oklab, var(--color-charcoal) 45%, transparent);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
   }
 
   .gold-glow {

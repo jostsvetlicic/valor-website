@@ -36,15 +36,36 @@ export default function Nav() {
       >
         <nav
           className={clsx(
-            "mt-0 flex w-full items-center justify-between px-6 transition-[padding,background-color,border-color] duration-300 ease-out md:px-10",
-            scrolled
-              ? "glass border-b border-gold/10 py-3"
-              : "border-b border-transparent py-5",
+            "relative mt-0 flex w-full items-center justify-between px-6 transition-[padding] duration-300 ease-out md:px-10",
+            scrolled ? "py-3" : "py-5",
           )}
         >
+          {/* iOS-style glass backdrop — layered for the specular highlight + tint */}
+          <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden">
+            {/* Frosted tint: always slightly active, full on scroll */}
+            <div
+              className={clsx(
+                "absolute inset-0 backdrop-blur-xl backdrop-saturate-[180%] transition-[background-color] duration-500",
+                scrolled ? "bg-obsidian/[0.72]" : "bg-obsidian/[0.12]",
+              )}
+            />
+            {/* Top-edge specular highlight — the "glass edge" catching light */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.22] to-transparent" />
+            {/* Inner gloss shimmer — soft light across the upper portion */}
+            <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/[0.05] to-transparent" />
+            {/* Bottom separator — appears on scroll */}
+            <div
+              className={clsx(
+                "absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/[0.22] to-transparent transition-opacity duration-500",
+                scrolled ? "opacity-100" : "opacity-0",
+              )}
+            />
+          </div>
+
+          {/* Content — positioned above the glass layer */}
           <Link
             href="/"
-            className="group flex items-center"
+            className="relative z-10 group flex items-center"
             aria-label="Valor home"
           >
             <Logo
@@ -60,7 +81,7 @@ export default function Nav() {
             />
           </Link>
 
-          <div className="hidden items-center gap-9 lg:flex">
+          <div className="relative z-10 hidden items-center gap-9 lg:flex">
             {nav.map((item) => (
               <Link
                 key={item.href}
@@ -72,7 +93,7 @@ export default function Nav() {
             ))}
           </div>
 
-          <div className="hidden lg:block">
+          <div className="relative z-10 hidden lg:block">
             <BookCallButton
               className={scrolled ? "px-6 py-3 text-sm" : "px-7 py-3.5"}
             />
@@ -81,7 +102,7 @@ export default function Nav() {
           <button
             aria-label="Open menu"
             onClick={() => setOpen(true)}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/25 text-cream lg:hidden"
+            className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gold/25 text-cream lg:hidden"
           >
             <span className="sr-only">Menu</span>
             <div className="space-y-1.5">

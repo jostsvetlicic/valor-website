@@ -53,7 +53,7 @@ export default function CapabilityGrid() {
                 hidden: { opacity: 0, y: 16 },
                 show: { opacity: 1, y: 0, transition: { duration: 0.45, ease } },
               }}
-              className="group rounded-2xl border border-gold/12 bg-charcoal/40 p-6 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-gold/40 motion-reduce:hover:translate-y-0"
+              className="group glass-card rounded-2xl border border-white/[0.07] bg-charcoal/40 p-6 transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_8px_32px_-8px_rgba(201,162,75,0.15)] motion-reduce:hover:translate-y-0"
             >
               <h3 className="font-display text-lg font-medium text-cream">
                 {c.title}

@@ -45,7 +45,7 @@ function Row({ event }: { event: FeedEvent }) {
 
 export default function OperationsFeed() {
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]">
+    <div className="w-full overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.03] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] backdrop-blur-xl backdrop-saturate-[180%]">
       {/* live header */}
       <div className="flex items-center gap-2.5 border-b border-white/[0.06] px-5 py-3.5">
         <span
