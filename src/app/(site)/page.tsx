@@ -9,7 +9,7 @@ import { welcomeVideo } from "@/config/media";
 
 // Below-fold components — code-split into separate JS chunks so the
 // initial bundle only contains what's visible above the fold.
-const StatsBar = dynamic(() => import("@/components/home/StatsBar"), { ssr: false });
+const StatsBar = dynamic(() => import("@/components/home/StatsBar"));
 const BrandLogoBar = dynamic(() => import("@/components/home/BrandLogoBar"));
 const SelectedBuilds = dynamic(() => import("@/components/home/SelectedBuilds"));
 const WelcomeVideo = dynamic(() => import("@/components/home/WelcomeVideo"));
