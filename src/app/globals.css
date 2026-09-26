@@ -254,64 +254,63 @@ html.lenis body {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Hero system diagram — an ambient network of gold nodes and edges    */
-/*  that draws itself in on load (disconnected systems becoming          */
-/*  connected). All motion is pure CSS so it stays off the main thread;  */
-/*  it pauses when scrolled off screen (data-onscreen="false"), and the  */
-/*  global reduced-motion rule below collapses the durations, leaving    */
-/*  the diagram fully drawn and still.                                   */
+/*  Operations feed — the hero's living stream. The list is rendered      */
+/*  twice inside the track; the track scrolls up by exactly half its      */
+/*  height so the loop seam is invisible. A mask fades the top and        */
+/*  bottom. Pure CSS, so it stays off the main thread. Under reduced      */
+/*  motion it sits static, showing the first few rows.                    */
 /* ------------------------------------------------------------------ */
-.sys-diagram {
-  width: 100%;
-  height: 100%;
-}
-.sys-diagram line {
-  stroke: var(--color-gold);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  opacity: 0.42;
-  stroke-dasharray: var(--len);
-  stroke-dashoffset: var(--len);
-  animation: sys-draw 1.2s cubic-bezier(0.23, 1, 0.32, 1) var(--d, 0s) forwards;
-}
-.sys-diagram circle {
-  fill: var(--color-gold);
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  filter: drop-shadow(
-    0 0 7px color-mix(in oklab, var(--color-gold) 65%, transparent)
+.ops-feed {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 16%,
+    black 84%,
+    transparent 100%
   );
-  animation:
-    sys-node-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) var(--d, 0s) forwards,
-    sys-node-pulse 5.5s ease-in-out calc(var(--d, 0s) + 1s) infinite;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
 }
-.sys-diagram[data-onscreen="false"] line,
-.sys-diagram[data-onscreen="false"] circle {
-  animation-play-state: paused;
+.ops-feed-track {
+  animation: ops-scroll 34s linear infinite;
+  will-change: transform;
 }
-@keyframes sys-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes sys-node-in {
+@keyframes ops-scroll {
   from {
-    opacity: 0;
-    transform: scale(0.4);
+    transform: translateY(0);
   }
   to {
-    opacity: 0.85;
-    transform: scale(1);
+    transform: translateY(-50%);
   }
 }
-@keyframes sys-node-pulse {
+.ops-live-dot {
+  animation: ops-pulse 2.6s ease-in-out infinite;
+}
+@keyframes ops-pulse {
   0%,
   100% {
-    opacity: 0.85;
+    opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ops-feed {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .ops-feed-track {
+    animation: none;
+    transform: none;
+  }
+  .ops-live-dot {
+    animation: none;
   }
 }
 
