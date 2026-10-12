@@ -1,4 +1,4 @@
-/** Tiny className joiner — filters out falsy values. */
+/** Tiny className joiner, filters out falsy values. */
 export function clsx(
   ...classes: Array<string | false | null | undefined>
 ): string {

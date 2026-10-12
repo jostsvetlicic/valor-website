@@ -13,28 +13,41 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/call", destination: "/", permanent: true },
-      { source: "/how-it-works", destination: "/process", permanent: true },
       { source: "/services", destination: "/infrastructure", permanent: true },
       { source: "/results", destination: "/", permanent: true },
+      // Retired verticals from the pre-enterprise site.
+      ...["real-estate", "automotive", "hospitality", "finance", "enterprise", "other"].map((slug) => ({
+        source: `/industries/${slug}`,
+        destination: "/industries",
+        permanent: true,
+      })),
     ];
   },
 
-  // Cache-Control headers for static assets.
-  // - _next/static: content-hashed filenames, safe to cache for 1 year.
+  // Cache-Control headers for public assets. /_next/static is deliberately
+  // absent: Next already marks hashed production chunks immutable, and an
+  // override also applies in dev, where chunk names are stable — browsers then
+  // keep serving stale JS/CSS after edits.
   // - /brand/: logo PNGs served from /public — fingerprinted via Next.js
   //   Image at runtime; raw public files get a generous cache.
   // - /video/: large MP4 — revalidate infrequently.
   async headers() {
+    // Dev only: an earlier config served dev chunks as immutable for a year, and
+    // browsers that cached them keep showing old code. This makes full page
+    // loads in dev tell the browser to drop its cache for this origin.
+    const devCacheReset =
+      process.env.NODE_ENV === "development"
+        ? [
+            {
+              source: "/:path*",
+              has: [{ type: "header" as const, key: "accept", value: ".*text/html.*" }],
+              headers: [{ key: "Clear-Site-Data", value: '"cache"' }],
+            },
+          ]
+        : [];
+
     return [
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      ...devCacheReset,
       {
         source: "/brand/:path*",
         headers: [

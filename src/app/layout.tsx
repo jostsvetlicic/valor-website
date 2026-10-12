@@ -24,8 +24,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(brand.url),
   title: {
-    default: "Valor — The AI infrastructure your business runs on",
-    template: "%s — Valor",
+    default: "VALOR | AI infrastructure for companies that run on manual work",
+    template: "%s | VALOR",
   },
   description: brand.description,
   keywords: [
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: brand.url,
-    title: "Valor — The AI infrastructure your business runs on",
+    title: "VALOR | AI infrastructure for companies that run on manual work",
     description: brand.description,
     siteName: "Valor",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Valor — The AI infrastructure your business runs on",
+    title: "VALOR | AI infrastructure for companies that run on manual work",
     description: brand.description,
   },
   alternates: { canonical: "/" },
@@ -61,20 +61,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Structured data — Organization + the service Valor provides. Rendered
+// Structured data, Organization + the service Valor provides. Rendered
 // site-wide so search engines get a consistent picture of the company.
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: brand.name,
+  legalName: brand.legal.entity,
   url: brand.url,
   logo: `${brand.url}/brand/valor-mark-light.png`,
   description: brand.description,
   sameAs: [brand.instagramUrl],
+  email: brand.email,
+  taxID: brand.legal.taxNo,
+  identifier: brand.legal.registrationNo,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Godovič 99E",
+    postalCode: "5275",
+    addressLocality: "Godovič",
+    addressCountry: "SI",
+  },
   contactPoint: {
     "@type": "ContactPoint",
     telephone: brand.phoneDisplay,
+    email: brand.email,
     contactType: "sales",
+    availableLanguage: ["English", "Slovenian"],
   },
 };
 

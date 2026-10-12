@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <!-- Placeholder poster: replace with a real frame from the welcome video. -->
+  <rect width="1600" height="900" fill="#141414"/>
+  <circle cx="800" cy="420" r="64" fill="none" stroke="#C9A84C" stroke-width="3"/>
+  <path d="M780 388 L836 420 L780 452 Z" fill="#C9A84C"/>
+  <text x="800" y="560" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif" font-size="30" font-weight="600" fill="#F5F0E8">Welcome to VALOR</text>
+</svg>

@@ -1,12 +1,13 @@
 import { clsx } from "@/lib/clsx";
 
-type Tone = "void" | "base" | "warm" | "panel";
+type Tone = "void" | "base" | "warm" | "panel" | "light";
 
 const toneClass: Record<Tone, string> = {
   void: "surface-void",
   base: "surface-base",
   warm: "surface-warm",
   panel: "surface-panel",
+  light: "surface-light",
 };
 
 /**
@@ -35,7 +36,11 @@ export function Section({
   return (
     <section
       id={id}
-      className={clsx("relative isolate overflow-hidden", toneClass[tone], className)}
+      className={clsx(
+        "relative isolate overflow-hidden border-t border-cream/[0.06]",
+        toneClass[tone],
+        className,
+      )}
     >
       {edges && <div className="edge-fade-top" aria-hidden="true" />}
       {glow && (

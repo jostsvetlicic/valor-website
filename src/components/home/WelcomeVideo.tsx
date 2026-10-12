@@ -8,7 +8,7 @@ import { welcomeVideo, type VideoConfig } from "@/config/media";
  * A video in a raised panel that reads clearly against the near-black section
  * even before it plays: an elevated surface, a hairline gold border and a soft
  * outer glow, with a large centred play button. Nothing plays until the visitor
- * clicks — no autoplay, no sound on load.
+ * clicks, no autoplay, no sound on load.
  *
  * Source is driven entirely by the passed `video` config (defaults to the
  * homepage welcome video): `mode: "mp4"` plays the local file, `mode: "loom"`
@@ -49,7 +49,6 @@ export default function WelcomeVideo({
               allowFullScreen
             />
           ) : (
-            // eslint-disable-next-line jsx-a11y/media-has-caption
             <video
               className="absolute inset-0 h-full w-full object-cover"
               src={v.mp4}

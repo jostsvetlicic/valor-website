@@ -16,7 +16,7 @@ type Review = {
   source: "Google" | "LinkedIn" | "Direct";
 };
 
-// Real reviews only — never fabricate one. The section stays empty (or hidden
+// Real reviews only, never fabricate one. The section stays empty (or hidden
 // behind FEATURES.reviews) until genuine reviews exist.
 // TODO: real content required
 const reviews: Review[] = [];
@@ -25,7 +25,7 @@ const reviews: Review[] = [];
  * References & reviews. Fully built but gated: renders nothing until
  * FEATURES.reviews is true. When on but empty, it shows an honest empty state
  * rather than a fake review. Aggregate rating and the Google reviews link are
- * driven by env vars (see .env.example) and only appear when set — no invented
+ * driven by env vars (see .env.example) and only appear when set, no invented
  * numbers or URLs.
  */
 export default function Reviews() {

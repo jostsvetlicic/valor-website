@@ -1,5 +1,7 @@
+import type { Dict } from "@/i18n";
+
 /**
- * VALOR — Central brand configuration.
+ * VALOR, Central brand configuration.
  * Change anything here (contact details, links, social, copy) and it updates
  * everywhere across the site. This is the single source of truth.
  */
@@ -7,8 +9,8 @@
 /* ------------------------------------------------------------------ */
 /*  PALETTES                                                           */
 /*                                                                    */
-/*  To preview a different palette, change ONE line — `ACTIVE_PALETTE` */
-/*  below — to any of: "gold" | "champagne" | "bone" | "sage"         */
+/*  To preview a different palette, change ONE line, `ACTIVE_PALETTE` */
+/*  below, to any of: "gold" | "champagne" | "bone" | "sage"         */
 /*  | "terracotta". Everything (including the canvas particle field    */
 /*  and the SVG sparkle) re-tints from these values automatically.     */
 /* ------------------------------------------------------------------ */
@@ -37,14 +39,14 @@ export type Palette = {
 export const palettes: Record<PaletteName, Palette> = {
   // The original VALOR champagne-gold.
   gold: {
-    gold: "#C9A24B",
-    goldLight: "#E0C070",
-    obsidian: "#0A0A0B", // base
-    charcoal: "#141416", // elevated surface
-    cream: "#F2EFE9", // text
-    grey: "rgba(242, 239, 233, 0.62)", // muted text
+    gold: "#C9A84C",
+    goldLight: "#DDBF6A",
+    obsidian: "#0A0A0A", // base
+    charcoal: "#141414", // elevated surface (cards)
+    cream: "#F5F0E8", // text
+    grey: "rgba(245, 240, 232, 0.8)", // muted text (min 0.7 for contrast)
   },
-  // 1. Champagne — soft warm ivory-gold on obsidian.
+  // 1. Champagne, soft warm ivory-gold on obsidian.
   champagne: {
     gold: "#E8D9B5",
     goldLight: "#F2E8CE",
@@ -53,7 +55,7 @@ export const palettes: Record<PaletteName, Palette> = {
     cream: "#F5F1E8",
     grey: "#BDBDBD",
   },
-  // 2. Bone — near-white warm neutral on obsidian.
+  // 2. Bone, near-white warm neutral on obsidian.
   bone: {
     gold: "#F2EDE4",
     goldLight: "#FAF7F1",
@@ -62,7 +64,7 @@ export const palettes: Record<PaletteName, Palette> = {
     cream: "#F5F1E8",
     grey: "#BDBDBD",
   },
-  // 3. Sage green — muted botanical accent on deep green-black.
+  // 3. Sage green, muted botanical accent on deep green-black.
   sage: {
     gold: "#A3B18A",
     goldLight: "#BEC9A8",
@@ -71,7 +73,7 @@ export const palettes: Record<PaletteName, Palette> = {
     cream: "#F5F1E8",
     grey: "#BDBDBD",
   },
-  // 4. Terracotta — warm clay accent on warm near-black.
+  // 4. Terracotta, warm clay accent on warm near-black.
   terracotta: {
     gold: "#C97D5D",
     goldLight: "#E0997A",
@@ -93,14 +95,32 @@ export const brand = {
   legalName: "Valor",
   domain: "valorai.eu",
   url: "https://valorai.eu",
-  tagline: "The AI infrastructure your business runs on.",
+  tagline: "AI infrastructure for companies that run on manual work.",
   description:
-    "Valor builds the AI infrastructure a company runs on: the frontend that sells, the automation behind it, the operations system your team works in, and the integration layer between the tools you already use.",
+    "We connect your systems, automate your processes and build the AI tools your team uses every day. Enterprise-grade, built step by step.",
 
-  // The single site-wide "Book a call" destination — the external booking
-  // calendar. Every CTA links straight here and opens in a new tab. Change
-  // it in this one place.
-  bookingUrl: "https://calendar.notion.so/meet/jostsvetlicic/discovery-call",
+  // Slovenian versions of the tagline and description (the English ones above
+  // stay the defaults used by metadata and the share image).
+  taglineSl: "AI infrastruktura za podjetja, ki še vedno delajo ročno.",
+  descriptionSl:
+    "Povežemo vaše sisteme, avtomatiziramo procese in zgradimo AI orodja, ki jih vaša ekipa uporablja vsak dan. Na ravni velikih podjetij, korak za korakom.",
+
+  // The legal entity behind VALOR, shown in the footer and legal pages.
+  // Source: AJPES business register (via bizi.si).
+  legal: {
+    entity: "R2 Računalniške Rešitve, Sebastjan Svetličič s.p.",
+    address: "Godovič 99E, 5275 Godovič",
+    country: { en: "Slovenia", sl: "Slovenija" },
+    registrationNo: "1345966000",
+    taxNo: "99870991",
+    // Not registered for VAT ("ni zavezanec za DDV").
+    vatRegistered: false,
+  },
+
+  // The single site-wide "Book a call" destination, the Notion booking
+  // calendar. Every CTA links straight here and opens in a new tab. Notion
+  // does not allow the page to be embedded, so it is never iframed.
+  bookingUrl: "https://calendar.notion.so/meet/jostsvetlicic/normal-meeting",
 
   // Contact
   phoneDisplay: "+386 69 636 766",
@@ -111,22 +131,21 @@ export const brand = {
   instagramHandle: "@ai_valor",
   instagramUrl: "https://instagram.com/ai_valor",
 
-  // EMAIL IS NOT SET UP YET.
-  // >>> PLACEHOLDER: replace this one value when your inbox is live. <<<
-  email: "hello@valorai.eu", // TODO: VALOR — set real email address here
-  emailIsPlaceholder: true,
+  email: "info@valorai.eu",
+  emailIsPlaceholder: false,
 
-  // Brand palette — driven by ACTIVE_PALETTE above. At runtime these are
+  // Brand palette, driven by ACTIVE_PALETTE above. At runtime these are
   // injected as CSS variables (see PaletteVars) so every colour follows.
   colors: activePalette,
 };
 
-export const nav = [
-  { label: "Infrastructure", href: "/infrastructure" },
-  { label: "Industries", href: "/industries" },
-  { label: "Process", href: "/process" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-] as const;
+export const nav: { label: Dict; href: string }[] = [
+  { label: { en: "Infrastructure", sl: "Infrastruktura" }, href: "/infrastructure" },
+  { label: { en: "Solutions", sl: "Rešitve" }, href: "/solutions" },
+  { label: { en: "Industries", sl: "Panoge" }, href: "/industries" },
+  { label: { en: "Process", sl: "Proces" }, href: "/process" },
+  { label: { en: "About", sl: "O nas" }, href: "/about" },
+  { label: { en: "Contact", sl: "Kontakt" }, href: "/contact" },
+];
 
 export type NavItem = (typeof nav)[number];

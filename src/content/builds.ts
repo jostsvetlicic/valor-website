@@ -1,7 +1,7 @@
 /**
- * VALOR — selected builds for the strip below the hero.
+ * VALOR, selected builds for the strip below the hero.
  *
- * Only real projects Valor actually built. Ships EMPTY — the strip renders
+ * Only real projects Valor actually built. Ships EMPTY, the strip renders
  * nothing while this is empty (and while FEATURES.selectedBuilds is false).
  * Never invent a project, screenshot or client.
  *

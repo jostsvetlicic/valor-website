@@ -1,75 +1,40 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
 import { Container } from "@/components/Container";
-
-const stats = [
-  { number: 2,  suffix: "+", label: "Years building AI systems" },
-  { number: 20, suffix: "+", label: "Projects delivered" },
-  { number: 8,  suffix: "+", label: "Countries" },
-  { number: 4,  suffix: "",  label: "Continents" },
-];
-
-function useCountUp(target: number, active: boolean) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!active) return;
-    let frame = 0;
-    const total = 50;
-    const tick = () => {
-      frame++;
-      setCount(Math.round(target * (frame / total)));
-      if (frame < total) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [active, target]);
-
-  return count;
-}
-
-function StatItem({
-  number,
-  suffix,
-  label,
-  active,
-}: {
-  number: number;
-  suffix: string;
-  label: string;
-  active: boolean;
-}) {
-  const count = useCountUp(number, active);
-  return (
-    <div className="flex flex-col items-center gap-3 text-center">
-      <span
-        className="font-display font-medium leading-none tracking-tight text-gold"
-        style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}
-      >
-        {count}{suffix}
-      </span>
-      <span className="text-sm font-medium leading-snug text-grey">
-        {label}
-      </span>
-    </div>
-  );
-}
+import CountUp from "@/components/CountUp";
+import { verifiedStats as stats } from "@/content/stats";
 
 export default function StatsBar() {
-  // Observe the whole section — much more reliable than a tiny span
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0 });
-
+  if (stats.length === 0) return null;
   return (
-    <div ref={sectionRef} className="py-16 md:py-20">
+    <section
+      aria-label="Valor in numbers"
+      className="border-t border-cream/[0.06] py-12 md:py-20"
+    >
       <Container>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-y-0">
+        {/* Always one row of four. Columns are set inline so the row can never
+            collapse into a stack, whatever the stylesheet state. */}
+        <ul
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            columnGap: "clamp(0.5rem, 2vw, 1rem)",
+          }}
+        >
           {stats.map((stat) => (
-            <StatItem key={stat.label} {...stat} active={inView} />
+            <li
+              key={stat.label.en}
+              className="flex flex-col items-center gap-2 text-center md:gap-3"
+            >
+              <span className="font-display t-stat text-gold">
+                <CountUp number={stat.number} suffix={stat.suffix} />
+                <span className="sr-only">{`${stat.number}${stat.suffix}`}</span>
+              </span>
+              <span className="text-[0.7rem] font-medium leading-snug text-cream sm:text-xs md:text-sm">
+                {stat.label.en}
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </Container>
-    </div>
+    </section>
   );
 }

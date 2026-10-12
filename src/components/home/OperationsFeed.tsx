@@ -1,14 +1,16 @@
 /**
  * The hero's signature: a live operations feed. A quiet vertical stream of
- * events that looks like a real business running itself around the clock —
+ * events that looks like a real business running itself around the clock,
  * events scroll up continuously and never stop, fading in at the bottom and out
  * at the top through a mask.
  *
  * The loop is pure CSS (see `.ops-feed*` in globals.css): the list is rendered
  * twice and the track slides up by exactly half its height, so the seam is
  * invisible. Under prefers-reduced-motion it sits static, showing the first few
- * rows. Colours come from the tokens (gold #C9A24B, cream ≈ #F5F5F0, muted).
+ * rows. Colours come from the tokens.
  */
+
+import LiveClock from "@/components/home/LiveClock";
 
 type FeedEvent = {
   time: string;
@@ -34,7 +36,7 @@ function Row({ event }: { event: FeedEvent }) {
         {event.time}
       </time>
       <span className="min-w-0 truncate text-[0.8rem] leading-relaxed text-cream md:text-[0.85rem]">
-        {event.label} <span className="text-grey">— {event.detail}</span>
+        {event.label} <span className="text-grey">· {event.detail}</span>
       </span>
       <span className="whitespace-nowrap font-mono text-[0.72rem] text-gold">
         <span aria-hidden="true">✓</span> {event.status}
@@ -55,13 +57,14 @@ export default function OperationsFeed() {
         <span className="text-[0.68rem] uppercase tracking-[0.22em] text-grey">
           Operations · running now
         </span>
+        <LiveClock className="ml-auto hidden font-mono text-[0.68rem] tabular-nums text-gold sm:block" />
       </div>
 
       {/* masked, auto-scrolling feed */}
       <div
         className="ops-feed relative h-[15rem] overflow-hidden sm:h-[18rem] lg:h-[23rem]"
         role="img"
-        aria-label="A live feed of the operations Valor's systems handle automatically, around the clock: inquiries answered in under a second, leads qualified, bookings confirmed, payments reconciled, and follow-ups sent — all while the business is asleep."
+        aria-label="A live feed of the operations Valor's systems handle automatically, around the clock: inquiries answered in under a second, leads qualified, bookings confirmed, payments reconciled, and follow-ups sent, all while the business is asleep."
       >
         <div className="ops-feed-track">
           <ul className="px-5">

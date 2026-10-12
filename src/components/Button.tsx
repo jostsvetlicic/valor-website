@@ -14,7 +14,7 @@ import { clsx } from "@/lib/clsx";
 type Variant = "gold" | "ghost";
 
 const base =
-  "relative inline-flex items-center justify-center gap-2 rounded-pill px-8 py-4 text-sm font-semibold tracking-wide transition-colors duration-300 will-change-transform";
+  "relative inline-flex items-center justify-center gap-2 rounded-pill px-6 py-3 text-[0.9375rem] font-semibold transition-colors duration-300 will-change-transform";
 
 const variants: Record<Variant, string> = {
   gold: "bg-gold text-obsidian hover:bg-gold-light shadow-[0_10px_40px_-12px_color-mix(in_oklab,var(--color-gold)_70%,transparent)]",

@@ -19,7 +19,7 @@ export default function SmoothScroll() {
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 1.6,
-      // Native scroll on touch — smoothing wheel only avoids the mushy,
+      // Native scroll on touch, smoothing wheel only avoids the mushy,
       // laggy feel on phones where the OS already handles momentum.
       syncTouch: false,
     });
@@ -34,7 +34,7 @@ export default function SmoothScroll() {
     // Lenis doesn't intercept in-page hash links, so a plain <a href="#id">
     // (e.g. the hero's "See what we build") wouldn't scroll. Handle those here
     // and leave room for the fixed nav. Links to other routes are untouched.
-    const NAV_OFFSET = -90;
+    const NAV_OFFSET = -140;
     const onAnchorClick = (e: MouseEvent) => {
       const anchor = (e.target as HTMLElement | null)?.closest?.(
         'a[href^="#"]',

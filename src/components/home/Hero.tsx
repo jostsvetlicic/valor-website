@@ -1,76 +1,149 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Container } from "@/components/Container";
-import OperationsFeed from "@/components/home/OperationsFeed";
+import BeforeAfter from "@/components/home/BeforeAfter";
+import LogoTicker from "@/components/home/LogoTicker";
+import Link from "next/link";
 import { BookCallButton } from "@/components/Button";
+import { brand } from "@/config/brand";
+import HeroParticles from "@/components/home/HeroParticles";
+import { href, type Dict, type Locale } from "@/i18n";
 
-const ease = [0.16, 1, 0.3, 1] as const;
+// Headline, split so each word can enter on its own beat.
+type Word = { text: string; gold?: boolean };
+const words = (line: string, goldFrom: number): Word[] =>
+  line.split(" ").map((text, i) => ({ text, gold: i >= goldFrom }));
+
+const copy: Dict<{ headline: Word[]; description: string; book: string; solutions: string; demo: string }> = {
+  en: {
+    headline: words("AI infrastructure for companies that run on manual work.", 7),
+    description: brand.description,
+    book: "Book a discovery call",
+    solutions: "See solutions",
+    demo: "Try the interactive demo",
+  },
+  sl: {
+    headline: words("AI infrastruktura za podjetja, ki še vedno delajo ročno.", 6),
+    description: brand.descriptionSl,
+    book: "Rezervirajte uvodni klic",
+    solutions: "Poglejte rešitve",
+    demo: "Preizkusite interaktivni demo",
+  },
+};
+
+const WORD_START_MS = 120;
+const WORD_STEP_MS = 55;
+const WORDS_TOTAL = Math.max(copy.en.headline.length, copy.sl.headline.length);
+const afterHeadline = (extra: number) => `${WORD_START_MS + WORDS_TOTAL * WORD_STEP_MS + extra}ms`;
+
+const demoEnter = {
+  "--enter-y": "24px",
+  "--enter-duration": "0.8s",
+  "--enter-delay": "300ms",
+} as React.CSSProperties;
 
 /**
- * Homepage hero. Full viewport, obsidian black. The headline, subtext and CTA
- * sit quietly on the left; the signature element — a live operations feed that
- * looks like a business running itself around the clock — sits on the right
- * (below the text on mobile).
+ * Homepage hero, one viewport tall: headline + CTA left, the Before/After
+ * demo right, and the client ticker along the bottom so social proof is
+ * visible before any scroll. On mobile the ticker sits between the text and
+ * the demo for the same reason.
  */
-export default function Hero() {
+export default function Hero({ locale = "en" }: { locale?: Locale }) {
+  const t = copy[locale];
+  const headline = [t.headline];
   return (
-    <section className="surface-base relative flex min-h-[100svh] items-center overflow-hidden py-28 lg:py-24">
-      <Container className="relative">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
+    <section className="surface-base relative isolate flex min-h-[100svh] flex-col overflow-hidden pb-6 pt-24 lg:pt-28">
+      <HeroParticles />
+      <Container className="relative flex flex-1 items-center">
+        <div className="grid w-full items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
           {/* Left: the quiet type */}
           <div>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease }}
-              className="eyebrow"
-            >
-              AI infrastructure
-            </motion.p>
+            <h1 className="font-display t-hero text-cream text-balance">
+              {headline.map((line, li) => (
+                <span key={li} className="block">
+                  {line.map((word, wi) => {
+                    const index = headline.slice(0, li).flat().length + wi;
+                    return (
+                      <span key={wi}>
+                        <span
+                          className={`enter inline-block${word.gold ? " text-gold" : ""}`}
+                          style={
+                            {
+                              "--enter-y": "14px",
+                              "--enter-duration": "0.5s",
+                              "--enter-delay": `${WORD_START_MS + index * WORD_STEP_MS}ms`,
+                            } as React.CSSProperties
+                          }
+                        >
+                          {word.text}
+                        </span>
+                        {wi < line.length - 1 && " "}
+                      </span>
+                    );
+                  })}
+                </span>
+              ))}
+            </h1>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease, delay: 0.08 }}
-              className="mt-6 font-display text-[clamp(2.3rem,4.8vw,4.2rem)] font-medium leading-[1.03] tracking-tight text-cream text-balance"
+            <p
+              style={
+                {
+                  "--enter-duration": "0.55s",
+                  "--enter-delay": afterHeadline(0),
+                } as React.CSSProperties
+              }
+              className="enter mt-6 max-w-xl text-lg leading-relaxed text-grey"
             >
-              <span className="block">We build the system</span>
-              <span className="block">
-                your company <span className="text-gold">runs on.</span>
-              </span>
-            </motion.h1>
+              {t.description}
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease, delay: 0.16 }}
-              className="mt-7 max-w-xl text-lg leading-relaxed text-grey"
+            <div
+              style={
+                {
+                  "--enter-duration": "0.55s",
+                  "--enter-delay": afterHeadline(80),
+                } as React.CSSProperties
+              }
+              className="enter mt-8 flex flex-wrap items-center gap-3"
             >
-              We fix the manual work inside real estate, hospitality, and other
-              operationally heavy businesses — the backend, the CRM, the
-              repetitive tasks, and the inquiries that never get answered fast
-              enough.
-            </motion.p>
+              <BookCallButton
+                href={brand.bookingUrl}
+                label={t.book}
+                className="cta-pulse"
+              />
+              <Link
+                href={href(locale, "/solutions")}
+                className="inline-flex items-center gap-2 rounded-pill border border-cream/25 px-6 py-3 text-[0.9375rem] font-medium text-cream transition-colors hover:border-gold hover:text-gold"
+              >
+                {t.solutions}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease, delay: 0.24 }}
-              className="mt-10"
+            <Link
+              href={href(locale, "/demo")}
+              style={{ "--enter-delay": afterHeadline(160) } as React.CSSProperties}
+              className="enter mt-5 inline-flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-gold-light"
             >
-              <BookCallButton className="px-9 py-5 text-base" />
-            </motion.div>
+              {t.demo}
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
 
-          {/* Right: the signature — a live operations feed */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease, delay: 0.3 }}
-          >
-            <OperationsFeed />
-          </motion.div>
+          {/* Right: Before / After demo (desktop position) */}
+          <div style={demoEnter} className="enter hidden lg:block">
+            <BeforeAfter locale={locale} />
+          </div>
+        </div>
+      </Container>
+
+      {/* Social proof, inside the first viewport */}
+      <div style={{ "--enter-delay": afterHeadline(200) } as React.CSSProperties} className="enter relative mt-8">
+        <LogoTicker compact locale={locale} />
+      </div>
+
+      {/* Before / After demo (mobile position, after the ticker) */}
+      <Container className="relative mt-6 lg:hidden">
+        <div style={demoEnter} className="enter">
+          <BeforeAfter locale={locale} />
         </div>
       </Container>
     </section>

@@ -6,7 +6,7 @@ import { FEATURES } from "@/config/features";
 import { builds } from "@/content/builds";
 
 /**
- * "Selected builds" — a horizontal strip of real project screenshots, each with
+ * "Selected builds", a horizontal strip of real project screenshots, each with
  * the project name and one line. Renders NOTHING until FEATURES.selectedBuilds
  * is true AND content/builds.ts has real projects. Never invented.
  */
@@ -30,7 +30,7 @@ export default function SelectedBuilds() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="mt-5 font-display text-xl font-medium text-cream">
+                <h3 className="mt-5 font-display text-xl font-semibold text-cream">
                   {b.name}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-grey">{b.line}</p>

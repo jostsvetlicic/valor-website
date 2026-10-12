@@ -34,7 +34,7 @@ export default function Logo({
     <span className={clsx("flex items-center gap-2.5", className)}>
       <Image
         src={src}
-        alt="Valor"
+        alt={withWord ? "" : "VALOR"}
         width={331}
         height={475}
         priority={priority}
@@ -43,7 +43,8 @@ export default function Logo({
       {withWord && (
         <span
           className={clsx(
-            "font-display font-semibold tracking-[0.2em] text-cream",
+            "font-semibold tracking-[0.2em] [font-family:var(--font-serif)]",
+            variant === "dark" ? "text-obsidian" : "text-cream",
             wordClassName,
           )}
         >

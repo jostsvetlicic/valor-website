@@ -7,7 +7,7 @@ type SparkleProps = {
 };
 
 /**
- * The VALOR four-pointed sparkle mark — the recurring brand motif.
+ * The VALOR four-pointed sparkle mark, the recurring brand motif.
  * Rendered as SVG so it stays crisp at any size and can carry the gold gradient.
  */
 export default function Sparkle({

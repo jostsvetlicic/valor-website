@@ -32,7 +32,7 @@ const NODES: { x: number; y: number; r: number }[] = [
   { x: 180, y: 650, r: 5 },
 ];
 
-// Edges as pairs of node indices — a connected mesh with a couple of hubs.
+// Edges as pairs of node indices, a connected mesh with a couple of hubs.
 const EDGES: [number, number][] = [
   [0, 1], [1, 3], [1, 2], [3, 4], [2, 4], [2, 11], [4, 5], [5, 8],
   [4, 6], [6, 7], [7, 9], [7, 10], [8, 7], [6, 9], [4, 8], [11, 5], [3, 6],

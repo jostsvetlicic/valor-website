@@ -1,19 +1,87 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { brand, nav } from "@/config/brand";
-import { BookCallButton } from "./Button";
+import SiteSearch from "@/components/SiteSearch";
 import Logo from "./Logo";
 import { clsx } from "@/lib/clsx";
+import { href, localeFromPath, switchPath, type Dict, type Locale } from "@/i18n";
 
+const ui: Dict<{ book: string; open: string; close: string; home: string; language: string }> = {
+  en: { book: "Book a call", open: "Open menu", close: "Close menu", home: "VALOR home", language: "Language" },
+  sl: { book: "Rezervirajte klic", open: "Odpri meni", close: "Zapri meni", home: "VALOR domov", language: "Jezik" },
+};
+
+/** EN · SL switch that keeps you on the same page. */
+function LanguageSwitch({ pathname, locale, className }: { pathname: string; locale: Locale; className?: string }) {
+  return (
+    <div role="group" aria-label={ui[locale].language} className={clsx("flex items-center rounded-full border border-obsidian/10 p-0.5 text-[0.75rem] font-semibold", className)}>
+      {(["en", "sl"] as const).map((l) => (
+        <Link
+          key={l}
+          href={switchPath(pathname, l)}
+          hrefLang={l}
+          aria-current={l === locale ? "true" : undefined}
+          className={clsx(
+            "rounded-full px-2.5 py-1 uppercase transition-colors",
+            l === locale ? "bg-obsidian text-white" : "text-obsidian/60 hover:text-obsidian",
+          )}
+        >
+          {l}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function Arrow({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M3 8h10M9 4l4 4-4 4" />
+    </svg>
+  );
+}
+
+function BookButton({ className, onClick, label }: { className?: string; onClick?: () => void; label: string }) {
+  return (
+    <a
+      href={brand.bookingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClick}
+      className={clsx(
+        "group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-obsidian font-medium text-white transition-colors hover:bg-[#262626]",
+        className,
+      )}
+    >
+      {label}
+      <Arrow className="h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+    </a>
+  );
+}
+
+/** Light, sticky top bar: logo left, links centred, log in + booking right. */
 export default function Nav() {
+  const pathname = usePathname() ?? "/";
+  const locale = localeFromPath(pathname);
+  const t = ui[locale];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -26,92 +94,65 @@ export default function Nav() {
     };
   }, [open]);
 
+  const isActive = (path: string) => pathname.startsWith(href(locale, path));
+
   return (
     <>
-      <motion.header
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed inset-x-0 top-0 z-50 flex justify-center"
+      <header
+        style={{ "--enter-y": "-16px", "--enter-duration": "0.6s" } as React.CSSProperties}
+        className="enter fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6"
       >
+        {/* Floating frosted pill: content scrolls underneath the material. */}
         <nav
           className={clsx(
-            "relative mt-0 flex w-full items-center justify-between px-6 transition-[padding] duration-300 ease-out md:px-10",
-            scrolled ? "py-3" : "py-5",
+            "mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 rounded-full border border-black/[0.06] bg-cream/[0.94] pl-5 pr-2 backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-300 md:pl-6 lg:grid lg:grid-cols-[1fr_auto_1fr]",
+            scrolled
+              ? "shadow-[0_12px_40px_-12px_rgba(0,0,0,0.6)]"
+              : "shadow-[0_6px_24px_-12px_rgba(0,0,0,0.45)]",
           )}
         >
-          {/* iOS-style glass backdrop — layered for the specular highlight + tint */}
-          <div aria-hidden="true" className="absolute inset-0 z-0 overflow-hidden">
-            {/* Frosted tint: always slightly active, full on scroll */}
-            <div
-              className={clsx(
-                "absolute inset-0 backdrop-blur-xl backdrop-saturate-[180%] transition-[background-color] duration-500",
-                scrolled ? "bg-obsidian/[0.72]" : "bg-obsidian/[0.12]",
-              )}
-            />
-            {/* Top-edge specular highlight — the "glass edge" catching light */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.22] to-transparent" />
-            {/* Inner gloss shimmer — soft light across the upper portion */}
-            <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/[0.05] to-transparent" />
-            {/* Bottom separator — appears on scroll */}
-            <div
-              className={clsx(
-                "absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/[0.22] to-transparent transition-opacity duration-500",
-                scrolled ? "opacity-100" : "opacity-0",
-              )}
-            />
-          </div>
-
-          {/* Content — positioned above the glass layer */}
-          <Link
-            href="/"
-            className="relative z-10 group flex items-center"
-            aria-label="Valor home"
-          >
-            <Logo
-              priority
-              markClassName={clsx(
-                "transition-[height] duration-300 ease-out",
-                scrolled ? "h-6" : "h-7",
-              )}
-              wordClassName={clsx(
-                "transition-[font-size] duration-300 ease-out",
-                scrolled ? "text-lg" : "text-xl",
-              )}
-            />
+          <Link href={href(locale, "/")} className="flex items-center justify-self-start" aria-label={t.home}>
+            <Logo variant="dark" priority markClassName="h-6" wordClassName="text-lg" />
           </Link>
 
-          <div className="relative z-10 hidden items-center gap-9 lg:flex">
+          <div className="hidden items-center gap-6 lg:flex xl:gap-8">
             {nav.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-grey transition-colors hover:text-cream"
+                href={href(locale, item.href)}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={clsx(
+                  "whitespace-nowrap text-[0.875rem] font-medium transition-colors hover:text-obsidian",
+                  isActive(item.href) ? "text-obsidian" : "text-obsidian/60",
+                )}
               >
-                {item.label}
+                {item.label[locale]}
               </Link>
             ))}
           </div>
 
-          <div className="relative z-10 hidden lg:block">
-            <BookCallButton
-              className={scrolled ? "px-6 py-3 text-sm" : "px-7 py-3.5"}
-            />
-          </div>
-
-          <button
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-            className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-gold/25 text-cream lg:hidden"
-          >
-            <span className="sr-only">Menu</span>
-            <div className="space-y-1.5">
-              <span className="block h-px w-5 bg-cream" />
-              <span className="block h-px w-5 bg-cream" />
+          <div className="flex items-center gap-1 justify-self-end lg:gap-3">
+            {/* One search instance for every screen size (it owns Cmd/Ctrl+K). */}
+            <SiteSearch locale={locale} />
+            <div className="hidden items-center gap-3 lg:flex">
+              <LanguageSwitch pathname={pathname} locale={locale} />
+              <BookButton label={t.book} className="px-5 py-2.5 text-[0.875rem]" />
             </div>
-          </button>
+            <button
+              type="button"
+              aria-label={t.open}
+              aria-expanded={open}
+              onClick={() => setOpen(true)}
+              className="flex h-10 w-10 items-center justify-center rounded-full text-obsidian transition-colors hover:bg-obsidian/5 lg:hidden"
+            >
+              <span className="space-y-1.5">
+                <span className="block h-[1.5px] w-5 bg-obsidian" />
+                <span className="block h-[1.5px] w-5 bg-obsidian" />
+              </span>
+            </button>
+          </div>
         </nav>
-      </motion.header>
+      </header>
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -120,53 +161,43 @@ export default function Nav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[60] flex flex-col bg-obsidian/95 backdrop-blur-xl lg:hidden"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[60] flex flex-col bg-cream lg:hidden"
           >
-            <div className="flex items-center justify-between px-6 py-5">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className="flex items-center"
-              >
-                <Logo markClassName="h-7" wordClassName="text-xl" />
+            <div className="flex h-16 items-center justify-between px-6">
+              <Link href={href(locale, "/")} onClick={() => setOpen(false)} className="flex items-center" aria-label={t.home}>
+                <Logo variant="dark" markClassName="h-6" wordClassName="text-lg" />
               </Link>
               <button
-                aria-label="Close menu"
+                type="button"
+                aria-label={t.close}
                 onClick={() => setOpen(false)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/25 text-2xl text-cream"
+                className="flex h-10 w-10 items-center justify-center rounded-full text-2xl leading-none text-obsidian transition-colors hover:bg-obsidian/5"
               >
                 ×
               </button>
             </div>
-            <div className="flex flex-1 flex-col justify-center gap-2 px-8">
+            <div className="flex flex-1 flex-col gap-1 border-t border-obsidian/10 px-6 pt-6">
               {nav.map((item, i) => (
                 <motion.div
                   key={item.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.08 * i + 0.1, duration: 0.5 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 * i + 0.05, duration: 0.3 }}
                 >
                   <Link
-                    href={item.href}
+                    href={href(locale, item.href)}
                     onClick={() => setOpen(false)}
-                    className="font-display text-4xl font-light text-cream/90"
+                    className="block border-b border-obsidian/10 py-4 text-2xl font-medium text-obsidian"
                   >
-                    {item.label}
+                    {item.label[locale]}
                   </Link>
                 </motion.div>
               ))}
             </div>
-            <div className="px-8 pb-12">
-              <a
-                href={brand.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className="flex w-full items-center justify-center rounded-pill bg-gold px-8 py-4 text-sm font-semibold text-obsidian"
-              >
-                Book a call
-              </a>
+            <div className="flex flex-col gap-3 px-6 pb-10">
+              <LanguageSwitch pathname={pathname} locale={locale} className="self-center" />
+              <BookButton label={t.book} className="w-full py-3.5 text-sm" onClick={() => setOpen(false)} />
             </div>
           </motion.div>
         )}

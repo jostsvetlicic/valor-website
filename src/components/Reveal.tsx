@@ -1,22 +1,68 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ElementType, type ReactNode } from "react";
+import { clsx } from "@/lib/clsx";
 
-const easeExpensive = [0.16, 1, 0.3, 1] as const;
-
-const baseVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: easeExpensive },
-  },
-};
+type Mode = "single" | "group";
 
 /**
- * A single fade-and-slide reveal that triggers once when scrolled into view.
+ * Scroll reveals as progressive enhancement: the server HTML is always fully
+ * visible. Only once JS runs is below-the-fold content hidden and then faded
+ * in on entry, so a failed or stale script can never leave a section blank.
+ * Styles live in globals.css under [data-reveal] / [data-reveal-group].
  */
+function useReveal(mode: Mode, stagger: number) {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    // Anything already on screen when JS arrives stays put, no flash.
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) return;
+
+    const attr = mode === "group" ? "revealGroup" : "reveal";
+    if (mode === "group") {
+      Array.from(el.children).forEach((child, i) =>
+        (child as HTMLElement).style.setProperty("--i", String(i)),
+      );
+    }
+    el.dataset[attr] = "hidden";
+
+    let cleanup = 0;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        el.dataset[attr] = "shown";
+        // Hand styling back to the element's own classes (hover transitions etc.)
+        const total = 700 + (mode === "group" ? el.children.length * stagger : 0);
+        cleanup = window.setTimeout(() => delete el.dataset[attr], total);
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(cleanup);
+    };
+  }, [mode, stagger]);
+
+  return ref;
+}
+
+type Tag =
+  | "div"
+  | "section"
+  | "ul"
+  | "ol"
+  | "li"
+  | "span"
+  | "p"
+  | "h2"
+  | "h3"
+  | "figure";
+
+/** A single fade-and-rise reveal, once, when scrolled into view. */
 export function Reveal({
   children,
   className,
@@ -26,32 +72,19 @@ export function Reveal({
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "li" | "span" | "p" | "h2" | "h3";
+  as?: Tag;
 }) {
-  const MotionTag = motion[as];
+  const ref = useReveal("single", 0);
+  const Tag = as as ElementType;
+  const style = delay ? ({ "--reveal-delay": `${delay * 1000}ms` } as CSSProperties) : undefined;
   return (
-    <MotionTag
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      variants={{
-        hidden: { opacity: 0, y: 16 },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, ease: easeExpensive, delay },
-        },
-      }}
-    >
+    <Tag ref={ref} className={className} style={style}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
 
-/**
- * A container that staggers the reveal of its direct <RevealItem> children.
- */
+/** Reveals its direct children one after another (short stagger). */
 export function RevealGroup({
   children,
   className,
@@ -61,23 +94,15 @@ export function RevealGroup({
   children: ReactNode;
   className?: string;
   stagger?: number;
-  as?: "div" | "section" | "ul" | "ol";
+  as?: Tag;
 }) {
-  // Short stagger (emil: 30–80ms between items) — long delays feel slow.
-  const MotionTag = motion[as];
+  const ms = Math.round(stagger * 1000);
+  const ref = useReveal("group", ms);
+  const Tag = as as ElementType;
   return (
-    <MotionTag
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      variants={{
-        hidden: {},
-        show: { transition: { staggerChildren: stagger, delayChildren: 0.04 } },
-      }}
-    >
+    <Tag ref={ref} className={className} style={{ "--stagger": `${ms}ms` } as CSSProperties}>
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
 
@@ -89,22 +114,20 @@ export function RevealItem({
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "li" | "span" | "p";
-  /** Gently lifts the item on hover (for cards). Transform-only, GPU-friendly. */
+  as?: Tag;
+  /** Gently lifts the item on hover (for cards). */
   hoverLift?: boolean;
 }) {
-  const MotionTag = motion[as];
+  const Tag = as as ElementType;
   return (
-    <MotionTag
-      className={className}
-      variants={baseVariants}
-      whileHover={
-        hoverLift
-          ? { y: -6, transition: { duration: 0.25, ease: easeExpensive } }
-          : undefined
-      }
+    <Tag
+      className={clsx(
+        hoverLift &&
+          "transition-[translate,border-color] duration-300 ease-out hover:-translate-y-1 motion-reduce:hover:translate-y-0",
+        className,
+      )}
     >
       {children}
-    </MotionTag>
+    </Tag>
   );
 }

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { brand } from "@/config/brand";
 
-export const alt = "Valor — The AI infrastructure your business runs on.";
+export const alt = "VALOR | AI infrastructure for companies that run on manual work.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +10,7 @@ export default function OgImage() {
     (
       <div
         style={{
-          background: "#0A0A0B",
+          background: "#0A0A0A",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -21,16 +21,16 @@ export default function OgImage() {
       >
         {/* Top: wordmark */}
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          {/* Mark — four-pointed star */}
+          {/* Mark, four-pointed star */}
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <path
               d="M16 0 C16 8.837 8.837 16 0 16 C8.837 16 16 23.163 16 32 C16 23.163 23.163 16 32 16 C23.163 16 16 8.837 16 0Z"
-              fill="#C9A24B"
+              fill="#C9A84C"
             />
           </svg>
           <span
             style={{
-              color: "#F2EFE9",
+              color: "#F5F0E8",
               fontSize: 28,
               fontFamily: "serif",
               fontWeight: 500,
@@ -55,13 +55,13 @@ export default function OgImage() {
             style={{
               width: 56,
               height: 2,
-              background: "#C9A24B",
+              background: "#C9A84C",
               borderRadius: 2,
             }}
           />
           <div
             style={{
-              color: "#F2EFE9",
+              color: "#F5F0E8",
               fontSize: 68,
               fontFamily: "serif",
               fontWeight: 500,
@@ -73,7 +73,7 @@ export default function OgImage() {
           </div>
           <div
             style={{
-              color: "rgba(242,239,233,0.5)",
+              color: "rgba(245,240,232,0.5)",
               fontSize: 22,
               fontFamily: "sans-serif",
               fontWeight: 400,
@@ -88,7 +88,7 @@ export default function OgImage() {
         {/* Bottom: domain */}
         <div
           style={{
-            color: "#C9A24B",
+            color: "#C9A84C",
             fontSize: 18,
             fontFamily: "sans-serif",
             letterSpacing: "0.08em",

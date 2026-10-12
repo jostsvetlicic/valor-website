@@ -1,37 +1,44 @@
 import { Container } from "./Container";
 import { BookCallButton } from "./Button";
-import Sparkle from "./Sparkle";
+import { Reveal } from "./Reveal";
 
 /**
- * Full-width final CTA band with a gold glow. Reused across pages.
+ * Closing call to action for interior pages: the same rounded card on a dark
+ * gold gradient that ends the homepage, so every page finishes the same way.
  */
 export default function CtaBand({
   eyebrow,
   title,
   sub,
   id,
+  cta,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   sub?: React.ReactNode;
   id?: string;
+  /** Button label; defaults to "Book a call". */
+  cta?: string;
 }) {
   return (
-    <section id={id} className="relative overflow-hidden py-28 md:py-36">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[120px]" />
-      <div className="divider-gold absolute inset-x-0 top-0" />
-      <Container className="relative text-center">
-        <Sparkle id="cta" className="mx-auto h-9 w-9" />
-        {eyebrow && <span className="eyebrow mt-6 block">{eyebrow}</span>}
-        <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.05] tracking-tight text-cream sm:text-5xl md:text-6xl">
-          {title}
-        </h2>
-        {sub && (
-          <p className="mx-auto mt-6 max-w-xl text-lg text-grey">{sub}</p>
-        )}
-        <div className="mt-10 flex justify-center">
-          <BookCallButton className="px-10 py-5 text-base" />
-        </div>
+    <section id={id} className="py-20 md:py-28">
+      <Container>
+        <Reveal>
+          <div
+            className="relative isolate overflow-hidden rounded-[2rem] border border-gold/25 px-6 py-20 text-center md:px-12 md:py-24"
+            style={{
+              background:
+                "radial-gradient(90% 120% at 50% 0%, rgba(201,168,76,0.32) 0%, rgba(201,168,76,0.08) 45%, transparent 75%), linear-gradient(160deg, #2a2110 0%, #17130b 50%, #0f0d09 100%)",
+            }}
+          >
+            {eyebrow && <span className="eyebrow block">{eyebrow}</span>}
+            <h2 className="mx-auto mt-3 max-w-3xl font-display t-statement text-cream text-balance">{title}</h2>
+            {sub && <p className="mx-auto mt-6 max-w-xl text-lg text-cream/80">{sub}</p>}
+            <div className="mt-10 flex justify-center">
+              <BookCallButton label={cta} className="cta-pulse" />
+            </div>
+          </div>
+        </Reveal>
       </Container>
     </section>
   );

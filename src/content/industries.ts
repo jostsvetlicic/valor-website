@@ -1,238 +1,277 @@
 /**
- * VALOR — industries content.
- *
- * The single source of truth for every vertical. The index, the slider, the
- * homepage teaser and each /industries/[slug] page all render from here — no
- * hardcoded copy in components. Every line is a defensible capability claim;
- * there are no invented clients, metrics or certifications.
+ * VALOR industries (enterprise audience: document-heavy companies in
+ * Slovenia). One entry per vertical, copy per locale. Every line describes
+ * what we build or how; there are no invented clients, metrics or results.
  */
 
-export type Industry = {
-  slug: string;
-  /** Full name, used as the eyebrow / page title. */
+import type { Dict, Locale } from "@/i18n";
+
+export type IndustryCopy = {
   name: string;
-  /** Short name for compact places (nav, cards). */
   shortName: string;
-  /** The pain in one line — the hook that leads the card and the page. */
   tagline: string;
-  /** What is broken today, in their words. */
+  documents: string[];
   pains: string[];
-  /** The deliverables. */
   whatWeDo: string[];
-  /** The mechanism, plainly. */
   howWeDoIt: string[];
-  /** What changes operationally — no invented numbers. */
   outcomes: string[];
-  /** The single most impressive thing we can build here. */
   flagship?: string;
-  /** Finance only: an explicit line on security, access control and audit. */
-  securityNote?: string;
 };
 
-const industriesSource: Industry[] = [
-  {
-    slug: "real-estate",
-    name: "Real estate agencies & developers",
-    shortName: "Real estate",
-    tagline: "The listings move, the paperwork does not.",
-    pains: [
-      "Listings maintained by hand across portals and the agency site.",
-      "Inquiries sitting unanswered while the buyer contacts three other agencies.",
-      "Viewings booked over phone tag.",
-      "Contracts and documents retyped for every deal.",
-      "No single view of which agent has which lead.",
-    ],
-    whatWeDo: [
-      "Premium sales frontend with full listing search.",
-      "Portal and listing sync.",
-      "Instant inquiry response across web, email and WhatsApp.",
-      "Viewing scheduler tied to agent calendars.",
-      "Admin panel for listings, leads, deals and commissions.",
-      "Client portal with document history.",
-    ],
-    howWeDoIt: [
-      "One database is the source of truth for every listing.",
-      "Everything else — the public site, the portals, the agent panel — reads from it.",
-      "Inquiries are answered on arrival by an agent trained on the actual listing data, then routed to the right person with full context.",
-    ],
-    outcomes: [
-      "Buyers get an answer immediately instead of the next business day.",
-      "Listings updated once, everywhere.",
-      "Agents stop retyping and start closing.",
-      "Owners see the pipeline without asking for it.",
-    ],
-    flagship:
-      "A full agency platform — public marketplace plus internal operating system — replacing the site, the spreadsheets and the manual portal uploads.",
-  },
-  {
-    slug: "automotive",
-    name: "Automotive dealerships",
-    shortName: "Automotive",
-    tagline: "The buyer goes to whoever replies first.",
-    pains: [
-      "Everything typed into the system by hand.",
-      "Service, tyre changes, registration and payments running as separate, disconnected processes.",
-      "Inquiries lost between the website and the inbox.",
-      "No record the customer can see themselves.",
-    ],
-    whatWeDo: [
-      "Sales frontend built to buy and sell vehicles.",
-      "Instant inquiry and booking response, 24/7.",
-      "Connected service, tyre, registration and payment flow in one place.",
-      "Admin panel for customers, deals, stock, reporting and commissions.",
-      "Customer mobile app with service and tyre-change history.",
-      "Vehicle configurator — add parts and see the result before ordering.",
-    ],
-    howWeDoIt: [
-      "We start where the manual work is, automate that first, then connect the next system.",
-      "Stock, service and customer records live in one place, and every channel reads from it.",
-    ],
-    outcomes: [
-      "Every inquiry answered on arrival.",
-      "One record per customer instead of four.",
-      "Staff stop double-entering.",
-      "Service revenue becomes predictable because the customer is reminded automatically.",
-    ],
-    flagship:
-      "A vehicle configurator plus a connected service-and-ownership app the customer keeps.",
-  },
-  {
-    slug: "hospitality",
-    name: "Hospitality — hotels & villas",
-    shortName: "Hospitality",
-    tagline: "Bookings do not wait for office hours.",
-    pains: [
-      "Direct inquiries arriving at night and answered the next morning, after the guest booked elsewhere.",
-      "Commission bleeding to booking platforms.",
-      "Availability managed in a spreadsheet.",
-      "Guest questions repeated a hundred times a season.",
-    ],
-    whatWeDo: [
-      "Direct booking frontend built to take the reservation without a platform in between.",
-      "Instant multilingual inquiry response, 24/7.",
-      "Availability and rate sync.",
-      "Guest portal for pre-arrival, upsells and requests.",
-      "Owner dashboard with occupancy and revenue.",
-    ],
-    howWeDoIt: [
-      "The inquiry is answered in the guest's language within seconds, with real availability and real pricing.",
-      "Then it is converted to a direct booking with payment collected on the spot.",
-    ],
-    outcomes: [
-      "Late-night inquiries convert instead of expiring.",
-      "A larger share of bookings arrive direct.",
-      "Staff answer fewer repeat questions.",
-    ],
-    flagship:
-      "A direct booking engine with automated multilingual guest handling, end to end.",
-  },
-  {
-    slug: "finance",
-    name: "Banking & financial services",
-    shortName: "Finance",
-    tagline: "Compliance is the constraint, not the excuse.",
-    pains: [
-      "Client onboarding running on paper and email.",
-      "Document collection chased manually.",
-      "Internal systems that cannot expose data to the people who need it.",
-      "Reporting assembled by hand each month.",
-    ],
-    whatWeDo: [
-      "Client onboarding and document-collection flows with a full audit trail.",
-      "Internal portals over existing core systems.",
-      "Document generation and review automation.",
-      "Reporting and reconciliation dashboards.",
-      "Secure client portals with role-based access.",
-    ],
-    howWeDoIt: [
-      "We do not replace the core system. We build the layer on top of it that people actually use.",
-      "Access control, logging and data residency are handled properly, integrating through the interfaces the core system already exposes.",
-    ],
-    outcomes: [
-      "Onboarding measured in hours instead of weeks.",
-      "Document chasing becomes automatic.",
-      "Reporting stops being a manual monthly project.",
-    ],
-    flagship:
-      "A compliant client-onboarding and document-automation layer over your existing core banking systems.",
-    securityNote:
-      "Security is the design constraint, not an afterthought: role-based access, full audit logging, and data residency handled to your requirements. We make no claim to any certification we do not hold.",
-  },
-  {
-    slug: "enterprise",
-    name: "Large operational companies",
-    shortName: "Enterprise",
-    tagline: "Ten systems, none of them talking.",
-    pains: [
-      "Departments running separate tools with no shared data.",
-      "Work duplicated across teams.",
-      "Reports that are out of date before they are read.",
-      "Processes that only exist in one person's head.",
-    ],
-    whatWeDo: [
-      "A systems audit mapping where time and data are lost.",
-      "An integration layer between existing tools.",
-      "Internal platforms and portals.",
-      "Process automation for the highest-cost manual work.",
-      "Custom dashboards per role.",
-    ],
-    howWeDoIt: [
-      "We map the manual work first and rank it by cost.",
-      "We automate the most expensive process, prove it, then move to the next.",
-      "No eighteen-month rebuild before anything works.",
-    ],
-    outcomes: [
-      "One source of truth.",
-      "Manual handoffs removed one process at a time.",
-      "Leadership sees current numbers instead of last month's.",
-    ],
-    flagship:
-      "A full internal platform — custom CMS, portals, document automation and ERP integration.",
-  },
-  {
-    slug: "other",
-    name: "Every other operationally heavy business",
-    shortName: "Everyone else",
-    tagline: "Not on the list? The method still applies.",
-    pains: [
-      "The same data typed into different tools that do not talk.",
-      "Business lost to whoever answers faster.",
-      "No single, current view of how the operation is actually running.",
-    ],
-    whatWeDo: [
-      "A frontend built to convert.",
-      "Automation for your highest-cost manual work.",
-      "The operations system your team actually runs on.",
-      "Integration across the tools you already use.",
-    ],
-    howWeDoIt: [
-      "We map where the manual work is and rank it by cost.",
-      "We automate the most expensive process first, prove it, then move to the next.",
-    ],
-    outcomes: [
-      "One source of truth.",
-      "Manual work removed one process at a time.",
-      "Answers and reporting that keep up with the business.",
-    ],
-    flagship: undefined,
-  },
-];
+export type Industry = { slug: string; copy: Dict<IndustryCopy> };
 
-// Display order — real estate and hospitality lead, then the rest.
-const ORDER = [
-  "real-estate",
-  "hospitality",
-  "automotive",
-  "finance",
-  "enterprise",
-  "other",
+export const industries: Industry[] = [
+  {
+    slug: "wholesale-distribution",
+    copy: {
+      en: {
+        name: "Wholesale and distribution",
+        shortName: "Wholesale",
+        tagline: "Orders arrive in every format. Your ERP needs them in one.",
+        documents: [
+          "Customer orders by email and PDF",
+          "Order confirmations",
+          "Price lists and quotes",
+          "Delivery notes",
+          "Supplier invoices",
+          "Payment reminders",
+        ],
+        pains: [
+          "Order lines retyped from email and PDF into the ERP.",
+          "Prices and stock checked by hand before every confirmation.",
+          "Customers asking where their order is, one email at a time.",
+          "Supplier invoices matched to deliveries line by line.",
+        ],
+        whatWeDo: [
+          "An agent that reads incoming orders and drafts them in your ERP.",
+          "Price and stock checks, with exceptions flagged for review.",
+          "Order confirmations drafted for a person to approve and send.",
+          "Order status answers for customers from your ERP data.",
+          "Supplier invoice matching against orders and delivery notes.",
+        ],
+        howWeDoIt: [
+          "We start with a one-week test on your real orders and measure the minutes per order, before and after.",
+          "The agent drafts, a person decides. Nothing is confirmed without approval.",
+          "Every step is logged: what was read, what was drafted and who approved it.",
+        ],
+        outcomes: [
+          "Order entry moves from typing to reviewing.",
+          "Exceptions surface before the confirmation goes out.",
+          "Fewer status questions answered by hand.",
+        ],
+        flagship:
+          "An order desk where every incoming order, in any format, lands as a draft in your ERP, ready for review.",
+      },
+      sl: {
+        name: "Veleprodaja in distribucija",
+        shortName: "Veleprodaja",
+        tagline: "Naročila prihajajo v vseh oblikah. Vaš ERP jih potrebuje v eni.",
+        documents: [
+          "Naročila kupcev po e-pošti in v PDF",
+          "Potrditve naročil",
+          "Ceniki in ponudbe",
+          "Dobavnice",
+          "Prejeti računi dobaviteljev",
+          "Opomini za plačilo",
+        ],
+        pains: [
+          "Postavke naročil se iz e-pošte in PDF ročno pretipkajo v ERP.",
+          "Cene in zaloga se pred vsako potrditvijo preverjajo ročno.",
+          "Kupci sprašujejo, kje je njihovo naročilo, en e-mail za drugim.",
+          "Prejeti računi se z dobavami usklajujejo vrstico za vrstico.",
+        ],
+        whatWeDo: [
+          "Agent, ki prebere prejeta naročila in jih kot osnutek pripravi v vašem ERP.",
+          "Preverjanje cen in zaloge, odstopanja so označena za pregled.",
+          "Osnutki potrditev naročil, ki jih oseba potrdi in pošlje.",
+          "Odgovori kupcem o statusu naročila iz podatkov v ERP.",
+          "Usklajevanje prejetih računov z naročili in dobavnicami.",
+        ],
+        howWeDoIt: [
+          "Začnemo s tedenskim testom na vaših pravih naročilih in izmerimo minute na naročilo, prej in potem.",
+          "Agent pripravi osnutek, odloči človek. Brez odobritve se nič ne potrdi.",
+          "Vsak korak je zabeležen: kaj je bilo prebrano, kaj pripravljeno in kdo je odobril.",
+        ],
+        outcomes: [
+          "Vnos naročil se iz tipkanja prestavi v pregledovanje.",
+          "Odstopanja se pokažejo, preden gre potrditev ven.",
+          "Manj vprašanj o statusu, na katera je treba odgovarjati ročno.",
+        ],
+        flagship:
+          "Naročilni pult, kjer vsako prejeto naročilo, v kateri koli obliki, pristane kot osnutek v vašem ERP, pripravljeno za pregled.",
+      },
+    },
+  },
+  {
+    slug: "freight-forwarding-customs",
+    copy: {
+      en: {
+        name: "Freight forwarding and customs",
+        shortName: "Forwarding and customs",
+        tagline: "Every shipment is a stack of papers. Each one is read by hand.",
+        documents: [
+          "Transport orders",
+          "CMR consignment notes",
+          "Commercial invoices and packing lists",
+          "Customs declaration data",
+          "Certificates of origin",
+          "Carrier invoices",
+        ],
+        pains: [
+          "Shipment data copied from emails and PDFs into the transport system.",
+          "Invoices and packing lists checked against each other line by line.",
+          "Customs data assembled by hand from several documents.",
+          "Customers and carriers asking for status by phone and email.",
+        ],
+        whatWeDo: [
+          "Data extraction from transport orders, CMRs, invoices and packing lists.",
+          "Cross-checks between invoice, packing list and order, with mismatches flagged.",
+          "Customs data prepared from the shipment documents, for a declarant to review.",
+          "Shipment status answers for customers from your system.",
+          "Carrier invoice checks against the agreed rates.",
+        ],
+        howWeDoIt: [
+          "We start with a one-week test on your real shipment files and measure the minutes per file, before and after.",
+          "The agent prepares, the declarant decides. Nothing is submitted without approval.",
+          "Every step is logged: what was read, what was prepared and who approved it.",
+        ],
+        outcomes: [
+          "Declarants review prepared data instead of retyping it.",
+          "Mismatches are caught before the shipment moves.",
+          "Fewer status calls for the operations team.",
+        ],
+        flagship:
+          "A document desk that reads every shipment file, checks it against itself and prepares the data your declarants need.",
+      },
+      sl: {
+        name: "Špedicija in carinsko posredovanje",
+        shortName: "Špedicija in carina",
+        tagline: "Vsaka pošiljka je kup papirjev. Vsakega preberete ročno.",
+        documents: [
+          "Transportni nalogi",
+          "Tovorni listi CMR",
+          "Trgovski računi in pakirni listi",
+          "Podatki za carinske deklaracije",
+          "Potrdila o poreklu",
+          "Računi prevoznikov",
+        ],
+        pains: [
+          "Podatki o pošiljkah se iz e-pošte in PDF kopirajo v transportni sistem.",
+          "Računi in pakirni listi se med seboj preverjajo vrstico za vrstico.",
+          "Carinski podatki se ročno sestavljajo iz več dokumentov.",
+          "Stranke in prevozniki sprašujejo po statusu po telefonu in e-pošti.",
+        ],
+        whatWeDo: [
+          "Zajem podatkov iz transportnih nalogov, CMR, računov in pakirnih listov.",
+          "Navzkrižno preverjanje računa, pakirnega lista in naročila, neskladja so označena.",
+          "Carinski podatki, pripravljeni iz dokumentov pošiljke, ki jih pregleda deklarant.",
+          "Odgovori strankam o statusu pošiljke iz vašega sistema.",
+          "Preverjanje računov prevoznikov glede na dogovorjene tarife.",
+        ],
+        howWeDoIt: [
+          "Začnemo s tedenskim testom na vaših pravih dokumentih pošiljk in izmerimo minute na pošiljko, prej in potem.",
+          "Agent pripravi, deklarant odloči. Brez odobritve se nič ne odda.",
+          "Vsak korak je zabeležen: kaj je bilo prebrano, kaj pripravljeno in kdo je odobril.",
+        ],
+        outcomes: [
+          "Deklaranti pregledujejo pripravljene podatke, namesto da jih pretipkavajo.",
+          "Neskladja se odkrijejo, preden se pošiljka premakne.",
+          "Manj klicev o statusu za operativno ekipo.",
+        ],
+        flagship:
+          "Dokumentni pult, ki prebere vsako pošiljko, jo preveri sama s seboj in pripravi podatke, ki jih potrebujejo vaši deklaranti.",
+      },
+    },
+  },
+  {
+    slug: "manufacturing-suppliers",
+    copy: {
+      en: {
+        name: "Metal, plastics and automotive suppliers",
+        shortName: "Manufacturing suppliers",
+        tagline: "Orders, schedules and certificates, all handled by hand.",
+        documents: [
+          "Customer orders and call-offs",
+          "Delivery schedules",
+          "Order confirmations",
+          "Material certificates",
+          "Delivery notes",
+          "Invoices",
+        ],
+        pains: [
+          "Customer orders and call-offs retyped into the ERP.",
+          "Delivery schedules compared by hand every time a customer changes quantities.",
+          "Material certificates searched for and attached manually.",
+          "Order confirmations and delivery dates answered one by one.",
+        ],
+        whatWeDo: [
+          "Orders and call-offs read straight into ERP drafts.",
+          "Schedule change detection, with differences flagged for planners.",
+          "Certificate lookup and attachment to delivery documents.",
+          "Confirmation drafts with dates from your planning data.",
+          "Order status answers for customers from your ERP.",
+        ],
+        howWeDoIt: [
+          "We start with a one-week test on your real orders and schedules and measure the minutes per document, before and after.",
+          "The agent drafts, a person decides. Nothing reaches the ERP or the customer without approval.",
+          "Every step is logged: what was read, what changed and who approved it.",
+        ],
+        outcomes: [
+          "Planners see what changed without comparing files by hand.",
+          "Delivery documents go out complete, with the right certificates.",
+          "Less time on order administration, more on production.",
+        ],
+        flagship:
+          "An order and schedule desk that reads every customer document and shows planners only what changed.",
+      },
+      sl: {
+        name: "Dobavitelji v kovinski, plastični in avtomobilski industriji",
+        shortName: "Proizvodni dobavitelji",
+        tagline: "Naročila, plani dobav in certifikati, vse ročno.",
+        documents: [
+          "Naročila kupcev in odpoklici",
+          "Plani dobav",
+          "Potrditve naročil",
+          "Certifikati materialov",
+          "Dobavnice",
+          "Računi",
+        ],
+        pains: [
+          "Naročila kupcev in odpoklici se ročno pretipkajo v ERP.",
+          "Plani dobav se ročno primerjajo ob vsaki spremembi količin s strani kupca.",
+          "Certifikati materialov se ročno iščejo in prilagajo.",
+          "Na potrditve naročil in roke dobave se odgovarja enega za drugim.",
+        ],
+        whatWeDo: [
+          "Naročila in odpoklici se preberejo neposredno v osnutke v ERP.",
+          "Zaznavanje sprememb v planih dobav, razlike so označene za planerje.",
+          "Iskanje certifikatov in prilaganje k dobavni dokumentaciji.",
+          "Osnutki potrditev z roki iz vaših planskih podatkov.",
+          "Odgovori kupcem o statusu naročila iz vašega ERP.",
+        ],
+        howWeDoIt: [
+          "Začnemo s tedenskim testom na vaših pravih naročilih in planih ter izmerimo minute na dokument, prej in potem.",
+          "Agent pripravi osnutek, odloči človek. Brez odobritve nič ne pride v ERP ali do kupca.",
+          "Vsak korak je zabeležen: kaj je bilo prebrano, kaj se je spremenilo in kdo je odobril.",
+        ],
+        outcomes: [
+          "Planerji vidijo, kaj se je spremenilo, brez ročnega primerjanja datotek.",
+          "Dobavna dokumentacija gre ven popolna, s pravimi certifikati.",
+          "Manj časa za administracijo naročil, več za proizvodnjo.",
+        ],
+        flagship:
+          "Pult za naročila in plane, ki prebere vsak dokument kupca in planerjem pokaže samo, kaj se je spremenilo.",
+      },
+    },
+  },
 ];
-export const industries: Industry[] = [...industriesSource].sort(
-  (a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug),
-);
 
 export const industrySlugs = industries.map((i) => i.slug);
 
 export function getIndustry(slug: string): Industry | undefined {
   return industries.find((i) => i.slug === slug);
+}
+
+export function industryCopy(industry: Industry, locale: Locale): IndustryCopy {
+  return industry.copy[locale];
 }

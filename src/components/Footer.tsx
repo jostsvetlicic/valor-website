@@ -1,56 +1,122 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { brand, nav } from "@/config/brand";
+import { href, localeFromPath, type Dict } from "@/i18n";
 import Logo from "./Logo";
 import { Container } from "./Container";
 
-const columns = [
-  {
-    title: "Explore",
-    links: nav.map((n) => ({ label: n.label, href: n.href, external: false })),
+const ui: Dict<{
+  explore: string;
+  resources: string;
+  contact: string;
+  book: string;
+  websites: string;
+  demo: string;
+  how: string;
+  industries: string;
+  security: string;
+  regNo: string;
+  taxNo: string;
+  noVat: string;
+  privacy: string;
+  terms: string;
+}> = {
+  en: {
+    explore: "Explore",
+    resources: "Resources",
+    contact: "Contact",
+    book: "Book a call",
+    websites: "We also design premium websites.",
+    demo: "Interactive demo",
+    how: "How it works",
+    industries: "Industries",
+    security: "Security and data",
+    regNo: "Reg. no.",
+    taxNo: "Tax no.",
+    noVat: "Not registered for VAT",
+    privacy: "Privacy policy",
+    terms: "Terms of service",
   },
-  {
-    title: "Contact",
-    links: [
-      { label: "Book a call", href: brand.bookingUrl, external: true },
-      { label: brand.instagramHandle, href: brand.instagramUrl, external: true },
-      { label: "WhatsApp", href: brand.whatsappUrl, external: true },
-      { label: brand.phoneDisplay, href: brand.phoneHref, external: false },
-      // "Email us" is hidden until the inbox is live (brand.emailIsPlaceholder).
-      ...(brand.emailIsPlaceholder
-        ? []
-        : [{ label: "Email us", href: `mailto:${brand.email}`, external: false }]),
-    ],
+  sl: {
+    explore: "Raziščite",
+    resources: "Viri",
+    contact: "Kontakt",
+    book: "Rezervirajte klic",
+    websites: "Oblikujemo tudi vrhunske spletne strani.",
+    demo: "Interaktivni demo",
+    how: "Kako deluje",
+    industries: "Panoge",
+    security: "Varnost in podatki",
+    regNo: "Matična št.",
+    taxNo: "Davčna št.",
+    noVat: "Ni zavezanec za DDV",
+    privacy: "Politika zasebnosti",
+    terms: "Pogoji poslovanja",
   },
-];
+};
+
+type FooterLink = { label: string; href: string; external: boolean };
 
 export default function Footer() {
+  const locale = localeFromPath(usePathname());
+  const t = ui[locale];
+
+  const columns: { title: string; links: FooterLink[] }[] = [
+    {
+      title: t.explore,
+      links: nav.map((n) => ({ label: n.label[locale], href: href(locale, n.href), external: false })),
+    },
+    {
+      title: t.resources,
+      links: [
+        { label: t.how, href: href(locale, "/how-it-works"), external: false },
+        { label: t.demo, href: href(locale, "/demo"), external: false },
+        { label: t.industries, href: href(locale, "/industries"), external: false },
+        { label: t.security, href: href(locale, "/security"), external: false },
+      ],
+    },
+    {
+      title: t.contact,
+      links: [
+        { label: t.book, href: brand.bookingUrl, external: true },
+        { label: brand.instagramHandle, href: brand.instagramUrl, external: true },
+        { label: "WhatsApp", href: brand.whatsappUrl, external: true },
+        { label: brand.phoneDisplay, href: brand.phoneHref, external: false },
+        // Hidden while brand.emailIsPlaceholder is true.
+        ...(brand.emailIsPlaceholder ? [] : [{ label: brand.email, href: `mailto:${brand.email}`, external: false }]),
+      ],
+    },
+  ];
+
   return (
     <footer className="relative overflow-hidden border-t border-gold/10 bg-charcoal">
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[40rem] -translate-x-1/2 bg-radial-gold" />
       <Container className="relative py-16 md:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Logo markClassName="h-9" wordClassName="text-2xl" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-grey">
-              {brand.tagline}
+              {locale === "sl" ? brand.taglineSl : brand.tagline}
             </p>
+            <p className="mt-3 max-w-xs text-sm text-cream">{t.websites}</p>
             <a
               href={brand.bookingUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex items-center gap-2 rounded-pill bg-gold px-6 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-gold-light"
             >
-              Book a call
+              {t.book}
             </a>
           </div>
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="eyebrow mb-5">{col.title}</h4>
+              <p className="eyebrow mb-5">{col.title}</p>
               <ul className="space-y-3">
-                {col.links.map((link) =>
-                  link.external ? (
-                    <li key={link.label}>
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    {link.external ? (
                       <a
                         href={link.href}
                         target="_blank"
@@ -59,18 +125,13 @@ export default function Footer() {
                       >
                         {link.label}
                       </a>
-                    </li>
-                  ) : (
-                    <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-grey transition-colors hover:text-cream"
-                      >
+                    ) : (
+                      <Link href={link.href} className="text-sm text-grey transition-colors hover:text-cream">
                         {link.label}
                       </Link>
-                    </li>
-                  ),
-                )}
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
@@ -79,14 +140,23 @@ export default function Footer() {
         <div className="divider-gold mt-14" />
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-grey md:flex-row">
-          <p>© 2026 Valor · {brand.domain}</p>
+          <div className="text-center md:text-left">
+            <p>© 2026 VALOR · {brand.domain}</p>
+            <p className="mt-1">
+              {brand.legal.entity} · {brand.legal.address}, {brand.legal.country[locale]}
+            </p>
+            <p className="mt-1">
+              {t.regNo} {brand.legal.registrationNo} · {t.taxNo} {brand.legal.taxNo}
+              {!brand.legal.vatRegistered && <> · {t.noVat}</>}
+            </p>
+          </div>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="transition-colors hover:text-cream">
-              Privacy policy
+            <Link href={href(locale, "/privacy")} className="transition-colors hover:text-cream">
+              {t.privacy}
             </Link>
             <span aria-hidden="true">·</span>
-            <Link href="/terms" className="transition-colors hover:text-cream">
-              Terms of service
+            <Link href={href(locale, "/terms")} className="transition-colors hover:text-cream">
+              {t.terms}
             </Link>
           </div>
         </div>

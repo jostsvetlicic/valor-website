@@ -2,14 +2,64 @@
 
 import { useState } from "react";
 import { brand } from "@/config/brand";
+import type { Dict, Locale } from "@/i18n";
+
+const ui: Dict<{
+  name: string;
+  email: string;
+  company: string;
+  companyPlaceholder: string;
+  message: string;
+  messagePlaceholder: string;
+  send: string;
+  subject: (name: string) => string;
+  visitor: string;
+  fields: { name: string; email: string; company: string };
+  sentWhatsapp: string;
+  sentMail: string;
+}> = {
+  en: {
+    name: "Your name",
+    email: "Your email",
+    company: "Company",
+    companyPlaceholder: "Company (optional)",
+    message: "Message",
+    messagePlaceholder: "What's the most manual part of your operation right now?",
+    send: "Send message",
+    subject: (n) => `New enquiry from ${n}`,
+    visitor: "a visitor",
+    fields: { name: "Name", email: "Email", company: "Company" },
+    sentWhatsapp:
+      "Thanks! WhatsApp should have opened with your message ready to send. If not, reach us on WhatsApp or by phone above.",
+    sentMail:
+      "Your mail app should have opened with the message ready to send. If not, reach us on WhatsApp or by phone above.",
+  },
+  sl: {
+    name: "Vaše ime",
+    email: "Vaš e-naslov",
+    company: "Podjetje",
+    companyPlaceholder: "Podjetje (neobvezno)",
+    message: "Sporočilo",
+    messagePlaceholder: "Kateri del vašega poslovanja je trenutno najbolj ročen?",
+    send: "Pošlji sporočilo",
+    subject: (n) => `Novo povpraševanje: ${n}`,
+    visitor: "obiskovalec",
+    fields: { name: "Ime", email: "E-naslov", company: "Podjetje" },
+    sentWhatsapp:
+      "Hvala! Odprl bi se moral WhatsApp s pripravljenim sporočilom. Če se ni, nas pokličite ali nam pišite na WhatsApp zgoraj.",
+    sentMail:
+      "Odpreti bi se moral vaš poštni program s pripravljenim sporočilom. Če se ni, nas pokličite ali nam pišite na WhatsApp zgoraj.",
+  },
+};
 
 /**
  * Simple contact form that composes a message and opens the visitor's own
- * WhatsApp (or mail client once a real inbox exists). No backend —
+ * WhatsApp (or mail client once a real inbox exists). No backend,
  * deliberately, for now. When a real form endpoint exists, swap the
  * handleSubmit body.
  */
-export default function ContactForm() {
+export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
+  const t = ui[locale];
   const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -21,17 +71,17 @@ export default function ContactForm() {
     const company = String(data.get("company") ?? "");
     const message = String(data.get("message") ?? "");
 
-    const subject = `New enquiry from ${name || "a visitor"}`;
+    const subject = t.subject(name || t.visitor);
     const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Company: ${company}`,
+      `${t.fields.name}: ${name}`,
+      `${t.fields.email}: ${email}`,
+      `${t.fields.company}: ${company}`,
       "",
       message,
     ].join("\n");
 
     // While the email inbox isn't live yet, route the message to WhatsApp so it
-    // actually reaches us — a form that silently mails a dead address is worse
+    // actually reaches us, a form that silently mails a dead address is worse
     // than no form. Once brand.emailIsPlaceholder is false, it uses email.
     if (brand.emailIsPlaceholder) {
       const text = `${subject}\n\n${body}`;
@@ -56,51 +106,51 @@ export default function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="sr-only">
-            Your name
+            {t.name}
           </label>
           <input
             id="name"
             name="name"
             required
-            placeholder="Your name"
+            placeholder={t.name}
             className={fieldClass}
           />
         </div>
         <div>
           <label htmlFor="email" className="sr-only">
-            Your email
+            {t.email}
           </label>
           <input
             id="email"
             name="email"
             type="email"
             required
-            placeholder="Your email"
+            placeholder={t.email}
             className={fieldClass}
           />
         </div>
       </div>
       <div>
         <label htmlFor="company" className="sr-only">
-          Company
+          {t.company}
         </label>
         <input
           id="company"
           name="company"
-          placeholder="Company (optional)"
+          placeholder={t.companyPlaceholder}
           className={fieldClass}
         />
       </div>
       <div>
         <label htmlFor="message" className="sr-only">
-          Message
+          {t.message}
         </label>
         <textarea
           id="message"
           name="message"
           required
           rows={5}
-          placeholder="What's the most manual part of your operation right now?"
+          placeholder={t.messagePlaceholder}
           className={`${fieldClass} resize-none`}
         />
       </div>
@@ -108,13 +158,11 @@ export default function ContactForm() {
         type="submit"
         className="w-full rounded-pill bg-gold px-8 py-4 text-sm font-semibold text-obsidian transition-colors hover:bg-gold-light sm:w-auto"
       >
-        Send message
+        {t.send}
       </button>
       {sent && (
         <p className="text-sm text-gold">
-          {brand.emailIsPlaceholder
-            ? "Thanks — WhatsApp should have opened with your message ready to send. If not, reach us on WhatsApp or by phone above."
-            : "Your mail app should have opened with the message ready to send. If not, reach us on WhatsApp or by phone above."}
+          {brand.emailIsPlaceholder ? t.sentWhatsapp : t.sentMail}
         </p>
       )}
     </form>
