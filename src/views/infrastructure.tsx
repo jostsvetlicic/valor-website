@@ -3,7 +3,9 @@ import PageHero from "@/components/PageHero";
 import Infrastructure from "@/components/home/Infrastructure";
 import CapabilityGrid from "@/components/home/CapabilityGrid";
 import CtaBand from "@/components/CtaBand";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const copy: Dict<{
   metaTitle: string;
@@ -39,8 +41,7 @@ const copy: Dict<{
 };
 
 export function infrastructureMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/infrastructure", locale) };
+  return seoMetadata(locale, "infrastructure", "/infrastructure");
 }
 
 export function InfrastructureView({ locale }: { locale: Locale }) {
@@ -48,6 +49,7 @@ export function InfrastructureView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].infrastructure, path: "/infrastructure" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

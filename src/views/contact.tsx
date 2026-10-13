@@ -7,7 +7,9 @@ import { BookCallButton } from "@/components/Button";
 import { Reveal } from "@/components/Reveal";
 import { brand } from "@/config/brand";
 import { IconClock } from "@/components/Icons";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const copy: Dict<{
   metaTitle: string;
@@ -56,8 +58,7 @@ const copy: Dict<{
 };
 
 export function contactMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/contact", locale) };
+  return seoMetadata(locale, "contact", "/contact");
 }
 
 export function ContactView({ locale }: { locale: Locale }) {
@@ -75,6 +76,7 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].contact, path: "/contact" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

@@ -6,7 +6,9 @@ import HtmlLang from "@/components/HtmlLang";
 
 export const metadata: Metadata = {
   title: "Page not found",
-  robots: { index: false },
+  // A missing page must not claim the homepage as its canonical.
+  alternates: { canonical: null, languages: {} },
+  robots: { index: false, follow: true },
 };
 
 export default function NotFound() {

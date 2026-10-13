@@ -86,11 +86,11 @@ export default function Hero({ locale = "en" }: { locale?: Locale }) {
             <p
               style={
                 {
-                  "--enter-duration": "0.55s",
-                  "--enter-delay": afterHeadline(0),
+                  "--enter-duration": "0.7s",
+                  "--enter-delay": "0ms",
                 } as React.CSSProperties
               }
-              className="enter mt-6 max-w-xl text-lg leading-relaxed text-grey"
+              className="enter-settle mt-6 max-w-xl text-lg leading-relaxed text-grey"
             >
               {t.description}
             </p>

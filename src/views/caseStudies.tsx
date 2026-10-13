@@ -5,7 +5,9 @@ import PageHero from "@/components/PageHero";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import CaseStudyCard from "@/components/case-studies/CaseStudyCard";
 import { verifiedCaseStudies } from "@/content/caseStudies";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const copy: Dict<{ title: string; description: string; eyebrow: string; heading: [string, string]; intro: string }> = {
   en: {
@@ -25,8 +27,7 @@ const copy: Dict<{ title: string; description: string; eyebrow: string; heading:
 };
 
 export function caseStudiesMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.title, description: t.description, alternates: alternates("/case-studies", locale) };
+  return seoMetadata(locale, "caseStudies", "/case-studies");
 }
 
 export function CaseStudiesView({ locale }: { locale: Locale }) {
@@ -35,6 +36,7 @@ export function CaseStudiesView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].caseStudies, path: "/case-studies" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

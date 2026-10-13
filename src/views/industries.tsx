@@ -8,7 +8,9 @@ import { RevealGroup, RevealItem } from "@/components/Reveal";
 import IndustryDetail from "@/components/industries/IndustryDetail";
 import { brand } from "@/config/brand";
 import { getIndustry, industries } from "@/content/industries";
-import { alternates, href, type Dict, type Locale } from "@/i18n";
+import { href, type Dict, type Locale } from "@/i18n";
+import { JsonLd, pageMetadata, seoMetadata, serviceSchema } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const index: Dict<{
   metaTitle: string;
@@ -56,8 +58,7 @@ const index: Dict<{
 };
 
 export function industriesMetadata(locale: Locale): Metadata {
-  const t = index[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/industries", locale) };
+  return seoMetadata(locale, "industries", "/industries");
 }
 
 export function IndustriesIndex({ locale }: { locale: Locale }) {
@@ -65,6 +66,7 @@ export function IndustriesIndex({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].industries, path: "/industries" }] }}
         eyebrow={t.eyebrow}
         title={
           <>
@@ -121,21 +123,23 @@ export function IndustriesIndex({ locale }: { locale: Locale }) {
   );
 }
 
-const detailMeta: Dict<(short: string) => string> = {
-  en: (short) =>
-    `What VALOR builds for ${short.toLowerCase()}: document agents connected to your ERP, measured in a one-week test.`,
-  sl: (short) => `Kaj VALOR zgradi za področje ${short.toLowerCase()}: agente za dokumente, povezane z vašim ERP, izmerjene v tedenskem testu.`,
+const industryTitle: Dict<(short: string) => string> = {
+  en: (short) => `AI Automation for ${short.replace(/\b(?!and\b|for\b)\w/g, (c) => c.toUpperCase())}`,
+  sl: (short) => `AI avtomatizacija: ${short}`,
+};
+const industrySuffix: Dict<string> = {
+  en: "VALOR builds document agents connected to your ERP.",
+  sl: "VALOR gradi agente za dokumente, povezane z vašim ERP.",
 };
 
 export function industryMetadata(slug: string, locale: Locale): Metadata {
   const industry = getIndustry(slug);
   if (!industry) return {};
   const c = industry.copy[locale];
-  return {
-    title: c.name,
-    description: `${c.tagline} ${detailMeta[locale](c.shortName)}`,
-    alternates: alternates(`/industries/${slug}`, locale),
-  };
+  return pageMetadata(locale, `/industries/${slug}`, {
+    title: industryTitle[locale](c.shortName),
+    description: `${c.tagline} ${industrySuffix[locale]}`,
+  });
 }
 
 export function IndustryView({ slug, locale }: { slug: string; locale: Locale }) {
@@ -144,7 +148,25 @@ export function IndustryView({ slug, locale }: { slug: string; locale: Locale })
   const c = industry.copy[locale];
   return (
     <>
-      <PageHero eyebrow={c.name} title={c.tagline} />
+      <PageHero
+        eyebrow={c.name}
+        title={c.tagline}
+        crumbs={{
+          locale,
+          items: [
+            { name: pageNames[locale].industries, path: "/industries" },
+            { name: c.shortName, path: `/industries/${slug}` },
+          ],
+        }}
+      />
+      <JsonLd
+        data={serviceSchema(locale, {
+          name: c.name,
+          description: c.tagline,
+          path: `/industries/${slug}`,
+          serviceType: locale === "sl" ? "Avtomatizacija dokumentov z AI" : "AI document automation",
+        })}
+      />
       <IndustryDetail industry={c} locale={locale} />
     </>
   );

@@ -5,8 +5,10 @@ import PageHero from "@/components/PageHero";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { BookCallButton } from "@/components/Button";
 import { brand } from "@/config/brand";
-import { alternates, href, type Dict, type Locale } from "@/i18n";
+import { href, type Dict, type Locale } from "@/i18n";
 import { securityPoints } from "@/content/security";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 /**
  * Security and data. Retention and access were confirmed by the owner
@@ -54,8 +56,7 @@ const copy: Dict<{
 };
 
 export function securityMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/security", locale) };
+  return seoMetadata(locale, "security", "/security");
 }
 
 export function SecurityView({ locale }: { locale: Locale }) {
@@ -63,6 +64,7 @@ export function SecurityView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].security, path: "/security" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

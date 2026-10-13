@@ -85,7 +85,7 @@ export default function ChapterNav({ locale = "en" }: { locale?: Locale }) {
                 <span
                   className={clsx(
                     "whitespace-nowrap rounded-full bg-obsidian/80 px-2 py-0.5 text-xs font-medium backdrop-blur transition-opacity duration-300",
-                    on ? "text-cream opacity-100" : "text-cream/80 opacity-0 group-hover:opacity-100",
+                    on ? "text-cream opacity-0 group-hover:opacity-100 2xl:opacity-100" : "text-cream/80 opacity-0 group-hover:opacity-100",
                   )}
                 >
                   {c.label[locale]}

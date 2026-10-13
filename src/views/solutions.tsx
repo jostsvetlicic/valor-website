@@ -10,7 +10,9 @@ import {
   type SampleLead,
   type Solution,
 } from "@/content/solutions";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { breadcrumbSchema, JsonLd, seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 type Ui = {
   metaTitle: string;
@@ -141,8 +143,7 @@ const ui: Dict<Ui> = {
 };
 
 export function solutionsMetadata(locale: Locale): Metadata {
-  const t = ui[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/solutions", locale) };
+  return seoMetadata(locale, "solutions", "/solutions");
 }
 
 /* Hairline grid: 1px gaps over a line colour, cells paint their own fill. */
@@ -317,6 +318,8 @@ export function SolutionsView({ locale = "en" }: { locale?: Locale }) {
   const lead = sampleLeadByLocale[locale];
   return (
     <>
+      <JsonLd data={breadcrumbSchema(locale, [{ name: pageNames[locale].solutions, path: "/solutions" }])} />
+
       {/* Hero */}
       <section className="surface-warm pb-16 pt-36 md:pb-24 md:pt-44">
         <Container>

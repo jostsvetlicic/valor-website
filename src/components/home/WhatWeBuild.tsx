@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
-import SectionHeading from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import {
   IconChat,
@@ -172,9 +171,11 @@ const copy: Dict<{
 const AUTO_MS = 6000;
 
 /**
- * Services as an explorer: the six areas on the left, the chosen one in
- * detail on the right with a concrete example. On phones the areas become a
- * swipeable row of chips above the detail card.
+ * Services as an explorer, in the same premium language as "We make it stop":
+ * a numbered list of the six areas on the left (the active one gets a gold
+ * bar that fills while it auto-advances) and, on the right, a gold-edged
+ * panel with the chosen area, what we build there and a concrete example.
+ * On phones the areas become a swipeable row of chips above the panel.
  */
 export default function WhatWeBuild({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
@@ -184,6 +185,7 @@ export default function WhatWeBuild({ locale = "en" }: { locale?: Locale }) {
   const [inView, setInView] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const group = t.groups[active];
+  const Icon = icons[active];
 
   useEffect(() => {
     const el = root.current;
@@ -203,23 +205,36 @@ export default function WhatWeBuild({ locale = "en" }: { locale?: Locale }) {
     setAuto(false);
     setActive(i);
   };
-  const Icon = icons[active];
 
   return (
-    <Section id="what-we-build" tone="base" className="py-24 md:py-32">
+    <Section id="what-we-build" tone="base" className="py-24 md:py-36">
+      {/* A soft gold light behind the panel side */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-10%] top-1/3 -z-10 h-[40rem] w-[40rem] rounded-full opacity-70 blur-3xl"
+        style={{ background: "radial-gradient(closest-side, rgba(201,168,76,0.16), transparent)" }}
+      />
       <Container>
-        <SectionHeading eyebrow={t.eyebrow} title={t.title} intro={t.hint} />
+        {/* Split header */}
+        <Reveal className="grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div>
+            <p className="eyebrow">{t.eyebrow}</p>
+            <h2 className="mt-4 font-display t-statement text-cream">
+              {t.title}
+              <span className="text-gold">.</span>
+            </h2>
+          </div>
+          <p className="max-w-md t-lead text-grey lg:justify-self-end lg:text-right">{t.hint}</p>
+        </Reveal>
 
-        <div ref={root}>
-        <Reveal className="mt-14 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8">
+        <div ref={root} className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
           {/* Areas */}
           <div
             role="tablist"
             aria-label={t.title}
-            className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
+            className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] lg:mx-0 lg:block lg:overflow-visible lg:border-t lg:border-cream/[0.08] lg:px-0 [&::-webkit-scrollbar]:hidden"
           >
             {t.groups.map((g, i) => {
-              const GIcon = icons[i];
               const on = i === active;
               return (
                 <button
@@ -232,76 +247,111 @@ export default function WhatWeBuild({ locale = "en" }: { locale?: Locale }) {
                   onClick={() => pick(i)}
                   onMouseEnter={() => pick(i)}
                   className={clsx(
-                    "group relative flex shrink-0 items-center gap-4 overflow-hidden rounded-2xl border px-4 py-3 text-left transition-[border-color,background-color] duration-300 lg:px-5 lg:py-4",
-                    on ? "border-gold/70 bg-gold/[0.08]" : "border-cream/[0.08] bg-charcoal/60 hover:border-gold/40",
+                    "group relative flex shrink-0 items-center gap-4 rounded-full border px-4 py-2.5 text-left transition-colors duration-300",
+                    "lg:w-full lg:rounded-none lg:border-0 lg:border-b lg:border-cream/[0.08] lg:py-5 lg:pl-6 lg:pr-2",
+                    on ? "border-gold/60 bg-gold/[0.08] lg:bg-transparent" : "border-cream/[0.1] hover:border-gold/40",
                   )}
                 >
+                  {/* Gold bar on the left (desktop): fills while auto-advancing, solid once picked */}
+                  <span aria-hidden="true" className="absolute inset-y-3 left-0 hidden w-0.5 overflow-hidden rounded-full bg-cream/[0.08] lg:block">
+                    {on && (
+                      <span
+                        key={`bar-${active}-${auto && inView}`}
+                        className={clsx("absolute inset-0 origin-top bg-gold", auto && inView && "wwb-progress-y")}
+                        style={auto && inView ? { animationDuration: `${AUTO_MS}ms` } : undefined}
+                      />
+                    )}
+                  </span>
                   <span
                     className={clsx(
-                      "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors duration-300",
-                      on ? "border-gold bg-gold text-obsidian" : "border-gold/25 text-gold",
+                      "font-mono text-xs tabular-nums transition-colors duration-300 lg:text-sm",
+                      on ? "text-gold" : "text-grey group-hover:text-cream",
                     )}
                   >
-                    <GIcon className="h-5 w-5" />
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className={clsx("whitespace-nowrap font-display text-lg font-semibold lg:whitespace-normal", on ? "text-cream" : "text-cream/80")}>
+                  <span
+                    className={clsx(
+                      "whitespace-nowrap font-display text-base font-semibold transition-colors duration-300 lg:text-2xl",
+                      on ? "text-cream" : "text-cream/60 group-hover:text-cream",
+                    )}
+                  >
                     {g.title}
                   </span>
-                  <span aria-hidden="true" className={clsx("ml-auto hidden text-gold transition-opacity lg:block", on ? "opacity-100" : "opacity-0")}>
+                  <span
+                    aria-hidden="true"
+                    className={clsx(
+                      "ml-auto hidden text-xl text-gold transition-[opacity,transform] duration-300 lg:block",
+                      on ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0",
+                    )}
+                  >
                     →
                   </span>
-                  {on && auto && inView && (
-                    <span
-                      key={`progress-${active}`}
-                      aria-hidden="true"
-                      className="wwb-progress absolute inset-x-0 bottom-0 h-0.5 origin-left bg-gold"
-                      style={{ animationDuration: `${AUTO_MS}ms` }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
 
-          {/* Detail */}
-          <div
-            id="wwb-panel"
-            role="tabpanel"
-            aria-labelledby={`wwb-tab-${active}`}
-            className="relative overflow-hidden rounded-3xl border border-gold/25 bg-charcoal p-7 md:p-10"
-          >
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-10 -top-10 text-gold/[0.07] [&_svg]:h-64 [&_svg]:w-64"
+          {/* Detail: gold-edged panel */}
+          <div className="rounded-[2rem] bg-gradient-to-br from-gold/60 via-gold/10 to-gold/[0.04] p-px shadow-[0_40px_120px_-40px_rgba(201,168,76,0.35)]">
+            <div
+              id="wwb-panel"
+              role="tabpanel"
+              aria-labelledby={`wwb-tab-${active}`}
+              className="relative h-full overflow-hidden rounded-[calc(2rem-1px)] p-7 md:p-10"
+              style={{
+                background:
+                  "radial-gradient(90% 70% at 100% 0%, rgba(201,168,76,0.14) 0%, transparent 60%), linear-gradient(160deg, #17130b 0%, #111 55%, #0d0d0d 100%)",
+              }}
             >
-              <Icon />
-            </span>
-            <div key={active} className="enter relative" style={{ "--enter-y": "10px", "--enter-duration": "0.45s" } as React.CSSProperties}>
-              <span className="font-mono text-xs text-gold">
-                0{active + 1} / 0{t.groups.length}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-12 -right-10 text-gold/[0.06] [&_svg]:h-72 [&_svg]:w-72"
+              >
+                <Icon />
               </span>
-              <h3 className="mt-3 font-display t-subhead text-cream">{group.title}</h3>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                {group.items.map((item) => (
-                  <li key={item} className="flex items-start gap-3 rounded-2xl border border-cream/[0.08] bg-obsidian/60 px-4 py-3 text-[0.95rem] leading-snug text-cream">
-                    <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold/15 text-[0.7rem] text-gold">
-                      ✓
+              <div key={active} className="enter relative" style={{ "--enter-y": "10px", "--enter-duration": "0.45s" } as React.CSSProperties}>
+                <div className="flex items-center justify-between">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/50 bg-[#15110a] text-gold shadow-[0_0_40px_-10px_rgba(201,168,76,0.7)]">
+                    <Icon className="h-7 w-7" />
+                  </span>
+                  <span className="font-mono text-sm text-grey">
+                    <span className="text-gold">{String(active + 1).padStart(2, "0")}</span> / {String(t.groups.length).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="mt-8 font-display t-section text-cream">{group.title}</h3>
+                <ul className="mt-7 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                  {group.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-[1.0625rem] leading-snug text-cream">
+                      <span
+                        aria-hidden="true"
+                        className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold text-[0.65rem] font-bold text-obsidian"
+                      >
+                        ✓
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <figure className="mt-9 border-t border-gold/20 pt-7">
+                  <figcaption className="eyebrow text-[0.8rem]">{t.example}</figcaption>
+                  <blockquote className="relative mt-3 pl-7 font-display text-xl leading-snug text-cream md:text-2xl">
+                    <span aria-hidden="true" className="absolute -top-1 left-0 font-display text-4xl leading-none text-gold">
+                      “
                     </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 rounded-2xl border-l-2 border-gold bg-gold/[0.06] px-5 py-4">
-                <p className="eyebrow text-[0.8rem]">{t.example}</p>
-                <p className="mt-1.5 text-[0.95rem] leading-relaxed text-cream">{group.example}</p>
+                    {group.example}
+                  </blockquote>
+                </figure>
               </div>
             </div>
           </div>
-        </Reveal>
         </div>
 
-        <Reveal as="p" className="mt-12 text-center font-display text-2xl text-gold md:text-3xl">
-          {t.custom}
+        <Reveal className="mt-14 flex flex-col items-center gap-4 text-center">
+          <p className="font-display text-2xl text-cream md:text-3xl">
+            {t.custom.split(" ").slice(0, -3).join(" ")}{" "}
+            <span className="text-gold">{t.custom.split(" ").slice(-3).join(" ")}</span>
+          </p>
         </Reveal>
       </Container>
     </Section>

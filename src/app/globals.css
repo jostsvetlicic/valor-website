@@ -439,6 +439,19 @@ html.lenis body {
   animation-delay: var(--enter-delay, 0ms);
 }
 
+/* Same entrance without the fade: the element is painted (and counted for
+   Largest Contentful Paint) from the first frame, it only settles into place.
+   Used for the hero paragraph, the page's LCP element. */
+@keyframes enter-settle {
+  from {
+    transform: translate3d(0, var(--enter-y, 10px), 0);
+  }
+}
+.enter-settle {
+  animation: enter-settle var(--enter-duration, 0.6s) var(--ease-out) backwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
 /* Hero CTA: a slow gold ring pulse on top of the button's resting glow. */
 @keyframes cta-pulse {
   0% {
@@ -875,19 +888,6 @@ html.lenis body {
   }
 }
 
-/* Service explorer: progress line under the active area while it auto-advances. */
-.wwb-progress {
-  animation: wwb-progress linear both;
-}
-@keyframes wwb-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 /* Section headings: words fade up in sequence when the heading is revealed.
    Without JS (no reveal attribute) they are simply visible. */
 .heading-word {
@@ -908,5 +908,18 @@ html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .timeline-fill {
     transform: none !important;
+  }
+}
+
+/* Service explorer: vertical progress bar on the active area (desktop). */
+.wwb-progress-y {
+  animation: wwb-progress-y linear both;
+}
+@keyframes wwb-progress-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
   }
 }

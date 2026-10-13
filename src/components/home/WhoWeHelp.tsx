@@ -128,60 +128,79 @@ export default function WhoWeHelp({ locale = "en" }: { locale?: Locale }) {
           </Link>
         </Reveal>
 
-        {/* Self check */}
-        <Reveal className="mx-auto mt-16 max-w-4xl rounded-[2rem] bg-obsidian p-7 text-cream md:p-10">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-            <h3 className="font-display t-subhead text-cream">{t.quizTitle}</h3>
-            <p className="text-sm text-grey">{t.quizIntro}</p>
-          </div>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {t.signs.map((s, i) => (
-              <li key={s}>
-                <label
-                  className={clsx(
-                    "flex h-full cursor-pointer items-start gap-3 rounded-2xl border px-4 py-4 transition-colors duration-200",
-                    checked[i] ? "border-gold bg-gold/[0.1]" : "border-cream/[0.12] hover:border-gold/50",
-                  )}
-                >
-                  <input
-                    type="checkbox"
-                    checked={checked[i]}
-                    onChange={() => setChecked((c) => c.map((v, j) => (j === i ? !v : v)))}
-                    className="peer sr-only"
-                  />
-                  <span
-                    aria-hidden="true"
+        {/* Self check: a premium dark card with a warm gold glow, so the
+            booking button is the brightest thing on the light section. */}
+        <Reveal className="mx-auto mt-16 max-w-4xl">
+          <div
+            className="relative overflow-hidden rounded-[2rem] border border-gold/30 p-7 text-cream shadow-[0_40px_90px_-40px_rgba(10,10,10,0.7)] md:p-10"
+            style={{
+              background:
+                "radial-gradient(80% 90% at 50% 0%, rgba(201,168,76,0.22) 0%, rgba(201,168,76,0.05) 50%, transparent 80%), linear-gradient(160deg, #1d170c 0%, #120f09 55%, #0b0a08 100%)",
+            }}
+          >
+            <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <h3 className="font-display t-section text-cream">{t.quizTitle}</h3>
+              <p className="text-base text-cream/80">{t.quizIntro}</p>
+            </div>
+            <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+              {t.signs.map((s, i) => (
+                <li key={s}>
+                  <label
                     className={clsx(
-                      "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-xs font-bold transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-gold",
-                      checked[i] ? "border-gold bg-gold text-obsidian" : "border-cream/30",
+                      "flex h-full cursor-pointer items-start gap-3 rounded-2xl border px-4 py-4 backdrop-blur-sm transition-colors duration-200",
+                      checked[i] ? "border-gold bg-gold/[0.14]" : "border-cream/[0.14] bg-black/20 hover:border-gold/60",
                     )}
                   >
-                    {checked[i] ? "✓" : ""}
-                  </span>
-                  <span className="text-[0.95rem] leading-snug text-cream">{s}</span>
-                </label>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6 flex flex-col items-start gap-4 border-t border-cream/10 pt-6 md:flex-row md:items-center md:justify-between">
-            <p className="flex items-center gap-3 text-base text-cream" aria-live="polite">
+                    <input
+                      type="checkbox"
+                      checked={checked[i]}
+                      onChange={() => setChecked((c) => c.map((v, j) => (j === i ? !v : v)))}
+                      className="peer sr-only"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={clsx(
+                        "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-xs font-bold transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-gold",
+                        checked[i] ? "border-gold bg-gold text-obsidian" : "border-cream/35",
+                      )}
+                    >
+                      {checked[i] ? "✓" : ""}
+                    </span>
+                    <span className="text-[0.95rem] leading-snug text-cream">{s}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+
+            {/* How many apply, as a gold meter */}
+            <div className="mt-7 flex items-center gap-4">
               <span className="font-mono text-sm text-gold">
                 {count}/{t.signs.length}
               </span>
-              {verdict}
-            </p>
-            <a
-              href={brand.bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={clsx(
-                "inline-flex shrink-0 items-center gap-2 rounded-full px-6 py-3 text-[0.9375rem] font-semibold transition-colors",
-                count >= 3 ? "cta-pulse bg-gold text-obsidian hover:bg-gold-light" : "border border-cream/20 text-cream hover:border-gold hover:text-gold",
-              )}
-            >
-              {t.book}
-              <span aria-hidden="true">→</span>
-            </a>
+              <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-cream/10" aria-hidden="true">
+                <span
+                  className="block h-full rounded-full bg-gradient-to-r from-gold to-gold-light transition-[width] duration-500 ease-out"
+                  style={{ width: `${(count / t.signs.length) * 100}%` }}
+                />
+              </span>
+            </div>
+
+            <div className="mt-7 flex flex-col items-stretch gap-5 md:flex-row md:items-center md:justify-between">
+              <p className="text-lg font-medium text-cream" aria-live="polite">
+                {verdict}
+              </p>
+              <a
+                href={brand.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-pulse group inline-flex shrink-0 items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-gold px-6 py-4 text-base font-semibold sm:px-8 text-obsidian shadow-[0_12px_40px_-8px_rgba(201,168,76,0.65)] transition-[background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-gold-light"
+              >
+                {t.book}
+                <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            </div>
           </div>
         </Reveal>
       </Container>

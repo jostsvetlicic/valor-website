@@ -24,6 +24,9 @@ export type SearchEntry = {
 const pages: Dict<{ path: string; title: string; text: string; keywords?: string }[]> = {
   en: [
     { path: "/", title: "Home", text: "AI infrastructure for companies that run on manual work.", keywords: "valor start" },
+    { path: "/services", title: "Services", text: "AI automation services: business process automation, AI CRM development, document automation and integrations.", keywords: "ai automation agency crm" },
+    { path: "/services/business-automation", title: "Business process automation", text: "AI agents for orders, invoices, customs papers and customer replies, connected to your ERP.", keywords: "erp sap pantheon business central crm automation" },
+    { path: "/imprint", title: "Imprint", text: "Company details: R2 Računalniške Rešitve, Sebastjan Svetličič s.p., Godovič, Slovenia.", keywords: "legal company address registration tax vat" },
     { path: "/infrastructure", title: "Infrastructure", text: "The four layers VALOR builds (interface, automation, operations and integration) and the capabilities inside each." },
     { path: "/solutions", title: "Solutions", text: "Six focused AI systems: sales, market intelligence, company knowledge, analytics, customer service and dealership performance." },
     { path: "/industries", title: "Industries", text: "Document agents for wholesale and distribution, freight forwarding and customs, and metal, plastics and automotive suppliers." },
@@ -38,6 +41,9 @@ const pages: Dict<{ path: string; title: string; text: string; keywords?: string
   ],
   sl: [
     { path: "/", title: "Domov", text: "AI infrastruktura za podjetja, ki še vedno delajo ročno.", keywords: "valor začetek" },
+    { path: "/services", title: "Storitve", text: "Storitve AI avtomatizacije: avtomatizacija poslovnih procesov, razvoj AI CRM, avtomatizacija dokumentov in povezave.", keywords: "ai agencija slovenija crm" },
+    { path: "/services/business-automation", title: "Avtomatizacija poslovnih procesov", text: "AI agenti za naročila, račune, carinske dokumente in odgovore strankam, povezani z vašim ERP.", keywords: "erp sap pantheon business central crm" },
+    { path: "/imprint", title: "Impresum", text: "Podatki o podjetju: R2 Računalniške Rešitve, Sebastjan Svetličič s.p., Godovič, Slovenija.", keywords: "pravno podjetje naslov matična davčna ddv" },
     { path: "/infrastructure", title: "Infrastruktura", text: "Štiri plasti, ki jih gradi VALOR (uporabniška, avtomatizacija, operativa in integracije), in zmožnosti v vsaki." },
     { path: "/solutions", title: "Rešitve", text: "Šest osredotočenih AI sistemov: prodaja, tržni radar, znanje podjetja, analitika, podpora strankam in uspešnost avtohiše." },
     { path: "/industries", title: "Panoge", text: "Agenti za dokumente za veleprodajo in distribucijo, špedicijo in carino ter dobavitelje v kovinski, plastični in avtomobilski industriji." },

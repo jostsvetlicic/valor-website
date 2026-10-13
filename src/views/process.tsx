@@ -3,7 +3,9 @@ import dynamic from "next/dynamic";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import CtaBand from "@/components/CtaBand";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const ProcessTimeline = dynamic(() => import("@/components/process/ProcessTimeline"));
 
@@ -44,8 +46,7 @@ const copy: Dict<{
 };
 
 export function processMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/process", locale) };
+  return seoMetadata(locale, "process", "/process");
 }
 
 export function ProcessView({ locale }: { locale: Locale }) {
@@ -53,6 +54,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].process, path: "/process" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

@@ -15,6 +15,8 @@ const ui: Dict<{
   websites: string;
   demo: string;
   how: string;
+  infrastructure: string;
+  imprint: string;
   industries: string;
   security: string;
   regNo: string;
@@ -31,6 +33,8 @@ const ui: Dict<{
     websites: "We also design premium websites.",
     demo: "Interactive demo",
     how: "How it works",
+    infrastructure: "Infrastructure",
+    imprint: "Imprint",
     industries: "Industries",
     security: "Security and data",
     regNo: "Reg. no.",
@@ -47,6 +51,8 @@ const ui: Dict<{
     websites: "Oblikujemo tudi vrhunske spletne strani.",
     demo: "Interaktivni demo",
     how: "Kako deluje",
+    infrastructure: "Infrastruktura",
+    imprint: "Impresum",
     industries: "Panoge",
     security: "Varnost in podatki",
     regNo: "Matična št.",
@@ -72,6 +78,7 @@ export default function Footer() {
       title: t.resources,
       links: [
         { label: t.how, href: href(locale, "/how-it-works"), external: false },
+        { label: t.infrastructure, href: href(locale, "/infrastructure"), external: false },
         { label: t.demo, href: href(locale, "/demo"), external: false },
         { label: t.industries, href: href(locale, "/industries"), external: false },
         { label: t.security, href: href(locale, "/security"), external: false },
@@ -150,13 +157,17 @@ export default function Footer() {
               {!brand.legal.vatRegistered && <> · {t.noVat}</>}
             </p>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <Link href={href(locale, "/privacy")} className="transition-colors hover:text-cream">
               {t.privacy}
             </Link>
             <span aria-hidden="true">·</span>
             <Link href={href(locale, "/terms")} className="transition-colors hover:text-cream">
               {t.terms}
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link href={href(locale, "/imprint")} className="transition-colors hover:text-cream">
+              {t.imprint}
             </Link>
           </div>
         </div>

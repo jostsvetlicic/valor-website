@@ -13,7 +13,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/call", destination: "/", permanent: true },
-      { source: "/services", destination: "/infrastructure", permanent: true },
       { source: "/results", destination: "/", permanent: true },
       // Retired verticals from the pre-enterprise site.
       ...["real-estate", "automotive", "hospitality", "finance", "enterprise", "other"].map((slug) => ({

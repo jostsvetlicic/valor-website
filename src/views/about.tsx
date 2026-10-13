@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { team } from "@/content/team";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
@@ -6,7 +8,9 @@ import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import Sparkle from "@/components/Sparkle";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const copy: Dict<{
   metaTitle: string;
@@ -19,6 +23,10 @@ const copy: Dict<{
   standardEyebrow: string;
   standardTitle: string;
   principles: { title: string; body: string }[];
+  founderEyebrow: string;
+  founderRole: string;
+  founderText: string;
+  founderFocus: string;
   visionEyebrow: string;
   visionTitle: string;
   visionText: string;
@@ -32,7 +40,7 @@ const copy: Dict<{
     eyebrow: "About VALOR",
     title: ["We build the infrastructure,", "not the buzzwords."],
     intro:
-      "VALOR is an AI infrastructure company. We build the software a business actually runs on: the frontend that sells, the automation behind it, the operations system your team works in, and the layer that connects the tools you already use.",
+      "VALOR is an AI automation agency from Slovenia that builds AI infrastructure: the software a business actually runs on: the frontend that sells, the automation behind it, the operations system your team works in, and the layer that connects the tools you already use.",
     paragraphs: [
       "Most companies do not have a software problem. They have a dozen tools that do not talk to each other, work typed in by hand twice, and no single, current view of how the operation is running.",
       "So we build the whole path instead of a single tool, from the interface a customer touches, to the automation that answers and follows up, to the operations system the team lives in, to the integration layer that ties the existing systems together. One system, not ten disconnected ones.",
@@ -56,6 +64,11 @@ const copy: Dict<{
         body: "We don't rip out your core systems. We build the layer on top of them that people actually use, and integrate through the interfaces they already expose.",
       },
     ],
+    founderEyebrow: "Founder",
+    founderRole: "Founder of VALOR",
+    founderText:
+      "Jošt leads strategy, sales and system design, and is your first contact on every project. For each build he brings in the right developers and specialists from the VALOR partner network.",
+    founderFocus: "Strategy · Sales · System design",
     visionEyebrow: "The bigger vision",
     visionTitle: "The infrastructure of tomorrow, built today.",
     visionText:
@@ -70,7 +83,7 @@ const copy: Dict<{
     eyebrow: "O VALOR",
     title: ["Gradimo infrastrukturo,", "ne modnih besed."],
     intro:
-      "VALOR je podjetje za AI infrastrukturo. Gradimo programsko opremo, na kateri podjetje zares deluje: spletni vmesnik, ki prodaja, avtomatizacijo v ozadju, operativni sistem, v katerem dela vaša ekipa, in plast, ki poveže orodja, ki jih že uporabljate.",
+      "VALOR je AI agencija iz Slovenije, ki gradi AI infrastrukturo: programsko opremo, na kateri podjetje zares deluje: spletni vmesnik, ki prodaja, avtomatizacijo v ozadju, operativni sistem, v katerem dela vaša ekipa, in plast, ki poveže orodja, ki jih že uporabljate.",
     paragraphs: [
       "Večina podjetij nima težave s programsko opremo. Ima ducat orodij, ki se med seboj ne pogovarjajo, delo, ki se ročno vnaša dvakrat, in nobenega enotnega, ažurnega pogleda na to, kako poslovanje teče.",
       "Zato namesto enega orodja zgradimo celotno pot: od vmesnika, ki se ga dotakne stranka, prek avtomatizacije, ki odgovarja in sledi, do operativnega sistema, v katerem živi ekipa, in integracijske plasti, ki poveže obstoječe sisteme. En sistem, ne deset nepovezanih.",
@@ -94,6 +107,11 @@ const copy: Dict<{
         body: "Vaših osrednjih sistemov ne izruvamo. Nad njimi zgradimo plast, ki jo ljudje dejansko uporabljajo, in se povežemo prek vmesnikov, ki jih že ponujajo.",
       },
     ],
+    founderEyebrow: "Ustanovitelj",
+    founderRole: "Ustanovitelj VALOR",
+    founderText:
+      "Jošt vodi strategijo, prodajo in zasnovo sistemov ter je vaš prvi kontakt pri vsakem projektu. Za vsak projekt vključi prave razvijalce in strokovnjake iz partnerske mreže VALOR.",
+    founderFocus: "Strategija · Prodaja · Zasnova sistemov",
     visionEyebrow: "Večja vizija",
     visionTitle: "Infrastruktura jutrišnjega dne, zgrajena danes.",
     visionText:
@@ -104,15 +122,16 @@ const copy: Dict<{
 };
 
 export function aboutMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/about", locale) };
+  return seoMetadata(locale, "about", "/about");
 }
 
 export function AboutView({ locale }: { locale: Locale }) {
   const t = copy[locale];
+  const founder = team.find((m) => m.title.en === "Founder");
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].about, path: "/about" }] }}
         eyebrow={t.eyebrow}
         title={
           <>
@@ -138,6 +157,41 @@ export function AboutView({ locale }: { locale: Locale }) {
               <p className="mt-6 font-display text-2xl italic leading-snug text-cream">{t.quote}</p>
             </Reveal>
           </div>
+        </Container>
+      </Section>
+
+      {/* Founder */}
+      <Section tone="panel" className="py-20 md:py-28">
+        <Container>
+          <Reveal className="grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-14">
+            {founder?.photo ? (
+              <Image
+                src={founder.photo}
+                alt={founder.name[locale]}
+                width={288}
+                height={288}
+                className="h-56 w-56 rounded-[2rem] object-cover ring-1 ring-gold/30 md:h-72 md:w-72"
+              />
+            ) : (
+              // TODO: real content required, founder photo (public/team/), set `photo` in content/team.ts
+              <div
+                aria-hidden="true"
+                className="flex h-56 w-56 items-center justify-center rounded-[2rem] border border-gold/30 bg-gradient-to-br from-[#1b170e] to-charcoal font-display text-6xl font-semibold text-gold md:h-72 md:w-72"
+              >
+                JS
+              </div>
+            )}
+            <div>
+              <p className="eyebrow">{t.founderEyebrow}</p>
+              <h2 className="mt-3 font-display t-section text-cream">Jošt Svetličič</h2>
+              <p className="mt-2 text-lg font-medium text-gold">{t.founderRole}</p>
+              <p className="mt-5 max-w-2xl t-lead text-grey">{t.founderText}</p>
+              <p className="mt-5 text-sm uppercase tracking-[0.14em] text-grey">
+                {t.founderFocus}
+                {founder?.location ? ` · ${founder.location}` : ""}
+              </p>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

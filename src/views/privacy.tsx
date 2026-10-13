@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
 import { brand } from "@/config/brand";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
 import { LegalShell } from "@/views/legal";
+import { pageNames } from "@/content/seo";
+import { seoMetadata } from "@/lib/seo";
 
 const copy: Dict<{ title: string; description: string; updated: string }> = {
-  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "3 October 2026" },
-  sl: { title: "Pravilnik o zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "3. oktober 2026" },
+  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "13 October 2026" },
+  sl: { title: "Politika zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "13. oktober 2026" },
 };
 
 export function privacyMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return {
-    title: t.title,
-    description: t.description,
-    robots: { index: true, follow: true },
-    alternates: alternates("/privacy", locale),
-  };
+  return seoMetadata(locale, "privacy", "/privacy");
 }
 
 function BodyEn() {
@@ -48,10 +44,24 @@ function BodyEn() {
       <section>
         <h2>2. What data we collect and why</h2>
         <p>
-          We collect only the data you voluntarily give us. There is no
-          automatic tracking, no analytics platform and no advertising
-          network connected to this site.
+          We collect only the data you voluntarily give us, plus anonymous
+          visit statistics. No advertising network is connected to this
+          site.
         </p>
+
+        <h3 className="mt-6 text-base font-semibold text-cream">
+          Visit statistics
+        </h3>
+        <p>
+          We use Plausible Analytics to count visits, pages viewed, referring
+          websites and clicks on external links (such as the booking
+          calendar). Plausible sets no cookies, stores no IP addresses and
+          collects no personal data; all figures are aggregated. The data is
+          processed on servers in the European Union.
+        </p>
+        <ul>
+          <li><strong className="text-cream">Legal basis:</strong> our legitimate interest in understanding how the site is used (Art. 6(1)(f) GDPR)</li>
+        </ul>
 
         <h3 className="mt-6 text-base font-semibold text-cream">
           Contact form
@@ -83,11 +93,11 @@ function BodyEn() {
           Server logs
         </h3>
         <p>
-          Our hosting provider (Netlify) automatically records standard
+          Our hosting provider (Vercel) automatically records standard
           server log data including IP address, browser type, pages
           visited and the date/time of requests. This data is used solely
           for security and availability monitoring and is retained
-          according to Netlify&rsquo;s own data retention policy.
+          according to Vercel&rsquo;s own data retention policy.
         </p>
       </section>
 
@@ -113,7 +123,7 @@ function BodyEn() {
         </p>
         <ul>
           <li>
-            <strong className="text-cream">Netlify</strong>: website
+            <strong className="text-cream">Vercel</strong>: website
             hosting and CDN (United States; covered by Standard Contractual
             Clauses)
           </li>
@@ -126,6 +136,10 @@ function BodyEn() {
             <strong className="text-cream">Notion Calendar</strong>:
             external booking scheduler; governed by Notion&rsquo;s privacy
             policy
+          </li>
+          <li>
+            <strong className="text-cream">Plausible Insights OÜ</strong>:
+            cookie-free visit statistics (Estonia, European Union)
           </li>
         </ul>
         <p>
@@ -256,10 +270,24 @@ function BodySl() {
       <section>
         <h2>2. Katere podatke zbiramo in zakaj</h2>
         <p>
-          Zbiramo samo podatke, ki nam jih posredujete sami. Na stran ni
-          povezano samodejno sledenje, analitična platforma ali oglaševalsko
+          Zbiramo samo podatke, ki nam jih posredujete sami, in anonimno
+          statistiko obiskov. Na stran ni povezano nobeno oglaševalsko
           omrežje.
         </p>
+
+        <h3 className="mt-6 text-base font-semibold text-cream">
+          Statistika obiskov
+        </h3>
+        <p>
+          Za štetje obiskov, ogledanih strani, napotitvenih strani in klikov
+          na zunanje povezave (na primer na koledar za rezervacije)
+          uporabljamo Plausible Analytics. Plausible ne nastavlja piškotkov,
+          ne shranjuje IP naslovov in ne zbira osebnih podatkov; vse številke
+          so združene. Podatki se obdelujejo na strežnikih v Evropski uniji.
+        </p>
+        <ul>
+          <li><strong className="text-cream">Pravna podlaga:</strong> naš zakoniti interes, da razumemo, kako se stran uporablja (člen 6(1)(f) GDPR)</li>
+        </ul>
 
         <h3 className="mt-6 text-base font-semibold text-cream">
           Kontaktni obrazec
@@ -292,11 +320,11 @@ function BodySl() {
           Strežniški dnevniki
         </h3>
         <p>
-          Naš ponudnik gostovanja (Netlify) samodejno beleži standardne
+          Naš ponudnik gostovanja (Vercel) samodejno beleži standardne
           strežniške podatke, vključno z IP naslovom, vrsto brskalnika,
           obiskanimi stranmi ter datumom in časom zahtev. Ti podatki se
           uporabljajo izključno za spremljanje varnosti in razpoložljivosti in
-          se hranijo v skladu s pravili hrambe podjetja Netlify.
+          se hranijo v skladu s pravili hrambe podjetja Vercel.
         </p>
       </section>
 
@@ -322,7 +350,7 @@ function BodySl() {
         </p>
         <ul>
           <li>
-            <strong className="text-cream">Netlify</strong>: gostovanje spletne
+            <strong className="text-cream">Vercel</strong>: gostovanje spletne
             strani in CDN (Združene države Amerike; zajeto s standardnimi
             pogodbenimi klavzulami)
           </li>
@@ -334,6 +362,10 @@ function BodySl() {
           <li>
             <strong className="text-cream">Notion Calendar</strong>: zunanji
             koledar za rezervacije; velja pravilnik o zasebnosti podjetja Notion
+          </li>
+          <li>
+            <strong className="text-cream">Plausible Insights OÜ</strong>:
+            statistika obiskov brez piškotkov (Estonija, Evropska unija)
           </li>
         </ul>
         <p>
@@ -434,7 +466,7 @@ function BodySl() {
 export function PrivacyView({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
   return (
-    <LegalShell locale={locale} title={t.title} updated={t.updated}>
+    <LegalShell locale={locale} title={t.title} updated={t.updated} crumb={{ name: pageNames[locale].privacy, path: "/privacy" }}>
       {locale === "sl" ? <BodySl /> : <BodyEn />}
     </LegalShell>
   );

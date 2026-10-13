@@ -1,5 +1,7 @@
 import { Container } from "@/components/Container";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import type { Dict, Locale } from "@/i18n";
+import type { Crumb } from "@/lib/seo";
 
 const ui: Dict<{ eyebrow: string; updated: string; draft: string }> = {
   en: {
@@ -19,11 +21,17 @@ export function LegalShell({
   locale,
   title,
   updated,
+  crumb,
+  draft = true,
   children,
 }: {
   locale: Locale;
   title: string;
   updated: string;
+  /** This page, for the breadcrumb trail. */
+  crumb?: Crumb;
+  /** Shows the "under legal review" note. */
+  draft?: boolean;
   children: React.ReactNode;
 }) {
   const t = ui[locale];
@@ -31,13 +39,14 @@ export function LegalShell({
     <div className="pb-24 pt-40 md:pb-32 md:pt-48">
       <Container>
         <div className="mx-auto max-w-3xl">
+          {crumb && <Breadcrumbs locale={locale} items={[crumb]} />}
           <p className="eyebrow">{t.eyebrow}</p>
           <h1 className="mt-4 font-display t-page text-cream">{title}</h1>
           <p className="mt-4 text-sm text-grey">
             {t.updated}: {updated}
           </p>
           {/* TODO: legal review required before launch */}
-          <p className="mt-6 rounded-lg border border-gold/30 bg-charcoal px-4 py-3 text-sm text-cream">{t.draft}</p>
+          {draft && <p className="mt-6 rounded-lg border border-gold/30 bg-charcoal px-4 py-3 text-sm text-cream">{t.draft}</p>}
 
           <div className="divider-gold mt-10" />
 

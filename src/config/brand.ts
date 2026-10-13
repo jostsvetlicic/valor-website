@@ -91,19 +91,19 @@ export const ACTIVE_PALETTE: PaletteName = "gold";
 export const activePalette: Palette = palettes[ACTIVE_PALETTE];
 
 export const brand = {
-  name: "Valor",
-  legalName: "Valor",
+  name: "VALOR",
+  legalName: "VALOR",
   domain: "valorai.eu",
   url: "https://valorai.eu",
   tagline: "AI infrastructure for companies that run on manual work.",
   description:
-    "We connect your systems, automate your processes and build the AI tools your team uses every day. Enterprise-grade, built step by step.",
+    "VALOR is an AI automation agency. We connect your systems, automate your business processes and build the AI tools your team uses every day, step by step.",
 
   // Slovenian versions of the tagline and description (the English ones above
   // stay the defaults used by metadata and the share image).
   taglineSl: "AI infrastruktura za podjetja, ki še vedno delajo ročno.",
   descriptionSl:
-    "Povežemo vaše sisteme, avtomatiziramo procese in zgradimo AI orodja, ki jih vaša ekipa uporablja vsak dan. Na ravni velikih podjetij, korak za korakom.",
+    "VALOR je AI agencija iz Slovenije. Povežemo vaše sisteme, avtomatiziramo poslovne procese in zgradimo AI orodja, ki jih vaša ekipa uporablja vsak dan.",
 
   // The legal entity behind VALOR, shown in the footer and legal pages.
   // Source: AJPES business register (via bizi.si).
@@ -140,7 +140,7 @@ export const brand = {
 };
 
 export const nav: { label: Dict; href: string }[] = [
-  { label: { en: "Infrastructure", sl: "Infrastruktura" }, href: "/infrastructure" },
+  { label: { en: "Services", sl: "Storitve" }, href: "/services" },
   { label: { en: "Solutions", sl: "Rešitve" }, href: "/solutions" },
   { label: { en: "Industries", sl: "Panoge" }, href: "/industries" },
   { label: { en: "Process", sl: "Proces" }, href: "/process" },

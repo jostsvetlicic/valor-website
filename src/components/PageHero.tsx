@@ -1,5 +1,8 @@
 import { Container } from "./Container";
 import Sparkle from "./Sparkle";
+import Breadcrumbs from "./Breadcrumbs";
+import type { Locale } from "@/i18n";
+import type { Crumb } from "@/lib/seo";
 
 /**
  * Shared hero band for interior pages, quieter than the homepage hero. Sits
@@ -9,10 +12,13 @@ export default function PageHero({
   eyebrow,
   title,
   intro,
+  crumbs,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
+  /** Breadcrumb trail after "Home"; the last item is this page. */
+  crumbs?: { locale: Locale; items: Crumb[] };
 }) {
   return (
     <section className="surface-warm relative overflow-hidden pt-40 pb-16 md:pt-48 md:pb-24">
@@ -22,6 +28,7 @@ export default function PageHero({
           className="enter"
           style={{ "--enter-y": "20px", "--enter-duration": "0.8s" } as React.CSSProperties}
         >
+          {crumbs && <Breadcrumbs locale={crumbs.locale} items={crumbs.items} />}
           <div className="flex items-center gap-3">
             <Sparkle id="page-hero" className="h-6 w-6" />
             <span className="eyebrow">{eyebrow}</span>

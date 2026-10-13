@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { brand } from "@/config/brand";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
 import { LegalShell } from "@/views/legal";
+import { pageNames } from "@/content/seo";
+import { seoMetadata } from "@/lib/seo";
 
 const copy: Dict<{ title: string; description: string; updated: string }> = {
   en: { title: "Terms of Service", description: "Terms and conditions governing projects, payments and intellectual property for work carried out by VALOR.", updated: "5 October 2026" },
@@ -9,13 +11,7 @@ const copy: Dict<{ title: string; description: string; updated: string }> = {
 };
 
 export function termsMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return {
-    title: t.title,
-    description: t.description,
-    robots: { index: true, follow: true },
-    alternates: alternates("/terms", locale),
-  };
+  return seoMetadata(locale, "terms", "/terms");
 }
 
 function BodyEn() {
@@ -455,7 +451,7 @@ function BodySl() {
 export function TermsView({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
   return (
-    <LegalShell locale={locale} title={t.title} updated={t.updated}>
+    <LegalShell locale={locale} title={t.title} updated={t.updated} crumb={{ name: pageNames[locale].terms, path: "/terms" }}>
       {locale === "sl" ? <BodySl /> : <BodyEn />}
     </LegalShell>
   );

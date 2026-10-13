@@ -6,11 +6,12 @@ import CtaBand from "@/components/CtaBand";
 import HowItWorksSteps from "@/components/HowItWorksSteps";
 import { Reveal } from "@/components/Reveal";
 import { howItWorks } from "@/content/howItWorks";
-import { alternates, href, type Locale } from "@/i18n";
+import { href, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 export function howItWorksMetadata(locale: Locale): Metadata {
-  const t = howItWorks[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/how-it-works", locale) };
+  return seoMetadata(locale, "howItWorks", "/how-it-works");
 }
 
 export function HowItWorksView({ locale }: { locale: Locale }) {
@@ -18,6 +19,7 @@ export function HowItWorksView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].howItWorks, path: "/how-it-works" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

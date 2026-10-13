@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Hero from "@/components/home/Hero";
 import ChapterNav from "@/components/home/ChapterNav";
-import { brand } from "@/config/brand";
 import { demoVideo, type VideoConfig } from "@/config/media";
-import { alternates, type Locale } from "@/i18n";
+import type { Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
 
 // Below-fold components, code-split into separate JS chunks so the
 // initial bundle only contains what's visible above the fold.
@@ -26,14 +26,7 @@ const ClosingCta = dynamic(() => import("@/components/home/ClosingCta"));
 const hasSource = (v: VideoConfig) => (v.mode === "loom" ? !!v.loomUrl : !!v.mp4);
 
 export function homeMetadata(locale: Locale): Metadata {
-  if (locale === "en") return { alternates: alternates("/", "en") };
-  const title = `VALOR | ${brand.taglineSl.replace(/\.$/, "")}`;
-  return {
-    title: { absolute: title },
-    description: brand.descriptionSl,
-    alternates: alternates("/", "sl"),
-    openGraph: { title, description: brand.descriptionSl, locale: "sl_SI" },
-  };
+  return seoMetadata(locale, "home", "/");
 }
 
 export function HomeView({ locale }: { locale: Locale }) {

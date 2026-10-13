@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
 import DocumentDemo from "@/components/demo/DocumentDemo";
-import { alternates, type Dict, type Locale } from "@/i18n";
+import { type Dict, type Locale } from "@/i18n";
+import { seoMetadata } from "@/lib/seo";
+import { pageNames } from "@/content/seo";
 
 const copy: Dict<{ metaTitle: string; metaDescription: string; eyebrow: string; title: [string, string]; intro: string }> = {
   en: {
@@ -24,8 +26,7 @@ const copy: Dict<{ metaTitle: string; metaDescription: string; eyebrow: string; 
 };
 
 export function demoMetadata(locale: Locale): Metadata {
-  const t = copy[locale];
-  return { title: t.metaTitle, description: t.metaDescription, alternates: alternates("/demo", locale) };
+  return seoMetadata(locale, "demo", "/demo");
 }
 
 export function DemoView({ locale }: { locale: Locale }) {
@@ -33,6 +34,7 @@ export function DemoView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
+        crumbs={{ locale, items: [{ name: pageNames[locale].demo, path: "/demo" }] }}
         eyebrow={t.eyebrow}
         title={
           <>

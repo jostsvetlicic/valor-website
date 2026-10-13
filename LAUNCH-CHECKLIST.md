@@ -3,7 +3,7 @@
 Everything below needs a decision, a file or information from Jošt. The code is
 ready for each item; most are a one-line change in the file named.
 
-Last updated: 12 October 2026.
+Last updated: 13 October 2026.
 
 ---
 
@@ -18,14 +18,15 @@ Last updated: 12 October 2026.
 | 5 | **Security promises are real.** The security page now states: data kept only while you work together, access only for the founder and project developers, TLS 1.2+ in transit and AES-256 at rest, AWS Frankfurt, Claude via Amazon Bedrock in EU regions. | These are public commitments. Every client system must actually be built this way. | `src/content/security.ts` if anything changes. |
 | 6 | **Contact form delivery.** The form currently opens the visitor's own email app (many people will not send). Choose a form service (for example Formspree or Resend) so messages land in info@valorai.eu directly. | Lost leads. | Needs an account and an API key from you; then `src/components/ContactForm.tsx`. |
 | 7 | **Email set-up for info@valorai.eu** (SPF, DKIM, DMARC records at the domain). | So replies do not land in spam. | Your domain/email provider settings. |
-| 8 | **Analytics decision.** Recommended: a cookie-free tool (Plausible or Simple Analytics) plus tracking of "Book a call" clicks. | Without it you cannot see what works. The privacy policy must be updated to match. | Tell me which tool; I add it and update the privacy policy. |
+| 8 | **Plausible account.** The Plausible script is already in the site (production only, cookie-free, counts "Book a call" clicks as outbound links) and the privacy policy mentions it. Create the site `valorai.eu` at plausible.io (about 9 EUR a month). | Until the site exists in Plausible, nothing is recorded. | plausible.io; code in `src/components/Analytics.tsx`. |
+| 8a | **Confirm the host is Vercel.** The privacy policy now names Vercel (it said Netlify before). | The processor list must be correct. | `src/views/privacy.tsx`. |
 
 ## 2. Content that builds the most trust
 
 | # | What | Where it goes |
 |---|------|---------------|
 | 9 | **One real case study**: client (or anonymised description), the process, minutes per document before and after, monthly volume, timeline. The section and page stay hidden until one exists. | `src/content/caseStudies.ts`, set `verified: true`. |
-| 10 | **Founder photo** (square, at least 400 x 400 px). Replaces the "JS" initials. | `public/team/`, then `photo` in `src/content/team.ts`. |
+| 10 | **Founder photo** (square, at least 600 x 600 px). Replaces the "JS" monogram on the About page and in the team section. | `public/team/`, then `photo` in `src/content/team.ts`. |
 | 11 | **Developer names, roles and photos.** Their cards are hidden until filled in (earlier mentions: Robson, lead developer; Nikita, developer). | `src/content/team.ts`, remove `placeholder: true`. |
 | 12 | **Partner logo files** for CoreUnlock and InternumAI (the current ones are placeholders). | Replace `public/partners/coreunlock.svg` and `internum.svg` (same names). |
 | 13 | **Which solution references may be shown**: Nuanu Creative City, the Jakarta pilot, the automotive distributor (NDA), the multi-entity finance group, and whether "Fable Labs" may be named. All hidden now. | `src/config/features.ts`: `solutionReferences: true` once confirmed; text in `src/content/solutions.ts`. |
@@ -40,7 +41,10 @@ Last updated: 12 October 2026.
 |---|------|
 | 18 | Review the branch `rebuild/infrastructure-site` and merge it yourself (I never deploy). |
 | 19 | A preview deploy to check on your own phone (iPhone Safari and Android) before the domain switches. |
-| 20 | Search Console: submit `https://valorai.eu/sitemap.xml` after launch. |
+| 20 | **Google Search Console**: add the property `https://valorai.eu`, choose the "HTML tag" method, copy only the `content` value into the Vercel environment variable `GOOGLE_SITE_VERIFICATION`, redeploy, click Verify, then submit `https://valorai.eu/sitemap.xml`. One property also covers the `/sl` pages. |
+| 20a | **Google Business Profile**: create it for VALOR at Godovič 99E (or as a service-area business without a public address), category "Software company" or "Business management consultant", link https://valorai.eu, add the logo (`public/brand/valor-logo-512.png`). |
+| 20b | **LinkedIn company page**: create it, then send me the URL; I add it to the footer and to the Organization structured data (`sameAs` in `src/app/layout.tsx`). |
+| 20c | **Bing Webmaster Tools** (optional): import from Search Console in one click. |
 | 21 | Decide whether to keep the old Calendly component (`src/components/home/BookingCalendar.tsx`, no longer used; Notion booking cannot be embedded). Safe to remove once you are happy. |
 
 ## 4. Later (not needed for launch)
@@ -61,4 +65,5 @@ Last updated: 12 October 2026.
 - Site search (Cmd/Ctrl+K) across pages, industries, solutions, process, FAQ and security, accent-insensitive.
 - Company details from AJPES in the footer, legal pages and Google structured data.
 - Animations keep running gently when the Mac "Reduce motion" setting is on.
-- Lighthouse (mobile): accessibility 100, best practices 100, SEO 100, performance 83 to 90.
+- SEO pass (13 Oct): unique titles (max 60) and descriptions (max 155) for every page in both languages, per-page Open Graph and Twitter tags, canonical and hreflang on every page, sitemap with language alternates, Organization, WebSite, Service, FAQPage and BreadcrumbList structured data, visible breadcrumbs, square favicon set, /services hub, /services/business-automation, /imprint, founder section on About, Plausible, Search Console tag ready.
+- Lighthouse (mobile, production build): performance 91 to 97, accessibility 100, best practices 100, SEO 100 on all pages tested.
