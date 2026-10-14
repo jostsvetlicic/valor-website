@@ -37,7 +37,7 @@ export function Section({
     <section
       id={id}
       className={clsx(
-        "relative isolate overflow-hidden border-t border-cream/[0.06]",
+        "relative isolate",
         toneClass[tone],
         className,
       )}

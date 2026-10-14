@@ -3,8 +3,11 @@ import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
-import { team } from "@/content/team";
+import { devTeam, team } from "@/content/team";
+import SocialLinks from "@/components/SocialLinks";
+import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import { partners, type Partner } from "@/content/partners";
+import { FEATURES } from "@/config/features";
 import type { Dict, Locale } from "@/i18n";
 
 const ui: Dict<{
@@ -12,6 +15,8 @@ const ui: Dict<{
   title: string;
   intro: string;
   core: string;
+  devTitle: string;
+  devText: (total: number, core: number) => string;
   featured: string;
   network: string;
   placeholder: string;
@@ -20,10 +25,12 @@ const ui: Dict<{
   logo: string;
 }> = {
   en: {
-    eyebrow: "Team and partners",
+    eyebrow: "Team",
     title: "The team behind your system",
-    intro: "VALOR leads strategy, design and delivery. For every project we bring in the right specialists from our partner network.",
+    intro: "One team from the first call to a running system. Jošt leads strategy and the client relationship, Mikhail builds the customer side of the AI, and Nikita builds the systems underneath it.",
     core: "VALOR core team",
+    devTitle: "Development team",
+    devText: (total, core) => `${total} developers, ${core} of them core developers on every build.`,
     featured: "Featured partner",
     network: "Partner network",
     placeholder: "Placeholder",
@@ -32,10 +39,12 @@ const ui: Dict<{
     logo: "logo",
   },
   sl: {
-    eyebrow: "Ekipa in partnerji",
+    eyebrow: "Ekipa",
     title: "Ekipa za vašim sistemom",
-    intro: "VALOR vodi strategijo, zasnovo in izvedbo. Za vsak projekt vključimo prave strokovnjake iz naše partnerske mreže.",
+    intro: "Ena ekipa od prvega klica do delujočega sistema. Jošt vodi strategijo in odnos s stranko, Mikhail gradi del AI, ki ga vidijo stranke, Nikita pa sisteme v ozadju.",
     core: "Jedrna ekipa VALOR",
+    devTitle: "Razvojna ekipa",
+    devText: (total, core) => `${total} razvijalcev, od tega ${core} jedrna na vsakem projektu.`,
     featured: "Izpostavljeni partner",
     network: "Partnerska mreža",
     placeholder: "Začasno",
@@ -76,8 +85,8 @@ export default function Team({ locale = "en" }: { locale?: Locale }) {
   const t = ui[locale];
   // Placeholder cards stay hidden until real names exist (content/team.ts).
   const members = team.filter((m) => !m.placeholder);
-  const featured = partners.filter((p) => p.tier === "featured");
-  const network = partners.filter((p) => p.tier === "network");
+  const featured = FEATURES.partners ? partners.filter((p) => p.tier === "featured") : [];
+  const network = FEATURES.partners ? partners.filter((p) => p.tier === "network") : [];
 
   return (
     <Section id="team" tone="panel" className="py-24 md:py-32">
@@ -88,61 +97,76 @@ export default function Team({ locale = "en" }: { locale?: Locale }) {
         <Reveal className="mt-14">
           <GroupLabel>{t.core}</GroupLabel>
         </Reveal>
-        <RevealGroup
-          as="ul"
-          stagger={0.08}
-          className={members.length > 1 ? "mt-5 grid gap-4 md:grid-cols-2" : "mt-5 grid max-w-2xl gap-4"}
-        >
-          {members.map((m, i) => (
-            <RevealItem
-              as="li"
-              key={`${m.name.en}-${i}`}
-              className={
-                m.placeholder
-                  ? "flex items-start gap-5 rounded-3xl border border-dashed border-cream/20 bg-charcoal/50 p-6"
-                  : i === 0
-                    ? "group flex flex-col items-start gap-6 rounded-3xl border border-gold/30 bg-gradient-to-br from-[#1b170e] to-charcoal p-8 transition-colors duration-300 hover:border-gold md:row-span-2 md:p-10 [&>span:first-child]:h-24 [&>span:first-child]:w-24 [&>span:first-child]:text-3xl [&_h3]:text-3xl"
-                    : "group flex items-start gap-5 rounded-3xl border border-cream/[0.08] bg-charcoal p-6 transition-colors duration-300 hover:border-gold/70"
-              }
-            >
-              {m.photo ? (
-                <Image
-                  src={m.photo}
-                  alt={m.name[locale]}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-cream/10 transition-shadow duration-300 group-hover:ring-gold"
-                />
-              ) : (
-                <span
-                  aria-hidden="true"
-                  className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#2a2a2a] font-display text-lg text-cream/80 ring-1 ring-cream/10 transition-[box-shadow,color] duration-300 group-hover:text-gold group-hover:ring-gold"
-                >
-                  {m.placeholder ? "?" : initials(m.name[locale])}
-                </span>
-              )}
-              <div className="min-w-0">
-                <h3
-                  className={
-                    m.placeholder
-                      ? "font-display text-xl font-medium text-grey"
-                      : "font-display text-xl font-medium text-cream transition-colors duration-300 group-hover:text-gold"
+        <RevealGroup as="ul" stagger={0.08} className="mt-5 grid gap-4 md:grid-cols-3">
+          {members.map((m, i) => {
+            return (
+              <RevealItem as="li" key={`${m.name.en}-${i}`} className="h-full">
+                {/* React Bits SpotlightCard: a soft gold light follows the pointer. */}
+                <SpotlightCard
+                  spotlightColor="#C9A84C"
+                  intensity={0.22}
+                  spotlightSize={260}
+                  borderGlow={0.9}
+                  className="group flex h-full flex-col items-center text-center"
+                  style={
+                    {
+                      "--spotlight-card-surface": "#15120c",
+                      "--spotlight-card-border": "rgba(201,168,76,0.38)",
+                      "--spotlight-card-shadow": "0 30px 80px -40px rgba(201,168,76,0.45)",
+                    } as React.CSSProperties
                   }
                 >
-                  {m.name[locale]}
-                </h3>
-                <p className="mt-0.5 text-sm font-medium text-gold">{m.title[locale]}</p>
-                {m.placeholder && (
-                  <span className="mt-3 inline-block rounded-full border border-cream/20 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-grey">
-                    {t.placeholder}
+                {m.photo ? (
+                  <Image
+                    src={m.photo}
+                    alt={m.name[locale]}
+                    width={128}
+                    height={128}
+                    className="h-28 w-28 rounded-full object-cover ring-2 ring-gold/40 ring-offset-4 ring-offset-charcoal transition-shadow duration-300 group-hover:ring-gold"
+                  />
+                ) : (
+                  // Initials until a photo is added in content/team.ts.
+                  <span
+                    aria-hidden="true"
+                    className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#2a2416] to-[#151515] font-display text-3xl font-semibold text-gold ring-2 ring-gold/25 ring-offset-4 ring-offset-charcoal transition-shadow duration-300 group-hover:ring-gold"
+                  >
+                    {initials(m.name[locale])}
                   </span>
                 )}
+                <h3 className="mt-6 font-display text-2xl font-medium text-cream transition-colors duration-300 group-hover:text-gold">
+                  {m.name[locale]}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-gold">{m.title[locale]}</p>
                 {m.description && <p className="mt-3 text-sm leading-relaxed text-grey">{m.description[locale]}</p>}
                 {m.location && <p className="mt-2 text-xs uppercase tracking-[0.14em] text-grey">{m.location}</p>}
-              </div>
-            </RevealItem>
-          ))}
+                <SocialLinks socials={m.socials} name={m.name[locale]} className="mt-5 justify-center" />
+                </SpotlightCard>
+              </RevealItem>
+            );
+          })}
         </RevealGroup>
+
+        {/* The wider development team */}
+        <Reveal className="mt-4">
+          <div className="flex flex-col items-start gap-5 rounded-3xl border border-cream/[0.08] bg-charcoal px-8 py-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="font-display text-xl font-medium text-cream">{t.devTitle}</h3>
+              <p className="mt-1 text-[0.95rem] text-grey">{t.devText(devTeam.total, devTeam.core)}</p>
+            </div>
+            <div className="flex -space-x-3" aria-hidden="true">
+              {Array.from({ length: devTeam.total }).map((_, k) => (
+                <span
+                  key={k}
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border-2 border-charcoal font-mono text-[0.65rem] ${
+                    k < devTeam.core ? "bg-gold text-obsidian" : "bg-[#2a2a2a] text-cream/70"
+                  }`}
+                >
+                  {"</>"}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
 
         {/* 2. Featured partner */}
         {featured.length > 0 && (

@@ -225,34 +225,6 @@ html.lenis body {
   }
 
 
-  /* Section surfaces. Neighbouring sections use different tones so the long
-     homepage has rhythm: void (deepest), base, warm (gold light from above),
-     panel (lifted, with a faint dot grid) and light (cream, dark text). */
-  .surface-void {
-    background-color: #050505;
-  }
-  .surface-base {
-    background-color: var(--color-obsidian);
-  }
-  .surface-warm {
-    background-color: #0d0b07;
-    background-image: radial-gradient(
-      70% 55% at 50% 0%,
-      rgba(201, 168, 76, 0.16) 0%,
-      rgba(201, 168, 76, 0.04) 45%,
-      transparent 75%
-    );
-  }
-  .surface-panel {
-    background-color: #101010;
-    background-image: radial-gradient(rgba(245, 240, 232, 0.07) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-  .surface-light {
-    background-color: var(--color-cream);
-    color: var(--color-obsidian);
-    border-color: transparent;
-  }
   /* Gold on cream is too faint to read; labels darken on light sections. */
   .surface-light .eyebrow {
     color: #7a5d12;
@@ -888,20 +860,6 @@ html.lenis body {
   }
 }
 
-/* Section headings: words fade up in sequence when the heading is revealed.
-   Without JS (no reveal attribute) they are simply visible. */
-.heading-word {
-  display: inline-block;
-  white-space: pre;
-  transition:
-    opacity 0.5s var(--ease-out),
-    transform 0.5s var(--ease-out);
-  transition-delay: calc(var(--w, 0) * 45ms + 80ms);
-}
-[data-reveal="hidden"] .heading-word {
-  opacity: 0;
-  transform: translateY(0.35em);
-}
 
 /* Process timeline: under reduced motion the gold line is simply drawn in
    full (CSS, so the server and client render the same markup). */
@@ -921,5 +879,144 @@ html.lenis body {
   }
   to {
     transform: scaleY(1);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Section surfaces (unlayered on purpose: they must win over the      */
+/*  hairline border and overflow utilities on the same element).        */
+/*                                                                      */
+/*  Dark tones fade into the shared #0a0a0a at their top and bottom     */
+/*  edges, so neighbouring sections melt together with no visible       */
+/*  seam. Light (cream) sections are a rounded sheet laid over the      */
+/*  dark page, with a warm halo spilling into the sections around it.   */
+/*  The gold light of the warm tone spills up into the section above.   */
+/* ------------------------------------------------------------------ */
+.surface-void,
+.surface-base,
+.surface-warm,
+.surface-panel,
+.surface-light {
+  position: relative;
+  border-top-color: transparent !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.surface-base {
+  background-color: #0a0a0a;
+}
+
+.surface-void {
+  background: linear-gradient(
+    to bottom,
+    #0a0a0a 0,
+    #050505 clamp(80px, 12%, 180px),
+    #050505 calc(100% - clamp(80px, 12%, 180px)),
+    #0a0a0a 100%
+  );
+}
+
+.surface-panel {
+  background: linear-gradient(
+    to bottom,
+    #0a0a0a 0,
+    #101010 clamp(80px, 12%, 180px),
+    #101010 calc(100% - clamp(80px, 12%, 180px)),
+    #0a0a0a 100%
+  );
+}
+/* The dot grid fades out towards both edges instead of stopping at a line. */
+.surface-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(245, 240, 232, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+}
+
+.surface-warm {
+  background: linear-gradient(
+    to bottom,
+    #0a0a0a 0,
+    #0d0b07 clamp(80px, 14%, 200px),
+    #0d0b07 calc(100% - clamp(80px, 14%, 200px)),
+    #0a0a0a 100%
+  );
+}
+/* Gold light from above, starting inside the previous section. */
+.surface-warm::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -14rem;
+  z-index: -1;
+  width: min(80rem, 120vw);
+  height: 46rem;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(201, 168, 76, 0.2) 0%,
+    rgba(201, 168, 76, 0.07) 45%,
+    transparent 100%
+  );
+}
+
+.surface-light {
+  z-index: 1;
+  background: linear-gradient(to bottom, #f7f2ea 0%, var(--color-cream) 22%, #f2ece2 100%);
+  color: var(--color-obsidian);
+  border-radius: 2.5rem;
+  /* Warm halo spilling into the dark sections above and below. */
+  box-shadow:
+    0 -40px 120px -30px rgba(201, 168, 76, 0.28),
+    0 40px 120px -30px rgba(201, 168, 76, 0.22),
+    0 0 0 1px rgba(201, 168, 76, 0.18);
+}
+@media (min-width: 768px) {
+  .surface-light {
+    border-radius: 3.5rem;
+  }
+}
+
+/* Official partners band: an arrow travels along the gold line, and the
+   partner names glide past endlessly (the track holds the list twice and
+   moves by half its width). Hovering pauses the strip. */
+.partner-arrow {
+  left: 0;
+  animation: partner-arrow 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes partner-arrow {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 1rem);
+    opacity: 0;
+  }
+}
+.partner-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.partner-track {
+  animation: partner-marquee 40s linear infinite;
+}
+.partner-marquee:hover .partner-track {
+  animation-play-state: paused;
+}
+@keyframes partner-marquee {
+  to {
+    transform: translateX(-50%);
   }
 }

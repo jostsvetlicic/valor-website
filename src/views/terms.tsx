@@ -90,8 +90,9 @@ function BodyEn() {
           </li>
         </ul>
         <p>
-          All prices are exclusive of VAT, which is added where
-          applicable under Slovenian and EU law.
+          VALOR is not registered for VAT in Slovenia, so no VAT is
+          charged on its invoices (Article 94(1) of the Slovenian VAT Act,
+          ZDDV-1).
         </p>
       </section>
 
@@ -314,8 +315,8 @@ function BodySl() {
           </li>
         </ul>
         <p>
-          Vse cene so brez DDV, ki se obračuna, kjer je to potrebno po
-          slovenski zakonodaji in zakonodaji EU.
+          VALOR ni zavezanec za DDV, zato DDV na računih ni obračunan
+          (1. odstavek 94. člena ZDDV-1).
         </p>
       </section>
 

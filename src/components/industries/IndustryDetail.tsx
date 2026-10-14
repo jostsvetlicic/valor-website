@@ -112,7 +112,7 @@ export default function IndustryDetail({ industry, locale = "en" }: { industry: 
               <RevealItem
                 as="li"
                 key={doc}
-                className="flex items-center gap-4 rounded-2xl border border-obsidian/10 bg-white px-5 py-4 text-[0.95rem] font-medium text-obsidian shadow-[0_14px_40px_-30px_rgba(10,10,10,0.4)]"
+                className="flex items-center gap-4 rounded-2xl border border-obsidian/10 bg-[#fcfaf6] px-5 py-4 text-[0.95rem] font-medium text-obsidian shadow-[0_14px_40px_-30px_rgba(10,10,10,0.4)]"
               >
                 <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-obsidian text-gold">
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">

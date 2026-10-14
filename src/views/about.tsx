@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { team } from "@/content/team";
+import SocialLinks from "@/components/SocialLinks";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
@@ -67,7 +68,7 @@ const copy: Dict<{
     founderEyebrow: "Founder",
     founderRole: "Founder of VALOR",
     founderText:
-      "Jošt leads strategy, sales and system design, and is your first contact on every project. For each build he brings in the right developers and specialists from the VALOR partner network.",
+      "Jošt leads strategy, sales and system design, and is your first contact on every project. He works side by side with the VALOR development team on every build.",
     founderFocus: "Strategy · Sales · System design",
     visionEyebrow: "The bigger vision",
     visionTitle: "The infrastructure of tomorrow, built today.",
@@ -110,7 +111,7 @@ const copy: Dict<{
     founderEyebrow: "Ustanovitelj",
     founderRole: "Ustanovitelj VALOR",
     founderText:
-      "Jošt vodi strategijo, prodajo in zasnovo sistemov ter je vaš prvi kontakt pri vsakem projektu. Za vsak projekt vključi prave razvijalce in strokovnjake iz partnerske mreže VALOR.",
+      "Jošt vodi strategijo, prodajo in zasnovo sistemov ter je vaš prvi kontakt pri vsakem projektu. Pri vsakem projektu dela z ramo ob rami z razvojno ekipo VALOR.",
     founderFocus: "Strategija · Prodaja · Zasnova sistemov",
     visionEyebrow: "Večja vizija",
     visionTitle: "Infrastruktura jutrišnjega dne, zgrajena danes.",
@@ -164,16 +165,17 @@ export function AboutView({ locale }: { locale: Locale }) {
       <Section tone="panel" className="py-20 md:py-28">
         <Container>
           <Reveal className="grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-14">
-            {founder?.photo ? (
+            {founder?.portrait ? (
               <Image
-                src={founder.photo}
+                src={founder.portrait}
                 alt={founder.name[locale]}
-                width={288}
-                height={288}
-                className="h-56 w-56 rounded-[2rem] object-cover ring-1 ring-gold/30 md:h-72 md:w-72"
+                width={360}
+                height={504}
+                sizes="(min-width: 768px) 288px, 224px"
+                className="h-[19rem] w-56 rounded-[2rem] object-cover ring-1 ring-gold/30 md:h-[25rem] md:w-72"
               />
             ) : (
-              // TODO: real content required, founder photo (public/team/), set `photo` in content/team.ts
+              // Fallback monogram if no portrait is set in content/team.ts
               <div
                 aria-hidden="true"
                 className="flex h-56 w-56 items-center justify-center rounded-[2rem] border border-gold/30 bg-gradient-to-br from-[#1b170e] to-charcoal font-display text-6xl font-semibold text-gold md:h-72 md:w-72"
@@ -190,6 +192,7 @@ export function AboutView({ locale }: { locale: Locale }) {
                 {t.founderFocus}
                 {founder?.location ? ` · ${founder.location}` : ""}
               </p>
+              {founder && <SocialLinks socials={founder.socials} name={founder.name[locale]} className="mt-6" />}
             </div>
           </Reveal>
         </Container>
@@ -203,7 +206,7 @@ export function AboutView({ locale }: { locale: Locale }) {
               <RevealItem
                 key={p.title}
                 hoverLift
-                className="rounded-3xl border border-obsidian/10 bg-white p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)]"
+                className="rounded-3xl border border-obsidian/10 bg-[#fcfaf6] p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)]"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-obsidian">
                   <Sparkle id={`prin-${i}`} className="h-6 w-6" />

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Hero from "@/components/home/Hero";
+import { FEATURES } from "@/config/features";
 import ChapterNav from "@/components/home/ChapterNav";
+import OfficialPartners from "@/components/home/OfficialPartners";
 import { demoVideo, type VideoConfig } from "@/config/media";
 import type { Locale } from "@/i18n";
 import { seoMetadata } from "@/lib/seo";
@@ -14,8 +16,6 @@ const Solution = dynamic(() => import("@/components/home/Solution"));
 const SavingsCalculator = dynamic(() => import("@/components/SavingsCalculator"));
 const HomeVideo = dynamic(() => import("@/components/home/HomeVideo"));
 const WhoWeHelp = dynamic(() => import("@/components/home/WhoWeHelp"));
-const WhatWeBuild = dynamic(() => import("@/components/home/WhatWeBuild"));
-const ProcessTeaser = dynamic(() => import("@/components/home/ProcessTeaser"));
 const GlobeSection = dynamic(() => import("@/components/home/GlobeSection"));
 const CaseStudies = dynamic(() => import("@/components/home/CaseStudies"));
 const References = dynamic(() => import("@/components/home/References"));
@@ -39,20 +39,22 @@ export function HomeView({ locale }: { locale: Locale }) {
       {/* Nav and footer live in the layouts. Hero includes the client ticker. */}
       <Hero locale={locale} />
 
+      {/* Official partners strip (off on the live site until confirmed). */}
+      <OfficialPartners locale={locale} />
+
       {/* Welcome video, right after the client logos. */}
-      <WelcomeFilm locale={locale} />
+      {FEATURES.welcomeFilm && <WelcomeFilm locale={locale} />}
 
       {/* 01 The problem, then the answer: "We make it stop." */}
       <Problem locale={locale} />
       <Solution locale={locale} />
 
-      {/* 02 What we build: six service groups. */}
-      <WhatWeBuild locale={locale} />
-
-      {/* 03 Who we help: the signs, plus the industries. */}
+      {/* 02 Who we help: the industries, plus the "Is this you?" check.
+          (The service list lives on /services: everything is custom, so the
+          homepage shows the problem, the answer and the fit instead.) */}
       <WhoWeHelp locale={locale} />
 
-      {/* 04 What manual work costs today, from the visitor's own numbers. */}
+      {/* 03 What manual work costs today, from the visitor's own numbers. */}
       <SavingsCalculator locale={locale} />
 
       {/* Demo video appears once it has a real source in config/media.ts. */}
@@ -60,23 +62,21 @@ export function HomeView({ locale }: { locale: Locale }) {
         <HomeVideo id="demo" label={locale === "sl" ? "Poglejte v praksi" : "See it in action"} video={demoVideo} />
       )}
 
-      {/* 05 How we work, horizontal, draggable 5-step carousel. */}
-      <ProcessTeaser locale={locale} />
-
-      {/* 06 Proof: globe + verified numbers, then measured case studies
+      {/* 04 Proof: globe + verified numbers, then measured case studies
           (hidden until one is verified) and references (off until
           FEATURES.references is on). */}
       <GlobeSection locale={locale} />
       <CaseStudies locale={locale} />
       <References />
 
-      {/* 07 Team */}
+      {/* 05 Team */}
       <Team locale={locale} />
 
-      {/* 08 Questions */}
+      {/* 06 Questions */}
       <Faq locale={locale} />
 
-      {/* 09 Booking: the closing call to action (#book). */}
+      {/* 07 Start: what happens after you book (the five process steps)
+          and the booking button (#book). */}
       <ClosingCta locale={locale} />
     </>
   );

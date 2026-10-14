@@ -52,6 +52,9 @@ const ui: Dict<{
   },
 };
 
+/** Field length limits (also enforced by the inputs' maxLength). */
+const LIMITS = { name: 100, email: 254, company: 120, message: 4000 };
+
 /**
  * Simple contact form that composes a message and opens the visitor's own
  * WhatsApp (or mail client once a real inbox exists). No backend,
@@ -66,10 +69,17 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") ?? "");
-    const email = String(data.get("email") ?? "");
-    const company = String(data.get("company") ?? "");
-    const message = String(data.get("message") ?? "");
+    // Trim, cap the length and drop control characters before the text is
+    // put into the email link (the form never touches a server).
+    const clean = (v: FormDataEntryValue | null, max: number) =>
+      String(v ?? "")
+        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+        .trim()
+        .slice(0, max);
+    const name = clean(data.get("name"), LIMITS.name);
+    const email = clean(data.get("email"), LIMITS.email);
+    const company = clean(data.get("company"), LIMITS.company);
+    const message = clean(data.get("message"), LIMITS.message);
 
     const subject = t.subject(name || t.visitor);
     const body = [
@@ -112,6 +122,8 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             id="name"
             name="name"
             required
+            maxLength={LIMITS.name}
+            autoComplete="name"
             placeholder={t.name}
             className={fieldClass}
           />
@@ -125,6 +137,8 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             name="email"
             type="email"
             required
+            maxLength={LIMITS.email}
+            autoComplete="email"
             placeholder={t.email}
             className={fieldClass}
           />
@@ -137,6 +151,8 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         <input
           id="company"
           name="company"
+          maxLength={LIMITS.company}
+          autoComplete="organization"
           placeholder={t.companyPlaceholder}
           className={fieldClass}
         />
@@ -149,6 +165,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
           id="message"
           name="message"
           required
+          maxLength={LIMITS.message}
           rows={5}
           placeholder={t.messagePlaceholder}
           className={`${fieldClass} resize-none`}

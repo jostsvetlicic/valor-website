@@ -19,9 +19,6 @@ const ui: Dict<{
   imprint: string;
   industries: string;
   security: string;
-  regNo: string;
-  taxNo: string;
-  noVat: string;
   privacy: string;
   terms: string;
 }> = {
@@ -37,9 +34,6 @@ const ui: Dict<{
     imprint: "Imprint",
     industries: "Industries",
     security: "Security and data",
-    regNo: "Reg. no.",
-    taxNo: "Tax no.",
-    noVat: "Not registered for VAT",
     privacy: "Privacy policy",
     terms: "Terms of service",
   },
@@ -55,9 +49,6 @@ const ui: Dict<{
     imprint: "Impresum",
     industries: "Panoge",
     security: "Varnost in podatki",
-    regNo: "Matična št.",
-    taxNo: "Davčna št.",
-    noVat: "Ni zavezanec za DDV",
     privacy: "Politika zasebnosti",
     terms: "Pogoji poslovanja",
   },
@@ -148,14 +139,8 @@ export default function Footer() {
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-grey md:flex-row">
           <div className="text-center md:text-left">
+            {/* Company details live on the imprint page only (owner's choice). */}
             <p>© 2026 VALOR · {brand.domain}</p>
-            <p className="mt-1">
-              {brand.legal.entity} · {brand.legal.address}, {brand.legal.country[locale]}
-            </p>
-            <p className="mt-1">
-              {t.regNo} {brand.legal.registrationNo} · {t.taxNo} {brand.legal.taxNo}
-              {!brand.legal.vatRegistered && <> · {t.noVat}</>}
-            </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <Link href={href(locale, "/privacy")} className="transition-colors hover:text-cream">

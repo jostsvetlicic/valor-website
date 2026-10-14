@@ -7,14 +7,12 @@ import { clsx } from "@/lib/clsx";
 /** Homepage chapters, in page order. Each id must exist on the page. */
 const chapters: { id: string; label: Dict }[] = [
   { id: "problem", label: { en: "The problem", sl: "Problem" } },
-  { id: "what-we-build", label: { en: "What we build", sl: "Kaj zgradimo" } },
   { id: "who-we-help", label: { en: "Who we help", sl: "Komu pomagamo" } },
   { id: "calculator", label: { en: "Your cost today", sl: "Vaš strošek danes" } },
-  { id: "how-we-work", label: { en: "How we work", sl: "Kako delamo" } },
   { id: "reach", label: { en: "Where we work", sl: "Kje delamo" } },
   { id: "team", label: { en: "Team", sl: "Ekipa" } },
   { id: "faq", label: { en: "Questions", sl: "Vprašanja" } },
-  { id: "book", label: { en: "Book a call", sl: "Rezervacija" } },
+  { id: "book", label: { en: "Start", sl: "Začetek" } },
 ];
 
 /**

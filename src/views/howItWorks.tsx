@@ -49,7 +49,7 @@ export function HowItWorksView({ locale }: { locale: Locale }) {
                 className={
                   b.dark
                     ? "rounded-[2rem] bg-obsidian p-8 text-cream md:p-10"
-                    : "rounded-[2rem] border border-obsidian/10 bg-white p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] md:p-10"
+                    : "rounded-[2rem] border border-obsidian/10 bg-[#fcfaf6] p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] md:p-10"
                 }
               >
                 <h2 className={`font-display t-subhead ${b.dark ? "text-cream" : "text-obsidian"}`}>{b.title}</h2>

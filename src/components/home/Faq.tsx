@@ -8,23 +8,43 @@ import { Reveal } from "@/components/Reveal";
 import { brand } from "@/config/brand";
 import { href, type Locale } from "@/i18n";
 import { faqCopy, type Faq } from "@/content/faq";
+import { safeJson } from "@/lib/seo";
 
 const copy = faqCopy;
 
-function FaqItem({ faq, last, locale, book }: { faq: Faq; last: boolean; locale: Locale; book: string }) {
-  const [open, setOpen] = useState(false);
+function FaqItem({
+  faq,
+  last,
+  locale,
+  book,
+  open,
+  onToggle,
+}: {
+  faq: Faq;
+  last: boolean;
+  locale: Locale;
+  book: string;
+  open: boolean;
+  onToggle: () => void;
+}) {
   const id = useId();
 
   return (
-    <li className="border-b border-obsidian/10 first:border-t">
+    <li
+      className={`border-b border-obsidian/10 transition-colors duration-300 first:border-t ${
+        open ? "bg-[#fcfaf6] shadow-[inset_3px_0_0_#b08a2e]" : ""
+      }`}
+    >
       <h3>
         <button
           type="button"
           id={`${id}-q`}
           aria-expanded={open}
           aria-controls={`${id}-a`}
-          onClick={() => setOpen((o) => !o)}
-          className="flex w-full items-center justify-between gap-6 py-5 text-left text-base font-semibold text-obsidian transition-colors hover:text-[#7a5d12] md:text-lg"
+          onClick={onToggle}
+          className={`flex w-full items-center justify-between gap-6 rounded-lg px-4 py-5 text-left text-base font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#b08a2e]/60 md:text-lg ${
+            open ? "text-[#7a5d12]" : "text-obsidian hover:text-[#7a5d12]"
+          }`}
         >
           {faq.q}
           <svg
@@ -49,7 +69,7 @@ function FaqItem({ faq, last, locale, book }: { faq: Faq; last: boolean; locale:
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
       >
         <div className="overflow-hidden">
-          <p className="pb-5 pr-10 text-[0.95rem] leading-relaxed text-obsidian/75">
+          <p className="px-4 pb-6 pr-12 text-[0.95rem] leading-relaxed text-obsidian/75">
             {faq.a}
             {faq.link && (
               <>
@@ -81,6 +101,8 @@ function FaqItem({ faq, last, locale, book }: { faq: Faq; last: boolean; locale:
 
 export default function Faq({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
+  // One question open at a time; the first starts open.
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -125,13 +147,21 @@ export default function Faq({ locale = "en" }: { locale?: Locale }) {
           <Reveal>
             <ul>
               {t.faqs.map((f, i) => (
-                <FaqItem key={f.q} faq={f} last={i === t.faqs.length - 1} locale={locale} book={t.book} />
+                <FaqItem
+                  key={f.q}
+                  faq={f}
+                  last={i === t.faqs.length - 1}
+                  locale={locale}
+                  book={t.book}
+                  open={openIndex === i}
+                  onToggle={() => setOpenIndex((o) => (o === i ? null : i))}
+                />
               ))}
             </ul>
           </Reveal>
         </div>
       </Container>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJson(schema) }} />
     </Section>
   );
 }

@@ -1,0 +1,40 @@
+# COPY OF THE GITHUB SECURITY WORKFLOW (not active here).
+# GitHub refused it in a normal push because the saved access token has no
+# "workflow" permission. To switch it on: on github.com open the repo, click
+# Add file > Create new file, name it .github/workflows/security.yml and paste
+# everything below this comment block. Then delete this copy.
+#
+# Security checks on every push, every pull request and every Monday.
+# Fails the run if a secret is committed, if a production dependency has a
+# known high-severity vulnerability, or if lint, types or the build break.
+name: Security
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Secret scan
+        run: node scripts/security-check.mjs
+      - name: Dependency audit (production)
+        run: npm audit --omit=dev --audit-level=high
+      - name: Lint
+        run: npx eslint src
+      - name: Types
+        run: npx tsc --noEmit
+      - name: Build
+        run: npx next build

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { brand, nav } from "@/config/brand";
 import SiteSearch from "@/components/SiteSearch";
+import { saveLocaleScroll } from "@/components/LocaleScrollRestore";
 import Logo from "./Logo";
 import { clsx } from "@/lib/clsx";
 import { href, localeFromPath, switchPath, type Dict, type Locale } from "@/i18n";
@@ -15,8 +16,22 @@ const ui: Dict<{ book: string; open: string; close: string; home: string; langua
   sl: { book: "Rezervirajte klic", open: "Odpri meni", close: "Zapri meni", home: "VALOR domov", language: "Jezik" },
 };
 
-/** EN · SL switch that keeps you on the same page. */
-function LanguageSwitch({ pathname, locale, className }: { pathname: string; locale: Locale; className?: string }) {
+/**
+ * EN · SL switch that keeps you on the same page and at the same place on it
+ * (see LocaleScrollRestore): the default scroll-to-top is turned off and the
+ * reading position is saved just before navigating.
+ */
+function LanguageSwitch({
+  pathname,
+  locale,
+  className,
+  onSwitch,
+}: {
+  pathname: string;
+  locale: Locale;
+  className?: string;
+  onSwitch?: () => void;
+}) {
   return (
     <div role="group" aria-label={ui[locale].language} className={clsx("flex items-center rounded-full border border-obsidian/10 p-0.5 text-[0.75rem] font-semibold", className)}>
       {(["en", "sl"] as const).map((l) => (
@@ -24,6 +39,11 @@ function LanguageSwitch({ pathname, locale, className }: { pathname: string; loc
           key={l}
           href={switchPath(pathname, l)}
           hrefLang={l}
+          scroll={false}
+          onClick={() => {
+            if (l !== locale) saveLocaleScroll(switchPath(pathname, l));
+            onSwitch?.();
+          }}
           aria-current={l === locale ? "true" : undefined}
           className={clsx(
             "rounded-full px-2.5 py-1 uppercase transition-colors",
@@ -196,7 +216,7 @@ export default function Nav() {
               ))}
             </div>
             <div className="flex flex-col gap-3 px-6 pb-10">
-              <LanguageSwitch pathname={pathname} locale={locale} className="self-center" />
+              <LanguageSwitch pathname={pathname} locale={locale} className="self-center" onSwitch={() => setOpen(false)} />
               <BookButton label={t.book} className="w-full py-3.5 text-sm" onClick={() => setOpen(false)} />
             </div>
           </motion.div>

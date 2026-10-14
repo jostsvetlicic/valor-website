@@ -58,7 +58,7 @@ export function ServicesView({ locale }: { locale: Locale }) {
               <RevealItem as="li" key={p.path} hoverLift className="h-full">
                 <Link
                   href={href(locale, p.path)}
-                  className="group flex h-full flex-col rounded-3xl border border-obsidian/10 bg-white p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] transition-colors duration-300 hover:border-[#b08a2e]"
+                  className="group flex h-full flex-col rounded-3xl border border-obsidian/10 bg-[#fcfaf6] p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] transition-colors duration-300 hover:border-[#b08a2e]"
                 >
                   <h3 className="font-display text-2xl font-semibold text-obsidian">{p.title}</h3>
                   <p className="mt-3 flex-1 text-[0.95rem] leading-relaxed text-obsidian/70">{p.text}</p>

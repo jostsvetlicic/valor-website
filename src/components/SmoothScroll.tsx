@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 
 /**
- * Lenis smooth scrolling, wired into GSAP's ScrollTrigger via a shared RAF loop.
+ * Lenis smooth scrolling (https://github.com/darkroomengineering/lenis),
+ * synced with GSAP ScrollTrigger (https://github.com/greensock/GSAP).
  */
 export default function SmoothScroll() {
   useEffect(() => {
@@ -22,6 +23,20 @@ export default function SmoothScroll() {
       // Native scroll on touch, smoothing wheel only avoids the mushy,
       // laggy feel on phones where the OS already handles momentum.
       syncTouch: false,
+    });
+
+    // Shared so other code (e.g. LocaleScrollRestore) can jump without Lenis
+    // easing back to its own stale target.
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+
+    // Keep GSAP ScrollTrigger animations in step with Lenis. GSAP is loaded
+    // after first paint so it never weighs on the initial bundle.
+    let alive = true;
+    let unsync: (() => void) | undefined;
+    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+      if (!alive) return;
+      const off = lenis.on("scroll", ScrollTrigger.update);
+      unsync = typeof off === "function" ? off : undefined;
     });
 
     let frame = 0;
@@ -66,7 +81,10 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("click", onAnchorClick);
+      alive = false;
+      unsync?.();
       lenis.destroy();
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 

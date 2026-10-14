@@ -84,7 +84,7 @@ export function SecurityView({ locale }: { locale: Locale }) {
                 className={`rounded-3xl p-7 md:p-9 ${
                   i === 0
                     ? "bg-obsidian text-cream md:col-span-2"
-                    : "border border-obsidian/10 bg-white shadow-[0_20px_50px_-34px_rgba(10,10,10,0.4)]"
+                    : "border border-obsidian/10 bg-[#fcfaf6] shadow-[0_20px_50px_-34px_rgba(10,10,10,0.4)]"
                 }`}
               >
                 <span

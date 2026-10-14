@@ -403,7 +403,7 @@ export function SolutionsView({ locale = "en" }: { locale?: Locale }) {
             {readingGuide.map((g, i) => (
               <RevealItem
                 key={g.title}
-                className="rounded-3xl border border-obsidian/10 bg-white p-6 shadow-[0_20px_50px_-34px_rgba(10,10,10,0.4)]"
+                className="rounded-3xl border border-obsidian/10 bg-[#fcfaf6] p-6 shadow-[0_20px_50px_-34px_rgba(10,10,10,0.4)]"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-obsidian font-mono text-xs font-semibold text-gold">
                   0{i + 1}

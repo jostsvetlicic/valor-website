@@ -96,7 +96,7 @@ export default function WhoWeHelp({ locale = "en" }: { locale?: Locale }) {
               <RevealItem as="li" key={slug} hoverLift className="h-full">
                 <Link
                   href={href(locale, `/industries/${slug}`)}
-                  className="group flex h-full flex-col rounded-3xl border border-obsidian/10 bg-white p-7 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] transition-[border-color,box-shadow] duration-300 hover:border-[#b08a2e] hover:shadow-[0_30px_60px_-30px_rgba(10,10,10,0.45)]"
+                  className="group flex h-full flex-col rounded-3xl border border-obsidian/10 bg-[#fcfaf6] p-7 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)] transition-[border-color,box-shadow] duration-300 hover:border-[#b08a2e] hover:shadow-[0_30px_60px_-30px_rgba(10,10,10,0.45)]"
                 >
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-obsidian text-gold transition-colors duration-300 group-hover:bg-gold group-hover:text-obsidian">
                     <Icon className="h-6 w-6" />

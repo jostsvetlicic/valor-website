@@ -1,0 +1,8 @@
+#!/bin/sh
+# Blocks a commit that contains an API key, token, private key or .env file.
+# Enabled with: git config core.hooksPath .githooks  (npm run setup:hooks)
+node scripts/security-check.mjs --staged || {
+  echo ""
+  echo "Commit blocked by the VALOR security check."
+  exit 1
+}

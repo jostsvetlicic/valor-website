@@ -79,7 +79,6 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": `${brand.url}/#organization`,
   name: "VALOR",
-  legalName: brand.legal.entity,
   url: brand.url,
   logo: {
     "@type": "ImageObject",
@@ -92,16 +91,10 @@ const organizationSchema = {
   sameAs: [brand.instagramUrl],
   email: brand.email,
   telephone: brand.phoneDisplay,
-  taxID: brand.legal.taxNo,
-  identifier: brand.legal.registrationNo,
+  // Address and registration numbers are kept off the structured data on
+  // purpose (owner's choice); they appear only on the imprint page.
   foundingLocation: "Slovenia",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Godovič 99E",
-    postalCode: "5275",
-    addressLocality: "Godovič",
-    addressCountry: "SI",
-  },
+  areaServed: "EU",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: brand.phoneDisplay,
@@ -109,7 +102,13 @@ const organizationSchema = {
     contactType: "sales",
     availableLanguage: ["English", "Slovenian"],
   },
-  founder: { "@type": "Person", name: "Jošt Svetličič" },
+  founder: {
+    "@type": "Person",
+    name: "Jošt Svetličič",
+    jobTitle: "Founder",
+    image: `${brand.url}/team/jost-svetlicic-headshot.webp`,
+    // Add the founder's profile URLs here (and in content/team.ts) once known.
+  },
 };
 
 const websiteSchema = {

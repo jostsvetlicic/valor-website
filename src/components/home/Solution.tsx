@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
+import ShinyText from "@/components/reactbits/ShinyText";
+import ScrollReveal from "@/components/reactbits/ScrollReveal";
 import { IconDocument, IconShield, IconWorkflow } from "@/components/Icons";
 import { href, type Dict, type Locale } from "@/i18n";
 
@@ -49,9 +51,18 @@ export default function Solution({ locale = "en" }: { locale?: Locale }) {
       <Container>
         <Reveal className="mx-auto max-w-4xl text-center">
           <h2 className="font-display t-statement text-cream">
-            {t.lead} <span className="solution-underline relative inline-block text-gold">{t.gold}</span>
+            {t.lead}{" "}
+            <span className="solution-underline motion-keep relative inline-block">
+              {/* React Bits ShinyText: a slow light sweeps across the gold word. */}
+              <ShinyText color="#C9A84C" shineColor="#FFF4D6" speed={3.2} delay={1.2} shineWidth={30} glow={0.25}>
+                {t.gold}
+              </ShinyText>
+            </span>
           </h2>
-          <p className="mx-auto mt-10 max-w-2xl text-lg leading-relaxed text-cream md:text-xl">{t.text}</p>
+          {/* React Bits ScrollReveal (GSAP ScrollTrigger): words sharpen as you scroll. */}
+          <ScrollReveal className="mx-auto mt-10 max-w-2xl text-lg leading-relaxed text-cream md:text-xl">
+            {t.text}
+          </ScrollReveal>
         </Reveal>
 
         {/* Read → draft → approve, joined by a line with a travelling light. */}

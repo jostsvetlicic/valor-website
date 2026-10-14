@@ -83,13 +83,21 @@ export function serviceSchema(locale: Locale, opts: { name: string; description:
   };
 }
 
+/**
+ * JSON for an inline <script>: "<" is escaped so no value can ever close the
+ * script tag early (defence against injected markup, XSS).
+ */
+export function safeJson(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 /** Renders one or more JSON-LD objects. */
 export function JsonLd({ data }: { data: object | object[] }) {
   const list = Array.isArray(data) ? data : [data];
   return (
     <>
       {list.map((d, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(d) }} />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJson(d) }} />
       ))}
     </>
   );
