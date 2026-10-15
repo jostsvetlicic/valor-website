@@ -125,13 +125,13 @@ export default function Nav() {
         {/* Floating frosted pill: content scrolls underneath the material. */}
         <nav
           className={clsx(
-            "mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 rounded-full border border-black/[0.06] bg-cream/[0.94] pl-5 pr-2 backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-300 md:pl-6 lg:grid lg:grid-cols-[1fr_auto_1fr]",
+            "mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 rounded-full border border-black/[0.06] bg-cream/[0.97] pl-5 pr-2 transition-shadow duration-300 md:pl-6 lg:grid lg:grid-cols-[1fr_auto_1fr]",
             scrolled
               ? "shadow-[0_12px_40px_-12px_rgba(0,0,0,0.6)]"
               : "shadow-[0_6px_24px_-12px_rgba(0,0,0,0.45)]",
           )}
         >
-          <Link href={href(locale, "/")} className="flex items-center justify-self-start" aria-label={t.home}>
+          <Link href={href(locale, "/")} className="flex min-h-11 items-center justify-self-start" aria-label={t.home}>
             <Logo variant="dark" priority markClassName="h-6" wordClassName="text-lg" />
           </Link>
 

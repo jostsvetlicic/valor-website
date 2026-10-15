@@ -14,14 +14,14 @@ const words = (line: string, goldFrom: number): Word[] =>
 
 const copy: Dict<{ headline: Word[]; description: string; book: string; solutions: string; demo: string }> = {
   en: {
-    headline: words("AI infrastructure for companies that run on manual work.", 7),
+    headline: words("We build the system your business runs on.", 4),
     description: brand.description,
     book: "Book a discovery call",
     solutions: "See solutions",
     demo: "Try the interactive demo",
   },
   sl: {
-    headline: words("AI infrastruktura za podjetja, ki še vedno delajo ročno.", 6),
+    headline: words("Gradimo sistem, na katerem deluje vaše podjetje.", 2),
     description: brand.descriptionSl,
     book: "Rezervirajte uvodni klic",
     solutions: "Poglejte rešitve",
@@ -121,7 +121,7 @@ export default function Hero({ locale = "en" }: { locale?: Locale }) {
             <Link
               href={href(locale, "/demo")}
               style={{ "--enter-delay": afterHeadline(160) } as React.CSSProperties}
-              className="enter mt-5 inline-flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-gold-light"
+              className="enter tap-area mt-5 inline-flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-gold-light"
             >
               {t.demo}
               <span aria-hidden="true">→</span>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { brand, nav } from "@/config/brand";
 import { href, localeFromPath, type Dict } from "@/i18n";
+import StarBookButton from "@/components/StarBookButton";
 import Logo from "./Logo";
 import { Container } from "./Container";
 
@@ -98,14 +99,8 @@ export default function Footer() {
               {locale === "sl" ? brand.taglineSl : brand.tagline}
             </p>
             <p className="mt-3 max-w-xs text-sm text-cream">{t.websites}</p>
-            <a
-              href={brand.bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-pill bg-gold px-6 py-3 text-sm font-semibold text-obsidian transition-colors hover:bg-gold-light"
-            >
-              {t.book}
-            </a>
+            {/* Same gold button with a travelling light as the closing banners. */}
+            <StarBookButton label={t.book} align="start" className="mt-7" />
           </div>
 
           {columns.map((col) => (

@@ -5,6 +5,7 @@ import type { GlobeInstance } from "globe.gl";
 import { clsx } from "@/lib/clsx";
 
 import type { Dict, Locale } from "@/i18n";
+import { prefersReducedMotion } from "@/lib/motion";
 
 type Location = { name: string; lat: number; lng: number; hq?: boolean };
 
@@ -80,7 +81,7 @@ export default function GlobeCanvas({ className, locale = "en" }: { className?: 
       ]);
       if (cancelled || !el) return;
 
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce = prefersReducedMotion();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- untyped TopoJSON payload
       const world = ((worldModule as any).default ?? worldModule) as any;
       type Ring = number[][];

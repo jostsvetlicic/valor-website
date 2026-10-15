@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { brand } from "@/config/brand";
 
-export const alt = "VALOR | AI infrastructure for companies that run on manual work.";
+export const alt = "VALOR | We build the system your business runs on.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

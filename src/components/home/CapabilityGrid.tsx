@@ -76,7 +76,7 @@ export default function CapabilityGrid({ locale = "en" }: { locale?: Locale }) {
           {t.items.map((c, i) => (
             <RevealItem
               key={i}
-              className="group rounded-2xl border border-cream/[0.08] bg-charcoal p-6 transition-[translate,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-gold/35 motion-reduce:hover:translate-y-0"
+              className="group rounded-2xl border border-cream/[0.08] bg-charcoal p-6 transition-[translate,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-gold/35"
             >
               <h3 className="font-display text-lg font-semibold text-cream">
                 {c.title}

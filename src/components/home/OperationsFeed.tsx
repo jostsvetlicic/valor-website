@@ -6,8 +6,7 @@
  *
  * The loop is pure CSS (see `.ops-feed*` in globals.css): the list is rendered
  * twice and the track slides up by exactly half its height, so the seam is
- * invisible. Under prefers-reduced-motion it sits static, showing the first few
- * rows. Colours come from the tokens.
+ * invisible. Colours come from the tokens.
  */
 
 import LiveClock from "@/components/home/LiveClock";

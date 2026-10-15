@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Hero from "@/components/home/Hero";
 import { FEATURES } from "@/config/features";
 import ChapterNav from "@/components/home/ChapterNav";
-import OfficialPartners from "@/components/home/OfficialPartners";
+import TechStrip from "@/components/home/TechStrip";
 import { demoVideo, type VideoConfig } from "@/config/media";
 import type { Locale } from "@/i18n";
 import { seoMetadata } from "@/lib/seo";
@@ -39,8 +39,10 @@ export function HomeView({ locale }: { locale: Locale }) {
       {/* Nav and footer live in the layouts. Hero includes the client ticker. */}
       <Hero locale={locale} />
 
-      {/* Official partners strip (off on the live site until confirmed). */}
-      <OfficialPartners locale={locale} />
+      {/* Partners and platforms we work with: moving logo strip. (A separate "Official
+          partners" strip, components/home/OfficialPartners, can be added here
+          once a written partnership exists.) */}
+      <TechStrip locale={locale} />
 
       {/* Welcome video, right after the client logos. */}
       {FEATURES.welcomeFilm && <WelcomeFilm locale={locale} />}

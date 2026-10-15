@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { IconChat, IconDocument, IconMail } from "@/components/Icons";
 import type { Dict, Locale } from "@/i18n";
 import { clsx } from "@/lib/clsx";
+import { prefersReducedMotion } from "@/lib/motion";
 
 const icons = [IconMail, IconDocument, IconChat];
 
@@ -105,7 +106,7 @@ export default function Problem({ locale = "en" }: { locale?: Locale }) {
       setDone(0);
       return;
     }
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       setDone(t.mails.length);
       return;
     }
@@ -124,8 +125,9 @@ export default function Problem({ locale = "en" }: { locale?: Locale }) {
         </Reveal>
 
         <Reveal className="mt-14 grid items-start gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
-          {/* The inbox, with a Today / With VALOR switch */}
-          <div>
+          {/* The inbox, with a Today / With VALOR switch. min-w-0 lets long
+              subjects truncate instead of widening the column on phones. */}
+          <div className="min-w-0">
           <div role="group" aria-label={t.inbox} className="mb-4 inline-flex rounded-full border border-cream/[0.12] bg-charcoal p-1">
             {[false, true].map((on) => (
               <button
@@ -211,7 +213,7 @@ export default function Problem({ locale = "en" }: { locale?: Locale }) {
           </div>
 
           {/* The three jobs it creates */}
-          <ul className="grid gap-3">
+          <ul className="grid min-w-0 gap-3">
             {t.pains.map((p, i) => {
               const Icon = icons[i];
               const on = active === i;

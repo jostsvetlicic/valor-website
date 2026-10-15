@@ -101,8 +101,8 @@ function FaqItem({
 
 export default function Faq({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
-  // One question open at a time; the first starts open.
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // One question open at a time; all start closed.
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

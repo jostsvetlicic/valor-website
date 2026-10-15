@@ -6,6 +6,7 @@ import { FEATURES } from "@/config/features";
 import { verifiedBrands, type Brand } from "@/content/brands";
 import { clsx } from "@/lib/clsx";
 import type { Dict, Locale } from "@/i18n";
+import { HONOR_REDUCED_MOTION } from "@/lib/motion";
 
 const ui: Dict<{ label: string; aria: string }> = {
   en: { label: "Trusted by", aria: "Clients" },
@@ -40,7 +41,7 @@ function Ticker({ items, compact, locale }: { items: Brand[]; compact: boolean; 
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [animated, setAnimated] = useState(false);
   const inView = useInView(containerRef);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = (useReducedMotion() ?? false) && HONOR_REDUCED_MOTION;
 
   // Switch from the static no-JS row to the absolutely positioned track.
   // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time client upgrade

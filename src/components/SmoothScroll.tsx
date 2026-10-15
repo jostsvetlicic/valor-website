@@ -9,14 +9,13 @@ import Lenis from "lenis";
  */
 export default function SmoothScroll() {
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReduced) return;
-
+    // Runs for everyone, including the OS "reduce motion" setting: smoothing
+    // the wheel is not large on-screen movement, and without it the site
+    // feels stiff (owner's call, 15 Oct 2026).
     const lenis = new Lenis({
-      duration: 0.9,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // Lenis's standard smoothing: each frame moves 10% of the way to the
+      // target, which reads as soft and even at any wheel speed.
+      lerp: 0.1,
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 1.6,
@@ -29,22 +28,34 @@ export default function SmoothScroll() {
     // easing back to its own stale target.
     (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
-    // Keep GSAP ScrollTrigger animations in step with Lenis. GSAP is loaded
-    // after first paint so it never weighs on the initial bundle.
-    let alive = true;
-    let unsync: (() => void) | undefined;
-    import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-      if (!alive) return;
-      const off = lenis.on("scroll", ScrollTrigger.update);
-      unsync = typeof off === "function" ? off : undefined;
-    });
-
+    // Until GSAP arrives, Lenis runs on its own animation frame loop.
     let frame = 0;
     function raf(time: number) {
       lenis.raf(time);
       frame = requestAnimationFrame(raf);
     }
     frame = requestAnimationFrame(raf);
+
+    // Then one shared clock: GSAP's ticker drives Lenis and ScrollTrigger in
+    // the same frame (the setup the Lenis docs recommend), so scroll-linked
+    // animations never lag a frame behind the page. GSAP is loaded after
+    // first paint so it never weighs on the initial bundle.
+    let alive = true;
+    let detach: (() => void) | undefined;
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      if (!alive) return;
+      gsap.registerPlugin(ScrollTrigger);
+      cancelAnimationFrame(frame);
+      // Same clock as the frame loop above, so the hand-over has no jump.
+      const tick = () => lenis.raf(performance.now());
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+      const off = lenis.on("scroll", ScrollTrigger.update);
+      detach = () => {
+        gsap.ticker.remove(tick);
+        if (typeof off === "function") off();
+      };
+    });
 
     // Lenis doesn't intercept in-page hash links, so a plain <a href="#id">
     // (e.g. the hero's "See what we build") wouldn't scroll. Handle those here
@@ -82,7 +93,7 @@ export default function SmoothScroll() {
       cancelAnimationFrame(frame);
       document.removeEventListener("click", onAnchorClick);
       alive = false;
-      unsync?.();
+      detach?.();
       lenis.destroy();
       delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };

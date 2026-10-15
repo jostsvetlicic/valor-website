@@ -95,15 +95,15 @@ export const brand = {
   legalName: "VALOR",
   domain: "valorai.eu",
   url: "https://valorai.eu",
-  tagline: "AI infrastructure for companies that run on manual work.",
+  tagline: "We build the system your business runs on.",
   description:
-    "VALOR is an AI automation agency. We connect your systems, automate your business processes and build the AI tools your team uses every day, step by step.",
+    "VALOR connects the tools you already use and automates the work between them, so your team spends time on clients, not on repetitive tasks.",
 
   // Slovenian versions of the tagline and description (the English ones above
   // stay the defaults used by metadata and the share image).
-  taglineSl: "AI infrastruktura za podjetja, ki še vedno delajo ročno.",
+  taglineSl: "Gradimo sistem, na katerem deluje vaše podjetje.",
   descriptionSl:
-    "VALOR je AI agencija iz Slovenije. Povežemo vaše sisteme, avtomatiziramo poslovne procese in zgradimo AI orodja, ki jih vaša ekipa uporablja vsak dan.",
+    "VALOR poveže orodja, ki jih že uporabljate, in avtomatizira delo med njimi, da vaša ekipa čas namenja strankam, ne ponavljajočim se opravilom.",
 
   // The legal entity behind VALOR, shown in the footer and legal pages.
   // Source: AJPES business register (via bizi.si).
@@ -120,7 +120,9 @@ export const brand = {
   // The single site-wide "Book a call" destination, the Notion booking
   // calendar. Every CTA links straight here and opens in a new tab. Notion
   // does not allow the page to be embedded, so it is never iframed.
-  bookingUrl: "https://calendar.notion.so/meet/jostsvetlicic/normal-meeting",
+  bookingUrl: "https://calendar.notion.so/meet/jostsvetlicic/discovery-call",
+  /** Contact form delivery (Formspree form, sends to the owner's inbox). */
+  formEndpoint: "https://formspree.io/f/mjygpyla",
 
   // Contact
   phoneDisplay: "+386 69 636 766",
@@ -128,10 +130,12 @@ export const brand = {
   whatsappUrl: "https://wa.me/38669636766",
 
   // Instagram
-  instagramHandle: "@ai_valor",
-  instagramUrl: "https://instagram.com/ai_valor",
+  instagramHandle: "@thevalor.ai",
+  instagramUrl: "https://www.instagram.com/thevalor.ai/",
 
-  email: "info@valorai.eu",
+  // Founder's personal address for now (owner's choice, 15 Oct 2026); switch
+  // back to info@valorai.eu once that inbox is set up.
+  email: "jost.svetlicic@gmail.com",
   emailIsPlaceholder: false,
 
   // Brand palette, driven by ACTIVE_PALETTE above. At runtime these are

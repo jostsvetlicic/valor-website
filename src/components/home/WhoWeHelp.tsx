@@ -27,9 +27,9 @@ const copy: Dict<{
 }> = {
   en: {
     eyebrow: "Who we help",
-    title: "Built for companies that run on documents.",
+    title: "Built for businesses that run on messages and documents.",
     more: "See how it works",
-    other: "Another document-heavy business? We probably fit too.",
+    other: "Hospitality, or another business heavy on messages and documents? We probably fit too.",
     all: "All industries",
     quizTitle: "Is this you?",
     quizIntro: "Tick what sounds familiar.",
@@ -48,9 +48,9 @@ const copy: Dict<{
   },
   sl: {
     eyebrow: "Komu pomagamo",
-    title: "Za podjetja, ki delajo z dokumenti.",
+    title: "Za podjetja, ki delajo s sporočili in dokumenti.",
     more: "Poglejte, kako deluje",
-    other: "Drugo podjetje z veliko dokumentov? Verjetno ustrezate tudi vi.",
+    other: "Gostinstvo ali drugo podjetje z veliko sporočil in dokumentov? Verjetno ustrezate tudi vi.",
     all: "Vse panoge",
     quizTitle: "Ste to vi?",
     quizIntro: "Označite, kar vam je znano.",

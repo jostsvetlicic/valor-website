@@ -266,23 +266,19 @@ html.lenis body {
 .grain-overlay {
   position: fixed;
   inset: 0;
+  /* Own compositor layer: drawn once, never repainted while scrolling. */
+  transform: translateZ(0);
+  will-change: transform;
   z-index: 1;
   pointer-events: none;
   opacity: 0.045;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-@media (prefers-reduced-motion: reduce) {
-  .grain-overlay {
-    display: none;
-  }
-}
-
 /* ------------------------------------------------------------------ */
 /*  Operations feed, the hero's living stream. The list is rendered      */
 /*  twice inside the track; the track scrolls up by exactly half its      */
 /*  height so the loop seam is invisible. A mask fades the top and        */
-/*  bottom. Pure CSS, so it stays off the main thread. Under reduced      */
-/*  motion it sits static, showing the first few rows.                    */
+/*  bottom. Pure CSS, so it stays off the main thread.                    */
 /* ------------------------------------------------------------------ */
 .ops-feed {
   -webkit-mask-image: linear-gradient(
@@ -324,20 +320,6 @@ html.lenis body {
     opacity: 0.3;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .ops-feed {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-  .ops-feed-track {
-    animation: none;
-    transform: none;
-  }
-  .ops-live-dot {
-    animation: none;
-  }
-}
-
 /* BrandLogoBar marquee, only used when there are more than eight logos. The
    track holds the list twice and slides by half its width to loop seamlessly. */
 .logo-marquee {
@@ -359,15 +341,10 @@ html.lenis body {
     transform: translateX(-50%);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .logo-marquee-track {
-    animation: none;
-    transform: none;
-  }
-  .logo-marquee {
-    overflow-x: auto;
-  }
-}
+/* Motion policy (owner's call, 15 Oct 2026): the site's motion is gentle
+   (fades, short rises, slow loops), so it plays for everyone, including
+   visitors with the OS "reduce motion" setting. The earlier reduced-motion
+   rules are in git history (commit ce0370e) if they are ever wanted back. */
 
 /* ------------------------------------------------------------------ */
 /*  Scroll reveals (see components/Reveal.tsx). The attributes are only   */
@@ -390,13 +367,6 @@ html.lenis body {
 [data-reveal-group="shown"] > * {
   transition-delay: calc(var(--i, 0) * var(--stagger, 70ms));
 }
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal="hidden"],
-  [data-reveal-group="hidden"] > * {
-    transform: none;
-  }
-}
-
 /* Mount entrances (hero, nav, page transitions). Pure CSS so they play even
    if JS never hydrates. `backwards` (not `both`) so no transform lingers
    afterwards, a held transform would break position:fixed descendants. */
@@ -650,13 +620,6 @@ html.lenis body {
   15%, 55% { opacity: 1; transform: none; }
   80%, 100% { opacity: 0; transform: translateX(28px); border-color: rgba(224, 121, 90, 0.7); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .pain-lead {
-    animation: none !important;
-    opacity: 1;
-  }
-}
-
 /* Solution headline: a gold rule draws under "stop." once it's revealed
    (the reveal attribute is removed afterwards, so key off the default). */
 .solution-underline::after {
@@ -818,36 +781,29 @@ html.lenis body {
   to { top: 100%; }
 }
 
-/* Respect reduced motion. Showcase loops inside `.motion-keep` (the hero
-   before/after demo and the process visuals) keep playing: they only fade,
-   count and pulse in place, with no large movement. */
-@media (prefers-reduced-motion: reduce) {
-  :not(.motion-keep, .motion-keep *),
-  :not(.motion-keep, .motion-keep *)::before,
-  :not(.motion-keep, .motion-keep *)::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 /* Solution flow: a light travels along the line joining read, draft and
    approve. */
+.flow-line {
+  /* Keeps the sliding strip inside the line (no sideways page scroll); the
+     glow can still spill a few pixels above and below. */
+  overflow-x: clip;
+}
 .flow-line::after {
   content: "";
   position: absolute;
   top: -2px;
   left: 0;
-  width: 64px;
+  width: 100%;
   height: 5px;
-  border-radius: 999px;
-  background: radial-gradient(closest-side, var(--color-gold-light), transparent);
+  /* A 64px light in the middle of a full-width strip; the strip slides, so
+     only transform and opacity change (no repaint while it travels). */
+  background: radial-gradient(32px 2.5px at 50% 50%, var(--color-gold-light), transparent);
+  will-change: transform, opacity;
   animation: flow-travel 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 @keyframes flow-travel {
   from {
-    left: 0;
+    transform: translateX(-50%);
     opacity: 0;
   }
   15%,
@@ -855,19 +811,12 @@ html.lenis body {
     opacity: 1;
   }
   to {
-    left: calc(100% - 64px);
+    transform: translateX(50%);
     opacity: 0;
   }
 }
 
 
-/* Process timeline: under reduced motion the gold line is simply drawn in
-   full (CSS, so the server and client render the same markup). */
-@media (prefers-reduced-motion: reduce) {
-  .timeline-fill {
-    transform: none !important;
-  }
-}
 
 /* Service explorer: vertical progress bar on the active area (desktop). */
 .wwb-progress-y {
@@ -1019,4 +968,146 @@ html.lenis body {
   to {
     transform: translateX(-50%);
   }
+}
+
+/* Page hero: the large VALOR star drifts gently up and down. */
+/* Closing banner: a soft light drifts slowly behind the text. */
+.cta-orb {
+  animation: cta-orb 14s ease-in-out infinite;
+}
+@keyframes cta-orb {
+  0%, 100% { transform: translate(-90%, -20%); }
+  50% { transform: translate(-10%, 10%); }
+}
+/* "Partners and platforms we work with": logos glide left to right without end. The
+   track holds the list twice and moves from -50% to 0. Hover pauses it. */
+.tech-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.tech-track {
+  animation: tech-marquee 45s linear infinite;
+}
+.tech-marquee:hover .tech-track {
+  animation-play-state: paused;
+}
+@keyframes tech-marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Search field: the caret is enough; no focus ring inside the dialog. */
+.search-input,
+.search-input:focus,
+.search-input:focus-visible {
+  outline: none;
+}
+
+/*
+ * Bigger touch zone for small standalone text links (arrow links,
+ * breadcrumbs). On touch screens an invisible layer extends the link to
+ * about 44px tall, so it is easy to hit with a thumb, while the visible
+ * layout stays exactly the same.
+ */
+@media (pointer: coarse) {
+  .tap-area {
+    position: relative;
+  }
+  .tap-area::before {
+    content: "";
+    position: absolute;
+    inset: -12px -4px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page hero visuals (components/hero). Transform and opacity only.    */
+/* ------------------------------------------------------------------ */
+/* Sequence: items light up in a wave, a light travels down the line. */
+.seq-item .seq-dot,
+.seq-item .seq-label {
+  animation: seq-on var(--seq-total, 8s) ease-in-out infinite;
+  animation-delay: var(--seq-delay, 0s);
+}
+.seq-item .seq-label {
+  animation-name: seq-label;
+}
+@keyframes seq-on {
+  0%, 100% { opacity: 0.45; transform: scale(0.92); }
+  8%, 80% { opacity: 1; transform: scale(1); }
+}
+@keyframes seq-label {
+  0%, 100% { opacity: 0.45; }
+  8%, 80% { opacity: 1; }
+}
+.seq-light {
+  animation: seq-light var(--seq-total, 8s) linear infinite;
+}
+@keyframes seq-light {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(1600%); }
+}
+
+/* Orbit: the ring turns, each badge turns back to stay upright. */
+.orbit-ring {
+  animation: orbit-spin 60s linear infinite;
+}
+.orbit-badge {
+  animation: orbit-spin 60s linear infinite reverse;
+}
+@keyframes orbit-spin {
+  to { transform: rotate(360deg); }
+}
+.orbit-core {
+  animation: orbit-breathe 5s ease-in-out infinite;
+}
+@keyframes orbit-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Stack: three equal cards take turns at the front (9s cycle, 3s each).
+   Scaling from the top edge keeps the strips that peek out behind the
+   front card exactly 1.25rem apart. */
+.stack-card {
+  transform-origin: top center;
+  animation: stack-cycle 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation-delay: var(--stack-delay, 0s);
+}
+@keyframes stack-cycle {
+  0%, 28% { transform: translateY(0) scale(1); opacity: 1; z-index: 3; }
+  33%, 61% { transform: translateY(-2.5rem) scale(0.9); opacity: 0.5; z-index: 1; }
+  66%, 94% { transform: translateY(-1.25rem) scale(0.95); opacity: 0.8; z-index: 2; }
+  100% { transform: translateY(0) scale(1); opacity: 1; z-index: 3; }
+}
+.stack-body {
+  animation: stack-body 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation-delay: var(--stack-delay, 0s);
+}
+@keyframes stack-body {
+  0%, 28% { opacity: 1; }
+  33%, 94% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Document scan: a beam sweeps the page, found fields light up. */
+.doc-beam {
+  animation: doc-beam 3.6s ease-in-out infinite;
+}
+@keyframes doc-beam {
+  0% { transform: translateY(-4rem); }
+  70%, 100% { transform: translateY(19rem); }
+}
+.doc-field {
+  animation: doc-field 3.6s ease-out infinite;
+  animation-delay: var(--doc-delay, 0s);
+}
+@keyframes doc-field {
+  0% { opacity: 0.3; transform: translateX(-6px); }
+  12%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0.3; transform: translateX(-6px); }
 }

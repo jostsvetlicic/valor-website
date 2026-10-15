@@ -17,7 +17,9 @@ const chapters: { id: string; label: Dict }[] = [
 
 /**
  * A numbered chapter rail on the left edge (wide screens only), so the long
- * homepage reads as one story: where you are, and what comes next. Hidden
+ * homepage reads as one story: where you are, and what comes next. Shown
+ * only from 1440px, where the page margin is wide enough not to overlap
+ * text. Hidden
  * over the hero; the active chapter is the one crossing the screen's middle.
  */
 export default function ChapterNav({ locale = "en" }: { locale?: Locale }) {
@@ -52,7 +54,7 @@ export default function ChapterNav({ locale = "en" }: { locale?: Locale }) {
     <nav
       aria-label={locale === "sl" ? "Poglavja" : "Chapters"}
       className={clsx(
-        "fixed left-5 top-1/2 z-30 hidden -translate-y-1/2 transition-opacity duration-500 2xl:left-8 xl:block",
+        "fixed left-5 top-1/2 z-30 hidden -translate-y-1/2 transition-opacity duration-500 min-[1440px]:block 2xl:left-8",
         active ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >

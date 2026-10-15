@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroSequence from "@/components/hero/HeroSequence";
 import CtaBand from "@/components/CtaBand";
 import HowItWorksSteps from "@/components/HowItWorksSteps";
 import { Reveal } from "@/components/Reveal";
@@ -27,6 +28,7 @@ export function HowItWorksView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroSequence eyebrow={locale === "sl" ? "En dokument, od začetka do konca" : "One document, start to finish"} items={t.steps.map((s) => s.title)} />}
       />
 
       {/* The six steps, scroll-driven */}

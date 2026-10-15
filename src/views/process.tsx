@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroSequence from "@/components/hero/HeroSequence";
+import { processStepsByLocale } from "@/content/process";
 import CtaBand from "@/components/CtaBand";
 import { type Dict, type Locale } from "@/i18n";
 import { seoMetadata } from "@/lib/seo";
@@ -62,6 +64,7 @@ export function ProcessView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroSequence eyebrow={locale === "sl" ? "Od prvega klica do delujočega sistema" : "From first call to a running system"} items={processStepsByLocale[locale].map((s) => s.title)} />}
       />
       <section className="surface-panel border-t border-cream/[0.06] py-20 md:py-28">
         <Container>

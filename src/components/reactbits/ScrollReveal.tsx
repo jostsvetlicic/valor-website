@@ -25,7 +25,9 @@ export default function ScrollReveal({
   children,
   as = "p",
   className = "",
-  enableBlur = true,
+  // VALOR change: no blur by default. Animating a blur filter on every word
+  // while scrolling forces a repaint each frame and makes scrolling stutter.
+  enableBlur = false,
   baseOpacity = 0.12,
   blurStrength = 4,
   start = "top 85%",

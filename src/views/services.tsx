@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroOrbit from "@/components/hero/HeroOrbit";
+import HeroSequence from "@/components/hero/HeroSequence";
+import { IconAssistant, IconChat, IconDocument, IconLead, IconMobile, IconNetwork } from "@/components/Icons";
+import type { Dict } from "@/i18n";
 import CtaBand from "@/components/CtaBand";
 import SectionHeading from "@/components/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
@@ -33,6 +37,27 @@ function Arrow() {
 /*  /services                                                          */
 /* ------------------------------------------------------------------ */
 
+const orbitIcon = "h-5 w-5";
+/** The service areas (as on the homepage service explorer) circling the VALOR star. */
+const serviceOrbit: Dict<{ label: string; icon: React.ReactNode }[]> = {
+  en: [
+    { label: "Sales and CRM", icon: <IconLead className={orbitIcon} /> },
+    { label: "Customer communication", icon: <IconChat className={orbitIcon} /> },
+    { label: "Documents and finance", icon: <IconDocument className={orbitIcon} /> },
+    { label: "Systems and data", icon: <IconNetwork className={orbitIcon} /> },
+    { label: "AI for teams", icon: <IconAssistant className={orbitIcon} /> },
+    { label: "Apps and portals", icon: <IconMobile className={orbitIcon} /> },
+  ],
+  sl: [
+    { label: "Prodaja in CRM", icon: <IconLead className={orbitIcon} /> },
+    { label: "Komunikacija s strankami", icon: <IconChat className={orbitIcon} /> },
+    { label: "Dokumenti in finance", icon: <IconDocument className={orbitIcon} /> },
+    { label: "Sistemi in podatki", icon: <IconNetwork className={orbitIcon} /> },
+    { label: "AI za ekipe", icon: <IconAssistant className={orbitIcon} /> },
+    { label: "Aplikacije in portali", icon: <IconMobile className={orbitIcon} /> },
+  ],
+};
+
 export function ServicesView({ locale }: { locale: Locale }) {
   const t = servicesHub[locale];
   return (
@@ -46,6 +71,7 @@ export function ServicesView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroOrbit items={serviceOrbit[locale]} />}
       />
 
       <WhatWeBuild locale={locale} />
@@ -114,6 +140,7 @@ export function BusinessAutomationView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroSequence eyebrow={locale === "sl" ? "Kaj avtomatiziramo" : "What we automate"} items={t.automate.map((a) => a.title)} mode="checks" />}
       />
       <JsonLd
         data={[

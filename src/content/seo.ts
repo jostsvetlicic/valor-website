@@ -38,10 +38,10 @@ export type SeoKey =
 export const seo: Dict<Record<SeoKey, PageSeo>> = {
   en: {
     home: {
-      title: "VALOR | AI Automation Agency for Document-Heavy Companies",
+      title: "VALOR | AI Automation Agency That Connects Your Tools",
       absolute: true,
       description:
-        "VALOR is an AI automation agency from Slovenia. We automate orders, invoices and documents, connected to your ERP, and a person approves every step.",
+        "VALOR connects the tools you already use and automates the work between them: messages, orders and documents. A person approves every step.",
     },
     services: {
       title: "AI Automation Services and AI CRM Development",
@@ -91,12 +91,12 @@ export const seo: Dict<Record<SeoKey, PageSeo>> = {
     about: {
       title: "About VALOR, AI Automation Agency in Slovenia",
       description:
-        "VALOR is an AI automation agency founded by Jošt Svetličič. How we work, the standard we hold and the systems we build for document-heavy companies.",
+        "VALOR is an AI automation company founded by Jošt Svetličič. Who we are, how we work and the team that builds the system your business runs on.",
     },
     contact: {
       title: "Contact VALOR and Book a Discovery Call",
       description:
-        "Book a free 20-minute discovery call with VALOR, or reach us by email, phone or WhatsApp. AI automation for companies that run on manual work.",
+        "Book a free 20-minute discovery call with VALOR, or reach us by email, phone or WhatsApp. We connect your tools and automate the work between them.",
     },
     privacy: {
       title: "Privacy Policy",
@@ -119,10 +119,10 @@ export const seo: Dict<Record<SeoKey, PageSeo>> = {
   },
   sl: {
     home: {
-      title: "VALOR | AI agencija v Sloveniji za avtomatizacijo",
+      title: "VALOR | AI avtomatizacija, ki poveže vaša orodja",
       absolute: true,
       description:
-        "VALOR je AI agencija iz Slovenije. Avtomatiziramo naročila, račune in dokumente, povezane z vašim ERP, vsak korak pa še vedno potrdi človek.",
+        "VALOR poveže orodja, ki jih že uporabljate, in avtomatizira delo med njimi: sporočila, naročila in dokumente. Vsak korak potrdi človek.",
     },
     services: {
       title: "AI storitve in razvoj AI CRM sistemov",
@@ -172,12 +172,12 @@ export const seo: Dict<Record<SeoKey, PageSeo>> = {
     about: {
       title: "O nas: VALOR, AI agencija iz Slovenije",
       description:
-        "VALOR je AI agencija, ki jo je ustanovil Jošt Svetličič. Kako delamo, standard, ki ga držimo, in sistemi, ki jih gradimo za podjetja z dokumenti.",
+        "VALOR je podjetje za AI avtomatizacijo, ki ga je ustanovil Jošt Svetličič. Kdo smo, kako delamo in ekipa, ki gradi sistem vašega podjetja.",
     },
     contact: {
       title: "Kontakt in rezervacija uvodnega klica",
       description:
-        "Rezervirajte brezplačen 20-minutni uvodni klic z VALOR ali nam pišite po e-pošti, telefonu ali WhatsAppu. AI avtomatizacija za ročno delo.",
+        "Rezervirajte brezplačen 20-minutni uvodni klic z VALOR ali nam pišite po e-pošti, telefonu ali WhatsAppu. Povežemo orodja in avtomatiziramo delo.",
     },
     privacy: {
       title: "Politika zasebnosti",

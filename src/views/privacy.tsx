@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { brand } from "@/config/brand";
-import { type Dict, type Locale } from "@/i18n";
+import Link from "next/link";
+import { href, type Dict, type Locale } from "@/i18n";
 import { LegalShell } from "@/views/legal";
 import { pageNames } from "@/content/seo";
 import { seoMetadata } from "@/lib/seo";
 
 const copy: Dict<{ title: string; description: string; updated: string }> = {
-  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "13 October 2026" },
-  sl: { title: "Politika zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "13. oktober 2026" },
+  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "15 October 2026" },
+  sl: { title: "Politika zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "15. oktober 2026" },
 };
 
 export function privacyMetadata(locale: Locale): Metadata {
@@ -18,20 +19,12 @@ function BodyEn() {
   return (
     <>
       <section>
-        <h2>1. Who we are</h2>
+        <h2>1. Who is responsible for your data</h2>
         <p>
-          VALOR is a brand of{" "}
-          <strong className="text-cream">{brand.legal.entity}</strong>{" "}
-          (referred to as &ldquo;we&rdquo;, &ldquo;us&rdquo; or
-          &ldquo;our&rdquo;), Slovenia, European Union, the data
-          controller for this website.
-        </p>
-        <p>
-          Address: {brand.legal.address}, Slovenia
-          <br />
-          Registration no.: {brand.legal.registrationNo}
-          <br />
-          Tax no.: {brand.legal.taxNo}
+          VALOR (referred to as &ldquo;we&rdquo;, &ldquo;us&rdquo; or
+          &ldquo;our&rdquo;) is the data controller for this website. The
+          company details required by law are on our{" "}
+          <Link href={href("en", "/imprint")}>imprint page</Link>.
         </p>
         <p>
           <strong className="text-cream">Contact:</strong><br />
@@ -69,9 +62,9 @@ function BodyEn() {
         <p>
           When you fill in the contact form on this site, we collect your
           name, email address, company name (optional) and the message you
-          write. The form opens your own email app with the message ready
-          to send to our inbox. It is not stored in any database operated
-          by VALOR.
+          write. The form sends this to our inbox through Formspree, a form
+          delivery service. It is not stored in any database operated by
+          VALOR.
         </p>
         <ul>
           <li><strong className="text-cream">Purpose:</strong> responding to your enquiry</li>
@@ -126,6 +119,10 @@ function BodyEn() {
             <strong className="text-cream">Vercel</strong>: website
             hosting and CDN (United States; covered by Standard Contractual
             Clauses)
+          </li>
+          <li>
+            <strong className="text-cream">Formspree</strong>: delivers
+            contact form messages to our inbox (United States)
           </li>
           <li>
             <strong className="text-cream">Meta (WhatsApp)</strong>: used
@@ -200,8 +197,8 @@ function BodyEn() {
           We take reasonable technical and organisational measures to
           protect your data against unauthorised access, loss or
           disclosure. The site is served over HTTPS at all times. Contact
-          form data is transmitted to our messaging inbox and not stored
-          in an internet-accessible database.
+          form data is sent over HTTPS to our inbox through Formspree and is
+          not stored in a database operated by VALOR.
         </p>
       </section>
 
@@ -245,19 +242,12 @@ function BodySl() {
   return (
     <>
       <section>
-        <h2>1. Kdo smo</h2>
+        <h2>1. Kdo je odgovoren za vaše podatke</h2>
         <p>
-          VALOR je blagovna znamka podjetja{" "}
-          <strong className="text-cream">{brand.legal.entity}</strong>{" "}
-          (v nadaljevanju &bdquo;mi&ldquo;), Slovenija, Evropska unija, ki je
-          upravljavec osebnih podatkov za to spletno stran.
-        </p>
-        <p>
-          Naslov: {brand.legal.address}, Slovenija
-          <br />
-          Matična številka: {brand.legal.registrationNo}
-          <br />
-          Davčna številka: {brand.legal.taxNo}
+          VALOR (v nadaljevanju &bdquo;mi&ldquo;) je upravljavec osebnih
+          podatkov za to spletno stran. Podatki o podjetju, ki jih zahteva
+          zakon, so na strani{" "}
+          <Link href={href("sl", "/imprint")}>Impresum</Link>.
         </p>
         <p>
           <strong className="text-cream">Kontakt:</strong><br />
@@ -294,10 +284,10 @@ function BodySl() {
         </h3>
         <p>
           Ko izpolnite kontaktni obrazec na tej strani, zberemo vaše ime,
-          e-naslov, ime podjetja (neobvezno) in sporočilo, ki ga napišete. Ti
-          Obrazec odpre vaš poštni program s sporočilom, pripravljenim za
-          pošiljanje v naš nabiralnik. Ne shranjujemo ga v nobeni podatkovni
-          bazi, ki bi jo upravljal VALOR.
+          e-naslov, ime podjetja (neobvezno) in sporočilo, ki ga napišete.
+          Obrazec te podatke prek storitve za dostavo obrazcev Formspree
+          pošlje v naš e-poštni predal. Ne shranjujemo jih v nobeni
+          podatkovni bazi, ki bi jo upravljal VALOR.
         </p>
         <ul>
           <li><strong className="text-cream">Namen:</strong> odgovor na vaše povpraševanje</li>
@@ -353,6 +343,11 @@ function BodySl() {
             <strong className="text-cream">Vercel</strong>: gostovanje spletne
             strani in CDN (Združene države Amerike; zajeto s standardnimi
             pogodbenimi klavzulami)
+          </li>
+          <li>
+            <strong className="text-cream">Formspree</strong>: dostava
+            sporočil iz kontaktnega obrazca v naš e-poštni predal (Združene
+            države Amerike)
           </li>
           <li>
             <strong className="text-cream">Meta (WhatsApp)</strong>: kadar nas
@@ -422,9 +417,9 @@ function BodySl() {
         <p>
           Izvajamo razumne tehnične in organizacijske ukrepe za zaščito vaših
           podatkov pred nepooblaščenim dostopom, izgubo ali razkritjem. Stran se
-          vedno streže prek HTTPS. Podatki iz kontaktnega obrazca se pošljejo v
-          naš nabiralnik sporočil in se ne shranjujejo v podatkovni bazi,
-          dostopni prek interneta.
+          vedno streže prek HTTPS. Podatki iz kontaktnega obrazca se prek HTTPS
+          in storitve Formspree pošljejo v naš e-poštni predal in se ne
+          shranjujejo v podatkovni bazi, ki bi jo upravljal VALOR.
         </p>
       </section>
 

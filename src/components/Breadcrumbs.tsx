@@ -11,9 +11,9 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
   return (
     <>
       <nav aria-label={locale === "sl" ? "Drobtinice" : "Breadcrumb"} className="mb-6">
-        <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-grey">
+        <ol className="flex flex-wrap items-center gap-x-2 gap-y-3 text-sm text-grey">
           <li>
-            <Link href={href(locale, "/")} className="transition-colors hover:text-gold">
+            <Link href={href(locale, "/")} className="tap-area -my-1.5 inline-block py-1.5 transition-colors hover:text-gold">
               {home}
             </Link>
           </li>
@@ -27,7 +27,7 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
                   {c.name}
                 </span>
               ) : (
-                <Link href={href(locale, c.path)} className="transition-colors hover:text-gold">
+                <Link href={href(locale, c.path)} className="tap-area -my-1.5 inline-block py-1.5 transition-colors hover:text-gold">
                   {c.name}
                 </Link>
               )}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
+import HeroParticles from "@/components/home/HeroParticles";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { BookCallButton } from "@/components/Button";
 import { FEATURES } from "@/config/features";
@@ -321,8 +322,10 @@ export function SolutionsView({ locale = "en" }: { locale?: Locale }) {
       <JsonLd data={breadcrumbSchema(locale, [{ name: pageNames[locale].solutions, path: "/solutions" }])} />
 
       {/* Hero */}
-      <section className="surface-warm pb-16 pt-36 md:pb-24 md:pt-44">
-        <Container>
+      <section className="surface-warm relative isolate overflow-hidden pb-16 pt-36 md:pb-24 md:pt-44">
+        <HeroParticles />
+        <div className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[34rem] w-[60rem] max-w-[160vw] -translate-x-1/2 bg-radial-gold opacity-80" />
+        <Container className="relative">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div className="enter">
               <Label>{t.kicker}</Label>

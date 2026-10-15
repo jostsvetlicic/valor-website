@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { team } from "@/content/team";
-import SocialLinks from "@/components/SocialLinks";
 import { Container } from "@/components/Container";
 import { Section } from "@/components/Section";
 import PageHero from "@/components/PageHero";
@@ -9,115 +8,83 @@ import SectionHeading from "@/components/SectionHeading";
 import CtaBand from "@/components/CtaBand";
 import Sparkle from "@/components/Sparkle";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
+import SpotlightCard from "@/components/reactbits/SpotlightCard";
+import ScrollReveal from "@/components/reactbits/ScrollReveal";
+import GlobeSection from "@/components/home/GlobeSection";
+import Team from "@/components/home/Team";
 import { type Dict, type Locale } from "@/i18n";
 import { seoMetadata } from "@/lib/seo";
 import { pageNames } from "@/content/seo";
 
 const copy: Dict<{
-  metaTitle: string;
-  metaDescription: string;
   eyebrow: string;
   title: [string, string];
   intro: string;
-  paragraphs: [string, string, string];
-  quote: string;
-  standardEyebrow: string;
-  standardTitle: string;
-  principles: { title: string; body: string }[];
-  founderEyebrow: string;
+  whoEyebrow: string;
+  who: [string, string, string];
+  focusEyebrow: string;
+  focus: string;
+  focusChips: string[];
   founderRole: string;
-  founderText: string;
-  founderFocus: string;
-  visionEyebrow: string;
-  visionTitle: string;
-  visionText: string;
+  howEyebrow: string;
+  howTitle: string;
+  steps: { title: string; body: string }[];
   ctaTitle: string;
+  ctaSub: string;
   cta: string;
 }> = {
   en: {
-    metaTitle: "About",
-    metaDescription:
-      "VALOR is an AI infrastructure company. The standard we hold, the way we work, and the bigger vision: building the systems the best businesses of the next decade will run on.",
     eyebrow: "About VALOR",
-    title: ["We build the infrastructure,", "not the buzzwords."],
+    title: ["We build the system", "your business runs on."],
     intro:
-      "VALOR is an AI automation agency from Slovenia that builds AI infrastructure: the software a business actually runs on: the frontend that sells, the automation behind it, the operations system your team works in, and the layer that connects the tools you already use.",
-    paragraphs: [
-      "Most companies do not have a software problem. They have a dozen tools that do not talk to each other, work typed in by hand twice, and no single, current view of how the operation is running.",
-      "So we build the whole path instead of a single tool, from the interface a customer touches, to the automation that answers and follows up, to the operations system the team lives in, to the integration layer that ties the existing systems together. One system, not ten disconnected ones.",
-      "The standard we hold is simple: if it is not faster, clearer, and genuinely less work for a real person on a real Tuesday, it is not finished.",
+      "VALOR connects the tools you already use and automates the work between them, so your team spends time on clients, not on repetitive tasks.",
+    whoEyebrow: "Who we are",
+    who: [
+      "VALOR is an AI automation company working with businesses that already have their infrastructure in place: booking systems, CRMs, inboxes, spreadsheets and team chats.",
+      "Most AI tools fail because they don't know how your business actually works. We start there. We map your team, your operations and how you communicate, then build that knowledge into a system that answers, sorts and acts the way your team would.",
+      "Nothing you've built gets replaced. We connect it, automate what repeats, and flag what needs a human.",
     ],
-    quote:
-      "“We're not building websites. We're building the infrastructure the best companies of the next decade will run on.”",
-    standardEyebrow: "The standard",
-    standardTitle: "The principles we don't bend on.",
-    principles: [
-      {
-        title: "Start where the manual work is",
-        body: "We map the manual work first and rank it by cost. Then we automate the most expensive process, prove it, and move to the next. No eighteen-month rebuild before anything works.",
-      },
-      {
-        title: "One source of truth",
-        body: "Everything reads from the same place: the public product, the operations panel, the integrations. Nothing gets typed in twice, and no one argues about which number is right.",
-      },
-      {
-        title: "Build on what you already run",
-        body: "We don't rip out your core systems. We build the layer on top of them that people actually use, and integrate through the interfaces they already expose.",
-      },
-    ],
-    founderEyebrow: "Founder",
+    focusEyebrow: "What we focus on",
+    focus:
+      "Businesses with communication- and document-heavy operations: distribution, freight forwarding, manufacturing and hospitality.",
+    focusChips: ["Distribution", "Freight forwarding", "Manufacturing", "Hospitality"],
     founderRole: "Founder of VALOR",
-    founderText:
-      "Jošt leads strategy, sales and system design, and is your first contact on every project. He works side by side with the VALOR development team on every build.",
-    founderFocus: "Strategy · Sales · System design",
-    visionEyebrow: "The bigger vision",
-    visionTitle: "The infrastructure of tomorrow, built today.",
-    visionText:
-      "The same intelligence that answers a customer in seconds will quietly run the businesses of the next decade. We intend to build it, carefully, and for the people who care about how their business actually works.",
-    ctaTitle: "Let's build yours.",
+    howEyebrow: "How we work",
+    howTitle: "Three steps, one system.",
+    steps: [
+      { title: "Understand", body: "We map your tools, workflows and bottlenecks." },
+      { title: "Build", body: "We connect your systems and create workflows tailored to your business." },
+      { title: "Run", body: "The system works in the background and keeps improving with your feedback." },
+    ],
+    ctaTitle: "Book a 20-minute call.",
+    ctaSub: "We'll show you where your team loses the most time.",
     cta: "Book a call",
   },
   sl: {
-    metaTitle: "O nas",
-    metaDescription:
-      "VALOR je podjetje za AI infrastrukturo. Standard, ki ga držimo, način dela in večja vizija: sistemi, na katerih bodo delovala najboljša podjetja naslednjega desetletja.",
     eyebrow: "O VALOR",
-    title: ["Gradimo infrastrukturo,", "ne modnih besed."],
+    title: ["Gradimo sistem,", "na katerem deluje vaše podjetje."],
     intro:
-      "VALOR je AI agencija iz Slovenije, ki gradi AI infrastrukturo: programsko opremo, na kateri podjetje zares deluje: spletni vmesnik, ki prodaja, avtomatizacijo v ozadju, operativni sistem, v katerem dela vaša ekipa, in plast, ki poveže orodja, ki jih že uporabljate.",
-    paragraphs: [
-      "Večina podjetij nima težave s programsko opremo. Ima ducat orodij, ki se med seboj ne pogovarjajo, delo, ki se ročno vnaša dvakrat, in nobenega enotnega, ažurnega pogleda na to, kako poslovanje teče.",
-      "Zato namesto enega orodja zgradimo celotno pot: od vmesnika, ki se ga dotakne stranka, prek avtomatizacije, ki odgovarja in sledi, do operativnega sistema, v katerem živi ekipa, in integracijske plasti, ki poveže obstoječe sisteme. En sistem, ne deset nepovezanih.",
-      "Naš standard je preprost: če ni hitreje, jasneje in resnično manj dela za resnično osebo na povsem običajen torek, ni dokončano.",
+      "VALOR poveže orodja, ki jih že uporabljate, in avtomatizira delo med njimi, da vaša ekipa čas namenja strankam, ne ponavljajočim se opravilom.",
+    whoEyebrow: "Kdo smo",
+    who: [
+      "VALOR je podjetje za AI avtomatizacijo, ki dela s podjetji, ki že imajo vzpostavljeno infrastrukturo: sisteme za rezervacije, CRM-je, e-poštne predale, preglednice in ekipne klepete.",
+      "Večina AI orodij odpove, ker ne ve, kako vaše podjetje zares deluje. Mi začnemo prav tam. Popišemo vašo ekipo, vaše poslovanje in način komuniciranja, nato to znanje vgradimo v sistem, ki odgovarja, razvršča in ukrepa tako, kot bi vaša ekipa.",
+      "Ničesar, kar ste zgradili, ne zamenjamo. Povežemo, avtomatiziramo, kar se ponavlja, in označimo, kar potrebuje človeka.",
     ],
-    quote:
-      "„Ne gradimo spletnih strani. Gradimo infrastrukturo, na kateri bodo delovala najboljša podjetja naslednjega desetletja.“",
-    standardEyebrow: "Standard",
-    standardTitle: "Načela, pri katerih ne popuščamo.",
-    principles: [
-      {
-        title: "Začnemo tam, kjer je ročno delo",
-        body: "Najprej popišemo ročno delo in ga razvrstimo po strošku. Nato avtomatiziramo najdražji proces, dokažemo rezultat in gremo na naslednjega. Brez osemnajstmesečne prenove, preden karkoli deluje.",
-      },
-      {
-        title: "En vir resnice",
-        body: "Vse bere iz istega mesta: javni del, operativni panel, integracije. Nič se ne vnaša dvakrat in nihče se ne prepira, katera številka je prava.",
-      },
-      {
-        title: "Gradimo na tem, kar že uporabljate",
-        body: "Vaših osrednjih sistemov ne izruvamo. Nad njimi zgradimo plast, ki jo ljudje dejansko uporabljajo, in se povežemo prek vmesnikov, ki jih že ponujajo.",
-      },
-    ],
-    founderEyebrow: "Ustanovitelj",
+    focusEyebrow: "Na kaj se osredotočamo",
+    focus:
+      "Podjetja, katerih poslovanje temelji na komunikaciji in dokumentih: distribucija, špedicija, proizvodnja in gostinstvo.",
+    focusChips: ["Distribucija", "Špedicija", "Proizvodnja", "Gostinstvo"],
     founderRole: "Ustanovitelj VALOR",
-    founderText:
-      "Jošt vodi strategijo, prodajo in zasnovo sistemov ter je vaš prvi kontakt pri vsakem projektu. Pri vsakem projektu dela z ramo ob rami z razvojno ekipo VALOR.",
-    founderFocus: "Strategija · Prodaja · Zasnova sistemov",
-    visionEyebrow: "Večja vizija",
-    visionTitle: "Infrastruktura jutrišnjega dne, zgrajena danes.",
-    visionText:
-      "Ista inteligenca, ki stranki odgovori v nekaj sekundah, bo tiho vodila podjetja naslednjega desetletja. Nameravamo jo zgraditi, skrbno, za ljudi, ki jim je mar, kako njihovo podjetje zares deluje.",
-    ctaTitle: "Zgradimo vašega.",
+    howEyebrow: "Kako delamo",
+    howTitle: "Trije koraki, en sistem.",
+    steps: [
+      { title: "Razumevanje", body: "Popišemo vaša orodja, delovne tokove in ozka grla." },
+      { title: "Gradnja", body: "Povežemo vaše sisteme in ustvarimo delovne tokove, prilagojene vašemu podjetju." },
+      { title: "Delovanje", body: "Sistem dela v ozadju in se izboljšuje z vašimi povratnimi informacijami." },
+    ],
+    ctaTitle: "Rezervirajte 20-minutni klic.",
+    ctaSub: "Pokazali vam bomo, kje vaša ekipa izgubi največ časa.",
     cta: "Rezervirajte klic",
   },
 };
@@ -140,96 +107,102 @@ export function AboutView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={
+          founder?.portrait && (
+            // The founder, as the face of the company: portrait with name and role.
+            <figure className="relative mx-auto w-full max-w-[15rem] sm:max-w-[18rem] lg:ml-auto lg:max-w-[20rem]">
+              <div aria-hidden="true" className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-[radial-gradient(closest-side,rgba(201,168,76,0.28),transparent)] blur-2xl" />
+              <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-gold/30">
+                <Image
+                  src={founder.portrait}
+                  alt={founder.name[locale]}
+                  width={360}
+                  height={504}
+                  priority
+                  sizes="(min-width: 1024px) 320px, 80vw"
+                  className="aspect-[5/7] w-full object-cover"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-6 pt-20">
+                  <span className="block font-display text-2xl font-semibold text-cream">{founder.name[locale]}</span>
+                  <span className="mt-1 block text-sm font-medium text-gold">{t.founderRole}</span>
+                  {founder.location && (
+                    <span className="mt-1 block text-xs uppercase tracking-[0.14em] text-cream/70">{founder.location}</span>
+                  )}
+                </figcaption>
+              </div>
+            </figure>
+          )
+        }
       />
 
-      <Section className="py-20 md:py-28">
+      {/* Who we are, next to what we focus on */}
+      <Section tone="base" className="py-20 md:py-28">
         <Container>
           <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] md:gap-20">
-            <Reveal className="space-y-6 text-lg leading-relaxed text-grey">
-              <p>{t.paragraphs[0]}</p>
-              <p>{t.paragraphs[1]}</p>
-              <p className="text-cream">{t.paragraphs[2]}</p>
+            <Reveal>
+              <p className="eyebrow">{t.whoEyebrow}</p>
+              <div className="mt-6 space-y-6 text-lg leading-relaxed text-grey">
+                <p>{t.who[0]}</p>
+                <p>{t.who[1]}</p>
+              </div>
             </Reveal>
-            <Reveal
-              delay={0.1}
-              className="relative flex flex-col justify-center overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal p-10"
-            >
-              <Sparkle id="about" className="h-10 w-10" />
-              <p className="mt-6 font-display text-2xl italic leading-snug text-cream">{t.quote}</p>
+            <Reveal delay={0.1}>
+              <SpotlightCard
+                className="relative flex h-full flex-col justify-center overflow-hidden rounded-[2rem] border border-gold/20 bg-charcoal p-8 md:p-10"
+                spotlightColor="rgba(201, 168, 76, 0.18)"
+              >
+                <Sparkle className="h-10 w-8" />
+                <p className="eyebrow mt-6">{t.focusEyebrow}</p>
+                <p className="mt-4 font-display text-xl leading-snug text-cream md:text-2xl">{t.focus}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {t.focusChips.map((c) => (
+                    <li key={c} className="rounded-full border border-gold/30 bg-gold/[0.06] px-3 py-1 text-sm text-cream/90">
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+              </SpotlightCard>
             </Reveal>
+          </div>
+
+          {/* The promise, lighting up word by word as it scrolls past. */}
+          <div className="mx-auto mt-20 max-w-4xl text-center md:mt-28">
+            <Sparkle className="mx-auto h-9 w-7" />
+            <ScrollReveal className="mt-6 font-display text-2xl leading-snug text-cream md:text-4xl md:leading-tight">
+              {t.who[2]}
+            </ScrollReveal>
           </div>
         </Container>
       </Section>
 
-      {/* Founder */}
+      {/* How we work: three steps joined by a line with a travelling light. */}
       <Section tone="panel" className="py-20 md:py-28">
         <Container>
-          <Reveal className="grid items-center gap-10 md:grid-cols-[auto_1fr] md:gap-14">
-            {founder?.portrait ? (
-              <Image
-                src={founder.portrait}
-                alt={founder.name[locale]}
-                width={360}
-                height={504}
-                sizes="(min-width: 768px) 288px, 224px"
-                className="h-[19rem] w-56 rounded-[2rem] object-cover ring-1 ring-gold/30 md:h-[25rem] md:w-72"
-              />
-            ) : (
-              // Fallback monogram if no portrait is set in content/team.ts
-              <div
-                aria-hidden="true"
-                className="flex h-56 w-56 items-center justify-center rounded-[2rem] border border-gold/30 bg-gradient-to-br from-[#1b170e] to-charcoal font-display text-6xl font-semibold text-gold md:h-72 md:w-72"
-              >
-                JS
-              </div>
-            )}
-            <div>
-              <p className="eyebrow">{t.founderEyebrow}</p>
-              <h2 className="mt-3 font-display t-section text-cream">Jošt Svetličič</h2>
-              <p className="mt-2 text-lg font-medium text-gold">{t.founderRole}</p>
-              <p className="mt-5 max-w-2xl t-lead text-grey">{t.founderText}</p>
-              <p className="mt-5 text-sm uppercase tracking-[0.14em] text-grey">
-                {t.founderFocus}
-                {founder?.location ? ` · ${founder.location}` : ""}
-              </p>
-              {founder && <SocialLinks socials={founder.socials} name={founder.name[locale]} className="mt-6" />}
-            </div>
-          </Reveal>
+          <SectionHeading eyebrow={t.howEyebrow} title={t.howTitle} />
+          <div className="motion-keep relative mx-auto mt-16 max-w-5xl">
+            <span aria-hidden="true" className="flow-line absolute left-[16.5%] right-[16.5%] top-8 hidden h-px bg-gold/30 md:block" />
+            <RevealGroup as="ol" stagger={0.12} className="relative grid gap-6 md:grid-cols-3 md:gap-8">
+              {t.steps.map((step, i) => (
+                <RevealItem as="li" key={step.title} className="flex flex-col items-center text-center">
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-gold/50 bg-[#15110a] font-mono text-xl font-semibold text-gold shadow-[0_0_40px_-10px_rgba(201,168,76,0.6)]">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-6 font-display text-xl font-semibold text-cream">{step.title}</h3>
+                  <p className="mt-2 max-w-xs leading-relaxed text-grey">{step.body}</p>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </div>
         </Container>
       </Section>
 
-      <Section tone="light" className="py-20 md:py-28">
-        <Container>
-          <SectionHeading light eyebrow={t.standardEyebrow} title={t.standardTitle} />
-          <RevealGroup className="mt-14 grid gap-6 md:grid-cols-3">
-            {t.principles.map((p, i) => (
-              <RevealItem
-                key={p.title}
-                hoverLift
-                className="rounded-3xl border border-obsidian/10 bg-[#fcfaf6] p-8 shadow-[0_20px_50px_-30px_rgba(10,10,10,0.35)]"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-obsidian">
-                  <Sparkle id={`prin-${i}`} className="h-6 w-6" />
-                </span>
-                <h3 className="mt-6 font-display text-xl font-semibold text-obsidian">{p.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-obsidian/70">{p.body}</p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </Container>
-      </Section>
+      {/* Where we have worked: the globe and the verified numbers. */}
+      <GlobeSection locale={locale} />
 
-      <Section tone="panel" className="py-20 md:py-28">
-        <Container>
-          <Reveal className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-gold/20 bg-charcoal p-12 text-center md:p-16">
-            <span className="eyebrow">{t.visionEyebrow}</span>
-            <h2 className="mt-5 font-display t-section text-cream">{t.visionTitle}</h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-grey">{t.visionText}</p>
-          </Reveal>
-        </Container>
-      </Section>
+      {/* The people: founder and core developers, with photos and links. */}
+      <Team locale={locale} />
 
-      <CtaBand title={t.ctaTitle} cta={t.cta} />
+      <CtaBand title={t.ctaTitle} sub={t.ctaSub} cta={t.cta} />
     </>
   );
 }

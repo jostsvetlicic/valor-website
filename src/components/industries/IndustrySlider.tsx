@@ -9,10 +9,6 @@ import { clsx } from "@/lib/clsx";
  * Horizontal snap slider of industry cards. Native scroll-snap gives smooth
  * drag on touch and trackpad; arrow buttons and the left/right arrow keys move
  * one card at a time on desktop, with a progress thumb tracking position.
- *
- * Under prefers-reduced-motion the whole thing collapses to a plain stacked
- * grid (Tailwind `motion-reduce:` variants) and the controls are hidden, no
- * horizontal motion at all.
  */
 export default function IndustrySlider() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -65,14 +61,14 @@ export default function IndustrySlider() {
         tabIndex={0}
         role="group"
         aria-label="Industries: use the arrow keys to browse"
-        className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian motion-reduce:grid motion-reduce:snap-none motion-reduce:grid-cols-1 motion-reduce:overflow-visible sm:motion-reduce:grid-cols-2 lg:motion-reduce:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-obsidian sm:lg:[&::-webkit-scrollbar]:hidden"
       >
         {industries.map(({ slug, copy }) => ({ slug, ...copy.en })).map((ind) => (
           <Link
             key={ind.slug}
             href={`/industries/${ind.slug}`}
             data-card
-            className="group relative flex w-[85%] shrink-0 snap-start flex-col rounded-[1.75rem] border border-gold/12 bg-charcoal/40 p-8 transition-[transform,border-color,background-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-gold/35 hover:bg-charcoal/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-[24rem] motion-reduce:w-auto motion-reduce:hover:translate-y-0"
+            className="group relative flex w-[85%] shrink-0 snap-start flex-col rounded-[1.75rem] border border-gold/12 bg-charcoal/40 p-8 transition-[transform,border-color,background-color] duration-300 ease-out hover:-translate-y-1.5 hover:border-gold/35 hover:bg-charcoal/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:w-[24rem]"
           >
             <span className="eyebrow">{ind.shortName}</span>
             <h3 className="mt-4 font-display text-2xl font-semibold leading-snug tracking-tight text-cream md:text-[1.7rem]">
@@ -100,7 +96,7 @@ export default function IndustrySlider() {
       </div>
 
       {/* controls: progress thumb + arrows (hidden under reduced motion) */}
-      <div className="mt-8 flex items-center gap-6 motion-reduce:hidden">
+      <div className="mt-8 flex items-center gap-6">
         <div className="relative h-px flex-1 bg-gold/15">
           <div
             className="absolute inset-y-0 rounded-full bg-gold transition-[left,width] duration-200 ease-out"

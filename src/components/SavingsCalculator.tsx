@@ -5,6 +5,7 @@ import { Container } from "@/components/Container";
 import { Reveal } from "@/components/Reveal";
 import { brand } from "@/config/brand";
 import type { Dict, Locale } from "@/i18n";
+import { prefersReducedMotion } from "@/lib/motion";
 
 /**
  * What manual document work costs today, from the visitor's own numbers.
@@ -121,7 +122,7 @@ function Rolling({ value, format }: { value: number; format: (n: number) => stri
     const node = el.current;
     if (!node) return;
     const from = shown.current;
-    if (from === value || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (from === value || prefersReducedMotion()) {
       shown.current = value;
       node.textContent = format(value);
       return;

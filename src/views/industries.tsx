@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroStack from "@/components/hero/HeroStack";
+import HeroSequence from "@/components/hero/HeroSequence";
+import { IconBoat, IconBuilding, IconCog } from "@/components/Icons";
 import CtaBand from "@/components/CtaBand";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import IndustryDetail from "@/components/industries/IndustryDetail";
@@ -30,14 +33,14 @@ const index: Dict<{
     metaDescription:
       "VALOR builds document agents for wholesale and distribution, freight forwarding and customs, and metal, plastics and automotive suppliers. Connected to your ERP.",
     eyebrow: "Industries",
-    title: ["Built for", "document-heavy companies."],
+    title: ["Built for businesses that run on", "messages and documents."],
     intro:
       "Three industries where the same data is retyped every day. The same method in each: a one-week test, a pilot, then the project connected to your ERP.",
     view: "View industry",
-    otherTitle: "Other document-heavy companies",
+    otherTitle: "Hospitality and other businesses",
     ctaTitle: "Not sure where your company fits? Let's look at it together.",
     cta: "Book a discovery call",
-    otherText: "If your team retypes data from documents every day, the method applies to you too.",
+    otherText: "If your team answers the same messages or retypes data from documents every day, the method applies to you too.",
     otherCta: "Talk to us",
   },
   sl: {
@@ -45,14 +48,14 @@ const index: Dict<{
     metaDescription:
       "VALOR gradi agente za dokumente za veleprodajo in distribucijo, špedicijo in carino ter dobavitelje v kovinski, plastični in avtomobilski industriji. Povezane z vašim ERP.",
     eyebrow: "Panoge",
-    title: ["Zgrajeno za podjetja z", "veliko dokumentov."],
+    title: ["Za podjetja, ki delajo s", "sporočili in dokumenti."],
     intro:
       "Tri panoge, kjer se isti podatki vsak dan pretipkavajo. Povsod ista metoda: tedenski test, pilot, nato projekt, povezan z vašim ERP.",
     view: "Poglej panogo",
-    otherTitle: "Druga podjetja z veliko dokumentov",
+    otherTitle: "Gostinstvo in druga podjetja",
     ctaTitle: "Niste prepričani, kam sodite? Poglejmo skupaj.",
     cta: "Rezervirajte uvodni klic",
-    otherText: "Če vaša ekipa vsak dan pretipkava podatke iz dokumentov, metoda velja tudi za vas.",
+    otherText: "Če vaša ekipa vsak dan odgovarja na ista sporočila ali pretipkava podatke iz dokumentov, metoda velja tudi za vas.",
     otherCta: "Pogovorimo se",
   },
 };
@@ -74,6 +77,15 @@ export function IndustriesIndex({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={
+          <HeroStack
+            cards={industries.map((ind, i) => {
+              const ic = ind.copy[locale];
+              const Icon = [IconBuilding, IconBoat, IconCog][i] ?? IconBuilding;
+              return { kicker: `${locale === "sl" ? "Panoga" : "Industry"} 0${i + 1}`, title: ic.name, text: ic.tagline, icon: <Icon className="h-5 w-5" /> };
+            })}
+          />
+        }
       />
       <section className="surface-panel border-t border-cream/[0.06] py-20 md:py-28">
         <Container>
@@ -151,6 +163,7 @@ export function IndustryView({ slug, locale }: { slug: string; locale: Locale })
       <PageHero
         eyebrow={c.name}
         title={c.tagline}
+        aside={<HeroSequence eyebrow={locale === "sl" ? "Kaj avtomatiziramo" : "What we automate"} items={c.whatWeDo.slice(0, 5)} mode="checks" />}
         crumbs={{
           locale,
           items: [

@@ -17,8 +17,6 @@ function useReveal(mode: Mode, stagger: number) {
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
-    // Anything already on screen when JS arrives stays put, no flash.
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) return;
 
     const attr = mode === "group" ? "revealGroup" : "reveal";
     if (mode === "group") {
@@ -26,23 +24,37 @@ function useReveal(mode: Mode, stagger: number) {
         (child as HTMLElement).style.setProperty("--i", String(i)),
       );
     }
-    el.dataset[attr] = "hidden";
+    // Anything already on screen when JS arrives stays put, no flash. It
+    // still replays later, after it has scrolled out and back in.
+    if (el.getBoundingClientRect().top >= window.innerHeight * 0.95) {
+      el.dataset[attr] = "hidden";
+    }
 
     let cleanup = 0;
-    const io = new IntersectionObserver(
+    // Plays each time the element comes into view, scrolling down or up.
+    const show = new IntersectionObserver(
       (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
-        io.disconnect();
+        if (el.dataset[attr] !== "hidden") return;
         el.dataset[attr] = "shown";
         // Hand styling back to the element's own classes (hover transitions etc.)
         const total = 700 + (mode === "group" ? el.children.length * stagger : 0);
+        window.clearTimeout(cleanup);
         cleanup = window.setTimeout(() => delete el.dataset[attr], total);
       },
       { rootMargin: "0px 0px -8% 0px" },
     );
-    io.observe(el);
+    // Once fully off screen, it resets so the next entry plays again.
+    const hide = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) return;
+      window.clearTimeout(cleanup);
+      el.dataset[attr] = "hidden";
+    });
+    show.observe(el);
+    hide.observe(el);
     return () => {
-      io.disconnect();
+      show.disconnect();
+      hide.disconnect();
       window.clearTimeout(cleanup);
     };
   }, [mode, stagger]);
@@ -62,7 +74,7 @@ type Tag =
   | "h3"
   | "figure";
 
-/** A single fade-and-rise reveal, once, when scrolled into view. */
+/** A fade-and-rise reveal, each time it is scrolled into view. */
 export function Reveal({
   children,
   className,
@@ -123,7 +135,7 @@ export function RevealItem({
     <Tag
       className={clsx(
         hoverLift &&
-          "transition-[translate,border-color] duration-300 ease-out hover:-translate-y-1 motion-reduce:hover:translate-y-0",
+          "transition-[translate,border-color] duration-300 ease-out hover:-translate-y-1",
         className,
       )}
     >

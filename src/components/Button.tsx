@@ -42,7 +42,7 @@ export function MagneticButton({
   onClick?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = (useReducedMotion() ?? false) && HONOR_REDUCED_MOTION;
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
@@ -124,6 +124,7 @@ export function MagneticButton({
  * conversion action across the whole site.
  */
 import { brand } from "@/config/brand";
+import { HONOR_REDUCED_MOTION } from "@/lib/motion";
 
 export function BookCallButton({
   variant = "gold",
@@ -163,7 +164,7 @@ export function TextLink({
   className?: string;
 }) {
   const cls = clsx(
-    "group inline-flex items-center gap-1.5 text-sm font-medium text-gold transition-colors hover:text-gold-light",
+    "tap-area group inline-flex items-center gap-1.5 text-sm font-medium text-gold transition-colors hover:text-gold-light",
     className,
   );
   const inner = (

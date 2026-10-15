@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
+import HeroOrbit from "@/components/hero/HeroOrbit";
+import { IconCalendar, IconChat, IconCog, IconDocument, IconLead, IconMail } from "@/components/Icons";
 import Infrastructure from "@/components/home/Infrastructure";
 import CapabilityGrid from "@/components/home/CapabilityGrid";
 import CtaBand from "@/components/CtaBand";
@@ -57,6 +59,17 @@ export function InfrastructureView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={
+          <HeroOrbit
+            items={(locale === "sl"
+              ? ["ERP", "E-pošta", "CRM", "Preglednice", "Ekipni klepet", "Rezervacije"]
+              : ["ERP", "Email", "CRM", "Spreadsheets", "Team chat", "Bookings"]
+            ).map((label, i) => {
+              const Icon = [IconCog, IconMail, IconLead, IconDocument, IconChat, IconCalendar][i];
+              return { label, icon: <Icon className="h-5 w-5" /> };
+            })}
+          />
+        }
       />
       <Infrastructure locale={locale} />
       <CapabilityGrid locale={locale} />

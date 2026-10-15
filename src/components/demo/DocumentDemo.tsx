@@ -5,6 +5,7 @@ import { brand } from "@/config/brand";
 import { demoSamples } from "@/content/demo";
 import type { Dict, Locale } from "@/i18n";
 import { clsx } from "@/lib/clsx";
+import { prefersReducedMotion } from "@/lib/motion";
 
 type Phase = "idle" | "reading" | "extracting" | "checking" | "ready" | "approved";
 
@@ -103,7 +104,7 @@ export default function DocumentDemo({ locale = "en" }: { locale?: Locale }) {
       setPhase("ready");
       setElapsed(performance.now() - startedAt.current);
     };
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       setRowsShown(rows.length);
       finish();
       return;

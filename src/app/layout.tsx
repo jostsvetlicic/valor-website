@@ -9,6 +9,7 @@ import MotionProvider from "@/components/MotionProvider";
 import Analytics from "@/components/Analytics";
 import { seo } from "@/content/seo";
 import { JsonLd } from "@/lib/seo";
+import { FOUNDER_LINKEDIN } from "@/content/team";
 
 // Fraunces only draws the VALOR wordmark (semibold), so one weight is enough.
 const fraunces = Fraunces({
@@ -107,7 +108,7 @@ const organizationSchema = {
     name: "Jošt Svetličič",
     jobTitle: "Founder",
     image: `${brand.url}/team/jost-svetlicic-headshot.webp`,
-    // Add the founder's profile URLs here (and in content/team.ts) once known.
+    ...(FOUNDER_LINKEDIN ? { sameAs: [FOUNDER_LINKEDIN] } : {}),
   },
 };
 

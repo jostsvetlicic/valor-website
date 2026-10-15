@@ -124,7 +124,10 @@ const SplitText: React.FC<SplitTextProps> = ({
               scrollTrigger: {
                 trigger: el,
                 start,
-                once: true,
+                // VALOR change: replay every time the heading comes into view
+                // (scrolling down or back up), not only the first time.
+                end: 'bottom top',
+                toggleActions: 'play reset play reset',
                 fastScrollEnd: true,
                 anticipatePin: 0.4
               },

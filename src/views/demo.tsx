@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroDocScan from "@/components/hero/HeroDocScan";
 import DocumentDemo from "@/components/demo/DocumentDemo";
 import { type Dict, type Locale } from "@/i18n";
 import { seoMetadata } from "@/lib/seo";
@@ -42,6 +43,7 @@ export function DemoView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroDocScan eyebrow={locale === "sl" ? "Agent bere" : "Agent reading"} fields={locale === "sl" ? ["Stranka", "Postavke", "Rok dobave", "Skupaj"] : ["Customer", "Line items", "Delivery date", "Total"]} />}
       />
       <section className="surface-panel border-t border-cream/[0.06] py-20 md:py-28">
         <Container>

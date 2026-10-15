@@ -23,7 +23,7 @@ export type SearchEntry = {
 
 const pages: Dict<{ path: string; title: string; text: string; keywords?: string }[]> = {
   en: [
-    { path: "/", title: "Home", text: "AI infrastructure for companies that run on manual work.", keywords: "valor start" },
+    { path: "/", title: "Home", text: "We build the system your business runs on.", keywords: "valor start" },
     { path: "/services", title: "Services", text: "AI automation services: business process automation, AI CRM development, document automation and integrations.", keywords: "ai automation agency crm" },
     { path: "/services/business-automation", title: "Business process automation", text: "AI agents for orders, invoices, customs papers and customer replies, connected to your ERP.", keywords: "erp sap pantheon business central crm automation" },
     { path: "/imprint", title: "Imprint", text: "Company details: R2 Računalniške Rešitve, Sebastjan Svetličič s.p., Godovič, Slovenia.", keywords: "legal company address registration tax vat" },
@@ -40,7 +40,7 @@ const pages: Dict<{ path: string; title: string; text: string; keywords?: string
     { path: "/terms", title: "Terms of service", text: "Projects, payments and intellectual property.", keywords: "legal contract" },
   ],
   sl: [
-    { path: "/", title: "Domov", text: "AI infrastruktura za podjetja, ki še vedno delajo ročno.", keywords: "valor začetek" },
+    { path: "/", title: "Domov", text: "Gradimo sistem, na katerem deluje vaše podjetje.", keywords: "valor začetek" },
     { path: "/services", title: "Storitve", text: "Storitve AI avtomatizacije: avtomatizacija poslovnih procesov, razvoj AI CRM, avtomatizacija dokumentov in povezave.", keywords: "ai agencija slovenija crm" },
     { path: "/services/business-automation", title: "Avtomatizacija poslovnih procesov", text: "AI agenti za naročila, račune, carinske dokumente in odgovore strankam, povezani z vašim ERP.", keywords: "erp sap pantheon business central crm" },
     { path: "/imprint", title: "Impresum", text: "Podatki o podjetju: R2 Računalniške Rešitve, Sebastjan Svetličič s.p., Godovič, Slovenija.", keywords: "pravno podjetje naslov matična davčna ddv" },

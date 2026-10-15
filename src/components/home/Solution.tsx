@@ -100,7 +100,7 @@ export default function Solution({ locale = "en" }: { locale?: Locale }) {
           </Link>
           <Link
             href={href(locale, "/how-it-works")}
-            className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-cream underline-offset-4 transition-colors hover:text-gold hover:underline"
+            className="inline-flex min-h-11 items-center gap-2 text-[0.9375rem] font-medium text-cream underline-offset-4 transition-colors hover:text-gold hover:underline"
           >
             {t.how}
             <span aria-hidden="true">→</span>

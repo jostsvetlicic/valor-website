@@ -17,7 +17,7 @@ export const servicesHub: Dict<{
 }> = {
   en: {
     eyebrow: "Services",
-    title: ["AI automation services", "for companies that run on documents."],
+    title: ["AI automation services", "for businesses that run on messages and documents."],
     intro:
       "VALOR is an AI automation agency from Slovenia. We automate business processes, build AI CRM systems and connect the tools you already use, starting with the one process that costs you the most time.",
     pagesEyebrow: "Go deeper",
@@ -53,7 +53,7 @@ export const servicesHub: Dict<{
   },
   sl: {
     eyebrow: "Storitve",
-    title: ["Storitve AI avtomatizacije", "za podjetja, ki delajo z dokumenti."],
+    title: ["Storitve AI avtomatizacije", "za podjetja, ki delajo s sporočili in dokumenti."],
     intro:
       "VALOR je AI agencija iz Slovenije. Avtomatiziramo poslovne procese, razvijamo AI CRM sisteme in povezujemo orodja, ki jih že uporabljate, začenši s procesom, ki vam vzame največ časa.",
     pagesEyebrow: "Več o tem",

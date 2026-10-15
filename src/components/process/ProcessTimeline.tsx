@@ -12,9 +12,7 @@ import { Reveal } from "@/components/Reveal";
 
 /**
  * Vertical process timeline. A gold connecting line draws down as you scroll
- * (scroll-linked scaleY), and each step fades in as it scrolls into view. Under prefers-reduced-motion the line is drawn in
- * full and static, and Framer suppresses the transforms, the sequence is
- * simply presented, not animated.
+ * (scroll-linked scaleY), and each step fades in as it scrolls into view.
  */
 export default function ProcessTimeline({ locale = "en" }: { locale?: Locale }) {
   const processSteps = processStepsByLocale[locale];

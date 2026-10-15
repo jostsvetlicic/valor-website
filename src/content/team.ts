@@ -35,6 +35,14 @@ export type TeamMember = {
  */
 export const devTeam = { total: 6, core: 2 };
 
+/**
+ * Jošt's LinkedIn profile. The icon appears under his name (team cards on
+ * the homepage and About) and in Google's structured data as soon as this is
+ * filled in; while empty, nothing shows.
+ * // TODO: real content required, owner sends the URL once LinkedIn confirms the profile.
+ */
+export const FOUNDER_LINKEDIN = "";
+
 export const team: TeamMember[] = [
   {
     name: { en: "Jošt Svetličič", sl: "Jošt Svetličič" },
@@ -43,9 +51,7 @@ export const team: TeamMember[] = [
     location: "Ljubljana · Bali",
     photo: "/team/jost-svetlicic-headshot.webp",
     portrait: "/team/jost-svetlicic-portrait.webp",
-    // TODO: owner, add links, e.g. { type: "linkedin", url: "https://www.linkedin.com/in/..." },
-    // { type: "instagram", url: "https://instagram.com/..." }, { type: "email", url: "jost@valorai.eu" }
-    socials: [],
+    socials: FOUNDER_LINKEDIN ? [{ type: "linkedin", url: FOUNDER_LINKEDIN }] : [],
   },
   // The two core developers, based in Bali.
   {

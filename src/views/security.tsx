@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import PageHero from "@/components/PageHero";
+import HeroSequence from "@/components/hero/HeroSequence";
 import { Reveal, RevealGroup, RevealItem } from "@/components/Reveal";
 import { BookCallButton } from "@/components/Button";
 import { brand } from "@/config/brand";
@@ -72,6 +73,7 @@ export function SecurityView({ locale }: { locale: Locale }) {
           </>
         }
         intro={t.intro}
+        aside={<HeroSequence eyebrow={locale === "sl" ? "Naše zaveze" : "Our commitments"} items={securityPoints[locale].slice(0, 5).map((p) => p.title)} mode="checks" />}
       />
 
       <section className="surface-light py-20 md:py-28">
