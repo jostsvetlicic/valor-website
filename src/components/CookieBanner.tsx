@@ -8,13 +8,13 @@ import { href, localeFromPath, type Dict } from "@/i18n";
 const ui: Dict<{ label: string; text: string; privacy: string; ok: string }> = {
   en: {
     label: "Cookie notice",
-    text: "We only store functional preferences in your browser. No tracking, no analytics. The booking calendar loads only if you choose to open it.",
+    text: "We use no tracking or advertising cookies. Visits are counted anonymously with Plausible, which sets no cookies, and your browser only remembers that you closed this notice.",
     privacy: "Privacy policy",
     ok: "Got it",
   },
   sl: {
     label: "Obvestilo o piškotkih",
-    text: "V vašem brskalniku shranjujemo le funkcionalne nastavitve. Brez sledenja in analitike. Koledar za rezervacije se naloži le, če ga odprete.",
+    text: "Ne uporabljamo piškotkov za sledenje ali oglaševanje. Obiske anonimno štejemo s Plausible, ki ne nastavlja piškotkov, vaš brskalnik pa si zapomni le, da ste to obvestilo zaprli.",
     privacy: "Politika zasebnosti",
     ok: "Razumem",
   },
