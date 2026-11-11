@@ -19,7 +19,9 @@ const csp = [
   `connect-src 'self' https://plausible.io https://formspree.io${isDev ? " ws: wss:" : ""}`,
   "media-src 'self'",
   "worker-src 'self' blob:",
-  isDev ? "frame-src 'self'" : "frame-src 'none'",
+  // Video players (components/VideoPlayer), loaded only after a click:
+  // Wistia and YouTube's privacy-enhanced domain.
+  `frame-src ${isDev ? "'self' " : ""}https://fast.wistia.net https://www.youtube-nocookie.com`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self' mailto: https://formspree.io",

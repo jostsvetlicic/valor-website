@@ -16,9 +16,10 @@ export const FEATURES = {
   selectedBuilds: false,
 
   // Client logo ticker below the hero. Renders nothing while false OR while
-  // content/brands.ts is empty. Off at launch (14 Oct 2026) until each client
-  // agrees to be named. // TODO: real content required, client permission
-  brandLogos: false,
+  // content/brands.ts is empty. On since 11 Nov 2026: the owner confirmed
+  // every listed client agreed to be named. Names show as wordmarks until
+  // logo files are added. // TODO: real content required, client logo files
+  brandLogos: true,
 
   // Founder welcome video on the homepage. Off at launch until the music bed
   // ("Bubbles Drop", Cosmonkey) is licensed or replaced.

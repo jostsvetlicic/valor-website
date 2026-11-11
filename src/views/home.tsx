@@ -19,6 +19,8 @@ const WhoWeHelp = dynamic(() => import("@/components/home/WhoWeHelp"));
 const GlobeSection = dynamic(() => import("@/components/home/GlobeSection"));
 const CaseStudies = dynamic(() => import("@/components/home/CaseStudies"));
 const References = dynamic(() => import("@/components/home/References"));
+const QuickAnswers = dynamic(() => import("@/components/home/QuickAnswers"));
+const PartnerCases = dynamic(() => import("@/components/home/PartnerCases"));
 const Team = dynamic(() => import("@/components/home/Team"));
 const Faq = dynamic(() => import("@/components/home/Faq"));
 const ClosingCta = dynamic(() => import("@/components/home/ClosingCta"));
@@ -43,6 +45,9 @@ export function HomeView({ locale }: { locale: Locale }) {
           partners" strip, components/home/OfficialPartners, can be added here
           once a written partnership exists.) */}
       <TechStrip locale={locale} />
+
+      {/* Quick answers: four short videos from the pre-call set with Matteo. */}
+      <QuickAnswers locale={locale} />
 
       {/* Welcome video, right after the client logos. */}
       {FEATURES.welcomeFilm && <WelcomeFilm locale={locale} />}
@@ -69,6 +74,8 @@ export function HomeView({ locale }: { locale: Locale }) {
           FEATURES.references is on). */}
       <GlobeSection locale={locale} />
       <CaseStudies locale={locale} />
+      {/* Matteo Caruso's case studies, credited to him. */}
+      <PartnerCases locale={locale} />
       <References />
 
       {/* 05 Team */}

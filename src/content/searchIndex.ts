@@ -4,6 +4,7 @@
  */
 
 import { faqCopy } from "@/content/faq";
+import { quickAnswers } from "@/content/videos";
 import { industries } from "@/content/industries";
 import { processStepsByLocale } from "@/content/process";
 import { securityPoints } from "@/content/security";
@@ -92,6 +93,10 @@ export function buildSearchIndex(locale: Locale): SearchEntry[] {
 
   for (const f of faqCopy[locale].faqs) {
     entries.push({ kind: "faq", title: f.q, text: f.a, href: href(locale, "/#faq") });
+  }
+  // The four quick-answer videos on the homepage.
+  for (const q of quickAnswers) {
+    entries.push({ kind: "faq", title: q.title[locale], text: q.answer[locale], href: href(locale, "/#answers"), keywords: "video" });
   }
 
   for (const pt of securityPoints[locale]) {

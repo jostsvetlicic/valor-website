@@ -7,8 +7,8 @@ import { pageNames } from "@/content/seo";
 import { seoMetadata } from "@/lib/seo";
 
 const copy: Dict<{ title: string; description: string; updated: string }> = {
-  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "15 October 2026" },
-  sl: { title: "Politika zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "15. oktober 2026" },
+  en: { title: "Privacy Policy", description: "How VALOR collects, uses and protects your personal data. GDPR privacy notice for valorai.eu.", updated: "11 November 2026" },
+  sl: { title: "Politika zasebnosti", description: "Kako VALOR zbira, uporablja in varuje vaše osebne podatke. Obvestilo o zasebnosti po GDPR za valorai.eu.", updated: "11. november 2026" },
 };
 
 export function privacyMetadata(locale: Locale): Metadata {
@@ -123,6 +123,13 @@ function BodyEn() {
           <li>
             <strong className="text-cream">Formspree</strong>: delivers
             contact form messages to our inbox (United States)
+          </li>
+          <li>
+            <strong className="text-cream">Wistia and YouTube (Google)</strong>:
+            play the videos on this site (United States). A video loads only
+            after you press play; until then no data is sent to them. Wistia
+            runs with tracking turned off, and YouTube videos use its
+            privacy-enhanced mode (youtube-nocookie.com).
           </li>
           <li>
             <strong className="text-cream">Meta (WhatsApp)</strong>: used
@@ -348,6 +355,14 @@ function BodySl() {
             <strong className="text-cream">Formspree</strong>: dostava
             sporočil iz kontaktnega obrazca v naš e-poštni predal (Združene
             države Amerike)
+          </li>
+          <li>
+            <strong className="text-cream">Wistia in YouTube (Google)</strong>:
+            predvajanje videov na tej strani (Združene države Amerike). Video
+            se naloži šele, ko pritisnete predvajanje; do takrat jim ne
+            pošljemo nobenih podatkov. Wistia deluje z izklopljenim sledenjem,
+            YouTube videi pa uporabljajo način z izboljšano zasebnostjo
+            (youtube-nocookie.com).
           </li>
           <li>
             <strong className="text-cream">Meta (WhatsApp)</strong>: kadar nas
