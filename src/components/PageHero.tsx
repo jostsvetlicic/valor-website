@@ -34,18 +34,35 @@ export default function PageHero({
       <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-[color:var(--color-obsidian)] opacity-60" />
       <Container className="relative">
         <div className={aside ? "grid items-center gap-12 lg:grid-cols-[1.3fr_0.7fr] lg:gap-16" : undefined}>
-          <div className="enter" style={{ "--enter-y": "20px", "--enter-duration": "0.8s" } as React.CSSProperties}>
-            {crumbs && <Breadcrumbs locale={crumbs.locale} items={crumbs.items} />}
-            <div className="flex items-center gap-3">
-              <Sparkle className="h-6 w-5" />
-              <span className="eyebrow">{eyebrow}</span>
+          {/* The heading and intro are the page's Largest Contentful Paint, so
+              on the first load they slide in without a fade (see
+              .enter-settle-nav); the eyebrow above still fades in. */}
+          <div style={{ "--enter-y": "20px", "--enter-duration": "0.8s" } as React.CSSProperties}>
+            <div className="enter">
+              {crumbs && <Breadcrumbs locale={crumbs.locale} items={crumbs.items} />}
+              <div className="flex items-center gap-3">
+                <Sparkle className="h-6 w-5" />
+                <span className="eyebrow">{eyebrow}</span>
+              </div>
             </div>
-            <h1 className="mt-6 max-w-4xl font-display t-page text-cream text-balance">{title}</h1>
-            {intro && <p className="mt-7 max-w-2xl text-lg leading-relaxed text-grey md:text-xl">{intro}</p>}
+            <h1
+              className="enter-settle-nav mt-6 max-w-4xl font-display t-page text-cream text-balance"
+              style={{ "--enter-delay": "60ms" } as React.CSSProperties}
+            >
+              {title}
+            </h1>
+            {intro && (
+              <p
+                className="enter-settle-nav mt-7 max-w-2xl text-lg leading-relaxed text-grey md:text-xl"
+                style={{ "--enter-delay": "120ms" } as React.CSSProperties}
+              >
+                {intro}
+              </p>
+            )}
           </div>
           {aside && (
             <div
-              className="enter"
+              className="enter-settle-nav"
               style={{ "--enter-y": "28px", "--enter-duration": "0.9s", "--enter-delay": "250ms" } as React.CSSProperties}
             >
               {aside}

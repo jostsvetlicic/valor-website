@@ -80,6 +80,7 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": `${brand.url}/#organization`,
   name: "VALOR",
+  alternateName: "VALOR AI",
   url: brand.url,
   logo: {
     "@type": "ImageObject",
@@ -117,6 +118,7 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": `${brand.url}/#website`,
   name: "VALOR",
+  alternateName: ["VALOR AI", "valorai.eu"],
   url: brand.url,
   inLanguage: ["en", "sl"],
   publisher: { "@id": `${brand.url}/#organization` },

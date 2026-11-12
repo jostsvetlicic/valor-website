@@ -394,6 +394,25 @@ html.lenis body {
   animation-delay: var(--enter-delay, 0ms);
 }
 
+/* Page entrance (app/(site)/template.tsx). On the first load it only settles,
+   so the page counts as painted at once (Google's Largest Contentful Paint
+   ignores content under an opacity fade). After the first in-site navigation
+   (PageEnterFlag sets data-navigated) each new page also fades in. */
+.page-enter {
+  animation: enter-settle var(--enter-duration, 0.6s) var(--ease-out) backwards;
+}
+html[data-navigated] .page-enter {
+  animation-name: enter-up;
+}
+/* Page hero heading and intro: same idea, they fade only after navigation. */
+.enter-settle-nav {
+  animation: enter-settle var(--enter-duration, 0.6s) var(--ease-out) backwards;
+  animation-delay: var(--enter-delay, 0ms);
+}
+html[data-navigated] .enter-settle-nav {
+  animation-name: enter-up;
+}
+
 /* Hero CTA: a slow gold ring pulse on top of the button's resting glow. */
 @keyframes cta-pulse {
   0% {

@@ -101,6 +101,12 @@ const nextConfig: NextConfig = {
 
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Page language for search engines that read it (Bing uses it; Google
+      // reads the text itself). The <html lang> is set in the browser, so the
+      // header carries it for /sl pages. A later rule overrides an earlier one.
+      { source: "/:path*", headers: [{ key: "Content-Language", value: "en" }] },
+      { source: "/sl", headers: [{ key: "Content-Language", value: "sl" }] },
+      { source: "/sl/:path*", headers: [{ key: "Content-Language", value: "sl" }] },
       ...devCacheReset,
       {
         source: "/brand/:path*",
